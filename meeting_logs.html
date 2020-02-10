@@ -8,38 +8,50 @@
 	<link rel="stylesheet" href="CSS\stylesheet.css">
 	
 	<style>
-	.meetingblock{
-		padding-top: 10px;
-		padding-left: 20px;
-		padding-right: 20px;
-		padding-bottom: 30px;
-		background-color:#DBDBDB;
-	}
-	
-	#slideshow{
-		width: 418px;
-		float: left;
-		margin: 0 0 3em 0;
-		padding: 0;
-		list-style-type: none;
-		overflow: hidden;
-		background-color: #B7B7B7;
-	}
-	
-	#slideshow li {
-		display: block;
-		float: left;
-		padding-left:40px;
-		padding-right:40px;
-		border-left: 50px solid #ccc;
-		border-right: 50px solid #ccc;
-	}
-	
-	#slideshow li:hover{
-		color: #000000;
-		background-color: #DBDBDB; 
-	}
+    .slideshow-container {
+        position: relative;
+        background: #f1f1f1f1;
+        height: 500px;
+    }
 
+    .mySlides {
+        font-size: 18px;
+        display: none;
+        height: 475px;
+        padding-top: 15px;
+        padding-left: 70px;
+        padding-right:70px;
+        border-style: solid;
+        border-width: 5px;
+        text-align: left;
+    }
+
+    .prev, .next {
+        cursor: pointer;
+        position: absolute;
+        height: 255px;
+        top: 2%;
+        width: auto;
+        padding-left:16px;
+        padding-right:16px;
+        padding-top:224px;
+        color: #888;
+        font-weight: bold;
+        font-size: 45px;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+    }
+
+    .next {
+        position: absolute;
+        right: 0;
+        border-radius: 3px 0 0 3px;
+    }
+
+    .prev:hover, .next:hover {
+        background-color: #8E8E8E;
+        color: white;
+    }
 	</style>
 </head>
 
@@ -55,25 +67,97 @@
     </div>
 	
 	<div class="content">
-		<h1>The A.J.A.K. Meeting Logs Page</h1>
-		<div class="meetingblock">
-			<h3>Meeting #0:</h3>
-			Casual meeting for bonding and reflection on programming knowledge before the sprint.</br></br>			
-			<b>When:</b> Wednesday, 2/5/20 12:50 P.M.</br>
-			<b>Discussed:</b> Potential Cloud web services to use for project. Programming topics we 
-			are rusty on such as SQL. Assigned everyone a task to look in to Python/Javascript if they 
-			haven't programmed in it before and or haven't in a long time.</br>
-			<b>Attendence:</b> 100% Attendence no absences</br></br>
-			<b>Tasks:</b></br>
-			*Research Web Services.</br> 
-			*Research Python/Javascript.</br> 
-			*Research SQL. </br>
-			*Create Questions for sprint day to ask Client</br>
-			<ul id="slideshow">
-				<li>prev</li>
-				<li>next</li>
-			</ul>
-		</div>
+		
+        <h2>Upcoming Meeting: #2</h2>
+        
+        <div class="slideshow-container">
+            <div class="mySlides">
+                <h3>Meeting #2:</h3>
+                Casual meeting on concerns and questions regarding upcoming professional meeting.</br></br>			
+                
+                <b>When:</b> Monday, 2/10/20 12:00 P.M.</br>
+                <b>Attendence:</b></br></br>
+                
+                <b>Discussed:</b>  </br></br>
+                
+                <b>Tasks:</b></br>
+                </br></br>
+                <b>Due:</b>
+                </br>
+            </div>
+            
+            <div class="mySlides">
+                <h3>Meeting #0:</h3>
+                Casual meeting for bonding and reflection on programming knowledge before the sprint.</br></br>			
+                
+                <b>When:</b> Wednesday, 2/05/20 12:50 P.M.</br>
+                <b>Attendence:</b> 100% Attendence</br></br>
+                
+                <b>Discussed:</b> Potential Cloud web services to use for project. Programming topics we 
+                are rusty on such as SQL. Assigned everyone a task to look in to Python/Javascript if they 
+                haven't programmed in it before and or haven't in a long time.</br></br>
+                
+                <b>Tasks:</b></br>
+                *Research Web Services.</br> 
+                *Research Python/Javascript.</br> 
+                *Research SQL. </br>
+                *Create Questions for sprint day to ask Client</br></br>
+                <b>Due:</b> Friday, 2/07/20 11:00 A.M.
+            </div>
+            
+            <div class="mySlides">
+                <h3>Meeting #1:</h3>
+                Official start of Sprint 1. Professional meeting with client about wants and needs of 
+                for the project.</br></br>			
+                
+                <b>When:</b> Friday, 2/07/20 12:00 P.M.</br>
+                <b>Attendence:</b>Kathryn,Angela,Julieth, and Andrew attended. Jacob had online availability.</br></br>
+                
+                <b>Discussed:</b> Requirements and Enhancements for the webservice platform. Negotiated 
+                a deadline for decisions on cloud service, programming language, and online repo creation. </br></br>
+                
+                <b>Tasks:</b></br>
+                *Create online repository </br> 
+                *Create a website with meeting logs/company information/etc</br> 
+                *Decision on a cloud service</br></br>
+                <b>Due:</b>Friday, 2/14/20 11:00 A.M.
+                </br>
+            </div>
+
+            <a class="prev" onclick="plusSlides(-1)"><</a>
+            <a class="next" onclick="plusSlides(1)">></a>
+            
+        </div>
+        
+        <script>
+            var slideIndex = 1;
+            showSlides(slideIndex);
+
+            function plusSlides(n) {
+                showSlides(slideIndex += n);
+            }
+
+            function currentSlide(n) {
+                showSlides(slideIndex = n);
+            }
+
+            function showSlides(n) {
+                var i;
+                var slides = document.getElementsByClassName("mySlides");
+                if (n > slides.length) {
+                    slideIndex = 1
+                }    
+                if (n < 1) {
+                    slideIndex = slides.length
+                }
+                for (i = 0; i < slides.length; i++) {
+                  slides[i].style.display = "none";  
+                }
+              
+                slides[slideIndex-1].style.display = "block";  
+            }
+        </script>
+   
 	</div>
 		
 	<div class="footer">
