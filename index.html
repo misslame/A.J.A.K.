@@ -31,8 +31,17 @@
 	</div>
 		
 	<div class="footer">
-	Contact: <br/>
-	Last Updated on: Thursday, Feburary 6, 2020
+	<i>Contact: </i><br/>
+    
+    <script>
+    function getDate(){
+        var x = new Date(document.lastModified);
+        document.getElementById("modDate").innerHTML = x.toDateString();
+    }
+    </script>
+    <i>Last Updated on:</i>
+    <i id = "modDate"><script>getDate();</script></i>
+    
 	</div>
 </div>
 </body>
