@@ -1,6 +1,7 @@
 from django.db import models
 from django.db import connection
 from bearbites.con import getConnection
+from bearbites.con import dictfetchall
 
 
 class Account(models.Model):
@@ -20,13 +21,13 @@ class Account(models.Model):
     def view_users(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        cursor.execute("Exec AllAccounts;")
-        return cursor.fetchall()
+        row = cursor.execute("EXEC AllAccounts;")
+        return dictfetchall(cursor)
     def getUserAccount(self, mail, code):
         cnxn = getConnection()
         cursor = cnxn.cursor()
         cursor.execute("EXEC AccountLookup @UserName=admin , @PassCode=testbear;")
-        return cursor.fetchone()
+        return dictfetchall(cursor)
 
 
 

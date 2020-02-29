@@ -11,10 +11,8 @@ def indexView(request):
     
     account =  Account()
     row = account.view_users()
-    tmpl = loader.get_template("index.html")
-    cont = Context({'users': row})
-    context_dict = cont.flatten()
-    return render(request, 'index.html', {'users': row})
+    context = {'users': row}
+    return render(request, 'index.html', context)
     
 
 def dashboardView(request):
