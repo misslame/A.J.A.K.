@@ -1,0 +1,66 @@
+Virtual Environment Rules:
+---------------------------------
+*  Do not make your project within/inside your 
+   same directory for your virtual environment.
+
+*  If you add database to your project, do not push it. 
+
+*  Do not push virtual environment. 
+
+*  Make a virtual environment somewhere on your computer
+   and work within the same folders as it as an example:
+   
+   SoftwareEngineeringProject\
+        Virtual Environment\
+        A.J.A.K.\
+            _.gitignore
+                web_project\
+                bearbites\
+                ... other apps folders
+                templates\ (html pages)
+                manage.py
+            
+
+Virtual Environment Set Up Instructions:
+------------------------------------------
+1. Make new folder somewhere (suggested: desktop/documents/etc) 
+   name it something that will help you remember what it is for. 
+   (Software Engineering project)
+   
+2. Inside this folder, open up bash/terminal/shell/etc which ever you 
+   prefer to use, but it needs to be a terminal. I used git bash. 
+
+3. Make sure you have python 3 installed and pip. Check if you have python 2 also
+   installed and be aware of it. Type in the terminal you are using 
+        pip install virtualenv
+   if you have python 2 on your machine, you need to type pip3 instead of pip
+
+4. type the command
+        python -m venv virtualEnvironmentName    
+   I reccommend the name "deployDjango" or something to remind you its a django 
+   environment. 
+
+5. This next step depends if youre running windows or not. Type what is relevent: 
+    Linux/Mac:
+        source virtualEnvironmentName/bin/activate
+    
+    Windows:
+        source virtualEnvironmentName/Scripts/activate
+        
+6. check your folder you made for Software Engineering that it has a folder
+   named what you named your virtualEnvironmentName. Then do the following commands 
+        pip install django
+        pip install pyodbc
+        pip install django-pyodbc
+        pip install django-pyodbc-azure
+   Again, if you have python 2 remember to use pip3 instead of pip. 
+   
+7. In your software engineering folder (contains your environment) DO NOT PUT IN YOUR VIRTUAL ENVIRONMENT
+   clone the repo from github. Then, change directories into said folder. .
+
+8. After youre inside, run the below command in your terminal:
+        python manage.py runserver
+   it should say "watching for file changes with StatReloader" at this point, 
+   check to see if it is locally running. Type localhost:8000 in browser. 
+   Note: if you are missing the database, you should get the error "module .con not found" or
+   similar. 
