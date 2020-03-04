@@ -1,4 +1,9 @@
+#connection to database:
+bearbites/con.py
+bearbites/_con.py
+
 # Byte-compiled / optimized / DLL files
+*/__pycache__/
 __pycache__/
 *.py[cod]
 *$py.class
@@ -130,3 +135,4 @@ dmypy.json
 
 # pytype static type analyzer
 .pytype/
+
