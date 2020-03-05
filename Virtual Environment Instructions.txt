@@ -29,6 +29,12 @@ Virtual Environment Rules:
     
     - Python3
     https://www.python.org/downloads/
+    
+* Download connection (for database) file and place it under bearbites\ folder. 
+    [ ATTENTION ]  name this file _con.py instead of con.py. 
+    Because windows prevents con.py files, mac users you will need to conform so that
+    windows users dont struggle to get their thing working before figuring out they need to 
+    change the code. Sorry. 
             
 
 Virtual Environment Set Up Instructions:
