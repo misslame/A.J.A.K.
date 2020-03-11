@@ -20,3 +20,6 @@ def dashboardView(request):
 
 def registerView(request):
     return render(request,'register.html')
+    
+def loginView(request):
+    return render(request,'login.html')

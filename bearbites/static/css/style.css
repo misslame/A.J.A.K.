@@ -19,10 +19,6 @@ html, body{
     padding-right: 20px;
 }
 
-.nav-link {
-    font-size: 1.1em !important!
-}
-
 .carousel-inner img {
     width: 100%;
     height: 100%;
@@ -51,8 +47,7 @@ html, body{
     background:#fff !important;
 }
 
-.navbar-login
-{
+.navbar-login{
     width: 350px;
     padding: 10px;
     padding-bottom: 0px;
