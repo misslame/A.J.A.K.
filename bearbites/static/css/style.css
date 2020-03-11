@@ -1,3 +1,5 @@
+{% load static %}
+
 @font-face {  
     font-family:Bearskin;
     src: url(Bearskin.otf);
@@ -51,4 +53,25 @@ html, body{
     width: 350px;
     padding: 10px;
     padding-bottom: 0px;
+}
+    
+#ui{
+    background-color: #333;
+    padding: 30px;
+    margin-top: 50px;
+    border-radius;10px;
+    opacity: 0.9;
+}
+
+#ui label{
+    color: #fff;
+    font-family: sans-seriff;
+}
+
+#termsx {
+  overflow-y: scroll;
+  height: 300px;
+  width: 100%;
+  border: 1px solid #DDD;
+  padding: 10px;
 }
