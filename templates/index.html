@@ -1,0 +1,56 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block content %}
+<body style="height: 100%;width: 100%;color: #222;">
+    <!-- slider -->
+    <div id="slides" class="carousel slide" data-ride="carousel">
+        <ul class="carousel-indicators">
+            <li data-target="#slides" data-slide-to="0" class="active"></li>
+            <li data-target="#slides" data-slide-to="1"></li>
+            <li data-target="#slides" data-slide-to="2"></li>
+        </ul>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'images/background1.png' %}">
+                <div class="carousel-caption">
+                    <h1 class="display-2">Bear Bites</h1>
+                    <h3>Satisfying your inner hungry bear</h3>
+                    <button type = "button" class="btn btn-outline-light btn-lg" onclick="window.location.href='register';">Sign Up</button>
+                    <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='login';">Login</button>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/background2.png' %}">
+                <div class="carousel-caption">
+                    <h1 class="display-2">Bear Bites</h1>
+                    <h3>Satisfy your inner hungry bear</h3>
+                    <button type = "button" class="btn btn-outline-light btn-lg" onclick="window.location.href='register';">Sign Up</button>
+                    <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='login';">Login</button>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'images/background3.png' %}">
+                <div class="carousel-caption">
+                    <h1 class="display-2">Bear Bites</h1>
+                    <h3>Satisfying your inner hungry bear</h3>
+                    <button type = "button" class="btn btn-outline-light btn-lg" onclick="window.location.href='register';">Sign Up</button>
+                    <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='login';">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- welcome -->
+    <div class="container-fluid padding">
+        <div class="row welcome text-center">
+            <div class = "col-12">
+                <h1 class= "display-4">For All Your Takeout Needs.</h1>
+            </div>
+            <hr>
+            <div class="col-12">
+                <p class ="lead"> Something about website</p>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

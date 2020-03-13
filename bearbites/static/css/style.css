@@ -1,0 +1,77 @@
+{% load static %}
+
+@font-face {  
+    font-family:Bearskin;
+    src: url(Bearskin.otf);
+    
+}
+
+html, body{
+    font-family: Bearskin;
+    height: 100%;
+    width: 100%;
+    color: #222;
+}
+
+.navbar{
+    padding: .8rem;
+}
+
+.navbar-nav li {
+    padding-right: 20px;
+}
+
+.carousel-inner img {
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.carousel-caption h1 {
+    color: #0094FF;
+    font-size:500%;
+    text-transform:uppercase;
+    text-shadow:1px 1px 10px #000;
+}
+
+.carousel-caption h3{
+    font-size: 200%;
+    font-weight: 300px;
+    text-shadow: 1px 1px 10px #000;
+}
+
+.dropdown-menu{
+    background:#fff !important;
+}
+
+.navbar-login{
+    width: 350px;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+    
+#ui{
+    background-color: #333;
+    padding: 30px;
+    margin-top: 50px;
+    border-radius;10px;
+    opacity: 0.9;
+}
+
+#ui label{
+    color: #fff;
+    font-family: sans-seriff;
+}
+
+#termsx {
+  overflow-y: scroll;
+  height: 300px;
+  width: 100%;
+  border: 1px solid #DDD;
+  padding: 10px;
+}
