@@ -1,0 +1,214 @@
+<!--remove extends base for vertical tab-->
+{% extends 'base.html'%}
+{% load static %}
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {box-sizing: border-box}
+
+/* Set height of body and the document to 100% */
+body, html {
+  height: 100%;
+  margin: 0;
+}
+.tab{
+    float: left;
+    background-color: #555;
+    border: 2px;
+    outline: none;
+    cursor: pointer;
+    width: 20%;
+    height: 800px;
+}
+.tab button{
+    display: block;
+    background-color: inherit;
+    color: white;
+    padding: 22px 16px;
+    font-size: 17px;
+    width: 100%;
+    border: none;
+    outline: none;
+}
+.tabcontent {
+  color: black;
+  display: none;
+  padding: 100px 20px;
+  height: 100%;
+
+</style>
+</head>
+{% block content %}
+<body>
+    <div class = "tab">
+        <button class="tablink" onclick="openPage('Profile', this)" id="defaultOpen">Profile</button>
+        <button class="tablink" onclick="openPage('Addresses', this)">Addresses</button>
+        <button class="tablink" onclick="openPage('Preferences', this)">Dietary Preference</button>
+        <button class="tablink" onclick="openPage('Restrictions', this)">Dietary Restrictions</button>
+    </div>
+        
+        <div id="Profile" class="tabcontent">
+        <br></br>
+            <div class="container">
+                <div class="row">
+                    <h3>User Profile</h3>
+                </div>
+                <div class="row">
+                    <p>First Name: {{firstname}}</p>
+                </div>
+                <div class="row">
+                    <p>Last Name: {{lastname}}</p>
+                </div>
+                <div class="row">
+                    <p>E-mail: {{email}}</p>
+                </div>
+                <div class="row">
+                    <button class = "btn" onclick="openPage('EditProfile', this)">Edit</button>
+                    </div>
+            </div>
+        </div>
+        <div id="EditProfile" class="tabcontent">
+        <br></br>
+            <div class="container">
+            <form>
+                <h3>Edit User Profile</h3>
+                <div class="row">
+                <label>First Name: </label>
+                <input type="text" name="firstname"></input>
+                </div>
+                <div class="row">
+                <label>Last Name: </label>
+                <input type="text" name="lastname"></input>
+                </div>
+                <div class="row">
+                <label>E-mail: </label>
+                <input type="text" name="email"></input>
+                </div>
+                <div class="row">
+                    <input type="submit" value="Update">
+                <!-- <button class = "btn" onclick="openPage('Profile', this)">Update</button> -->
+                </div>
+            </form>
+            </div>
+        </div>
+
+        <div id="Addresses" class="tabcontent">
+            <br></br>
+            <div class="container">
+                <h3>Addresses</h3>
+                <p>Street:{{street}}</p>
+                <p>City: {{city}}</p>
+                <p>State: {{state}}</p>
+                <div class="row">
+                    <button class = "btn" onclick="openPage('EditAddresses', this)">Edit</button>
+                    </div>
+            </div>
+        </div>
+        <div id="EditAddresses" class="tabcontent">
+            <br></br>
+            <div class="container">
+            <form>
+                <h3>Edit Addresses</h3>
+                <div class="row">
+                <label>Street: </label>
+                <input type="text" name="street"></input>
+                </div>
+                <div class="row">
+                <label>City: </label>
+                <input type="text" name="city"></input>
+                </div>
+                <div class="row">
+                <label>State: </label>
+                <input type="text" name="state"></input>
+                </div>
+                <div class="row">
+                    <input type="submit" value="Update">
+                </div>
+            </form>
+            </div>
+        </div>
+
+        <div id="Preferences" class="tabcontent">
+                <br></br>
+                <div class ="container">
+                <form>
+                <h3>Dietary Preferences</h3>
+                <p>Check all preferences that apply.</p>
+                <h4>Region</h4>
+                        <div class="row">
+                                <div class="col-sm">African<p><input type="checkbox" name="region1" value="African"></p></div>
+                                <div class="col-sm">Chinese<p><input type="checkbox" name="region2" value="Chinese"></p></div>
+                                <div class="col-sm">French<p><input type="checkbox" name="region3" value="French"></p></div>
+                                <div class="col-sm">German<p><input type="checkbox" name="region4" value="German"></p></div>
+                                <div class="col-sm">Indian<p><input type="checkbox" name="region5" value="Indian"></p></div>
+                        </div>
+                        <div class="row">
+                                <div class="col-sm">Italian<p><input type="checkbox" name="region6" value="Italian"></p></div>
+                                <div class="col-sm">Japanese<p><input type="checkbox" name="region7" value="Japanese"></p></div>
+                                <div class="col-sm">Korean<p><input type="checkbox" name="region8" value="Korean"></p></div>
+                                <div class="col-sm">Mexican<p><input type="checkbox" name="region9" value="Mexican"></p></div>
+                                <div class="col-sm">Russian<p><input type="checkbox" name="region10" value="Russian"></p></div>
+                        </div>
+                <h4>Type</h4>
+                        <div class="row">
+                                <div class="col-sm">Pastry<p><input type="checkbox" name="preftype1" value="pastry"></p></div>
+                                <div class="col-sm">Burger<p><input type="checkbox" name="preftype2" value="burger"></p></div>
+                                <div class="col-sm">Ramen<p><input type="checkbox" name="preftype3" value="ramen"></p></div>
+                                <div class="col-sm">Salad<p><input type="checkbox" name="preftype4" value="salad"></p></div>
+                                <div class="col-sm">Seafood<p><input type="checkbox" name="preftype5" value="seafood"></p></div>
+                              </div>
+                        <br></br>
+                        <input type="submit" value="Update">
+                </form>
+                </div>
+                
+        </div>
+        <div id="Restrictions" class="tabcontent">
+                <br></br>
+                <div class ="container">
+                <form>
+                <h3>Dietary Restrictions</h3>
+                <p>Check all restrictions that apply.</p>
+                <h4>Classification</h4>
+                        <div class="row">
+                                <div class="col-sm">Diabetic<p><input type="checkbox" name="classification1" value="diabetic"></p></div>
+                                <div class="col-sm">Gluten-Free<p><input type="checkbox" name="classification2" value="glutenfree"></p></div>
+                                <div class="col-sm">Vegetarian<p><input type="checkbox" name="classification3" value="vegetarian"></p></div>
+                                <div class="col-sm">Vegan<p><input type="checkbox" name="classification4" value="vegan"></p></div>
+                        </div>
+                <h4>Type</h4>
+                        <div class="row">
+                                <div class="col-sm">Diary<p><input type="checkbox" name="restricttype1" value="dairy"></p></div>
+                                <div class="col-sm">Mushrooms<p><input type="checkbox" name="restricttype2" value="mushrooms"></p></div>
+                                <div class="col-sm">Nuts<p><input type="checkbox" name="restricttype3" value="nuts"></p></div>
+                                <div class="col-sm">Shellfish<p><input type="checkbox" name="restricttype4" value="shellfish"></p></div>
+                                <div class="col-sm">Spicy<p><input type="checkbox" name="restricttype5" value="spicy"></p></div>
+                        </div>
+                <br></br>
+                <input type="submit" value="Update">
+                </div>
+        </form>
+        </div>
+
+              <script>
+                    function openPage(pageName,element) {
+                      var i, tabcontent, tablinks;
+                      tabcontent = document.getElementsByClassName("tabcontent");
+                      for (i = 0; i < tabcontent.length; i++) {
+                        tabcontent[i].style.display = "none";
+                      }
+                      tablinks = document.getElementsByClassName("tablink");
+                      
+                      document.getElementById(pageName).style.display = "block";
+                      
+                    }
+                    
+                    // Get the element with id="defaultOpen" and click on it
+                    document.getElementById("defaultOpen").click();
+                    </script>
+
+</body>
+
+{% endblock %}
