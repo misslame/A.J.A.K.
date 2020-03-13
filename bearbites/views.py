@@ -23,3 +23,6 @@ def registerView(request):
     
 def loginView(request):
     return render(request,'login.html')
+
+def profileView(request):
+    return render(request,'profile.html')
