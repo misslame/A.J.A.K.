@@ -47,6 +47,8 @@ body, html {
         <button class="tablink" onclick="openPage('Addresses', this)">Addresses</button>
         <button class="tablink" onclick="openPage('Preferences', this)">Dietary Preference</button>
         <button class="tablink" onclick="openPage('Restrictions', this)">Dietary Restrictions</button>
+        <button class="tablink" onclick="openPage('Favorites', this)">Favorites</button>
+        <button class="tablink" onclick="openPage('OrderHistory', this)">Order History</button>
     </div>
         
         <div id="Profile" class="tabcontent">
@@ -190,6 +192,69 @@ body, html {
                 <input type="submit" value="Update">
                 </div>
         </form>
+        </div>
+
+        <div id="Favorites" class="tabcontent">
+            <br></br>
+            <div class="container">
+                <h3>Favorite Resturants</h3>
+                <p>Resturants:</p>
+                <ul>
+                    <li>{{favorites}}</li>
+                </ul>
+                <div class="row">
+                    <button class = "btn" onclick="openPage('EditFavorites', this)">Edit</button>
+                    </div>
+            </div>
+        </div>
+        <div id="EditFavorites" class="tabcontent">
+            <br></br>
+            <div class="container">
+            <form>
+                <h3>Edit Favorites:</h3>
+                <div class="row">
+                <p>Resturants: </p>
+                </div>
+                <div class="row">
+                <ul style="list-style-type:none;">
+                    <li><button id="deleteFavorite">View</button> {{favorites}} resturantName</li>
+                </ul>
+                </div>
+                <div class="row">
+                    <input type="submit" value="Back">
+                </div>
+            </form>
+            </div>
+        </div>
+
+        <div id="OrderHistory" class="tabcontent">
+            <br></br>
+            <div class="container">
+                <h3>Order History</h3>
+                <p>Orders:</p>
+                <ul>
+                    <li>{{orderHistory}}</li>
+                </ul>
+                <div class="row">
+                    <button class = "btn" onclick="openPage('EditOrderHistory', this)">Edit</button>
+                    </div>
+            </div>
+        </div>
+        <div id="EditOrderHistory" class="tabcontent">
+            <br></br>
+            <div class="container">
+            <form>
+                <h3>Edit Orders:</h3>
+                <div class="row">
+                <ul style="list-style-type:none;">
+                    <li><button id="editOrder">Edit</button> {{orderHistory}} orderName</li>
+                </ul>
+                </div>
+                <div class="row">
+                    <input type="submit" value="Back">
+                </div>
+            </form>
+            </div>
         </div>
 
               <script>
