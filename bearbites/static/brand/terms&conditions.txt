@@ -277,4 +277,8 @@ Put form container here
 • Live preview
 icon
 
+<<<<<<< HEAD
 Continue
+=======
+Continue
+>>>>>>> julieth
