@@ -4,14 +4,15 @@
 {% block content %}
 <body style = "background-image: url({% static 'images/background1.1.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
     
-        <div class="register-content">    
+    <div class="register-content">    
         {% csrf_token %}
         <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
                 <div id="ui">
                     <h1 class="text-center" style="color: #fff; font-family: Bearskin;">Create New Account</h1>
-                    <form class="form-group">
+                    <form class="form-group" method="POST">
+                        {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-6">
                                 <label>First Name:</label>
@@ -21,6 +22,10 @@
                             <div class="col-lg-6">
                                 <label>Last Name:</label>
                                 <input style="font-family: sans-seriff;" type="text" name="lastname" class="form-control" placeholder="Enter your last name...">
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Phone Number:</label>
+                                <input style="font-family: sans-seriff;" type="text" name="phonenumber" class="form-control" placeholder="Enter your phone number...">
                             </div>
                         </div>
                         </br>
@@ -35,7 +40,7 @@
                        
                         <div class="row">
                             <div class="col-lg-3">
-                                <label>Apartment. Number</label>
+                                <label>Apt. Number</label>
                                 <input style="font-family: sans-seriff;" type="text" name="aptNum" class="form-control" placeholder="Apt. Number">
                             </div>
                             <div class="col-lg-3">
@@ -44,7 +49,8 @@
                             </div>
                             <div class="col-lg-3">
                                 <label>State</label>
-                                <select class="form-control text" style="font-family: sans-seriff;">
+
+                                <select class="form-control text" name="state" style="font-family: sans-seriff;">
                                     <option value="AL">Alabama</option>
                                     <option value="AK">Alaska</option>
                                     <option value="AZ">Arizona</option>
@@ -134,7 +140,8 @@
                         
                         <input style="font-size:30px;" type="submit" name="submit" value="submit" class="btn btn-primary btn-lock btn-block">
                         </br></br>
-                       
+                        
+                        <p>{{response}}</p>
                     </form>
                 </div>
             </div>
