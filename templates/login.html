@@ -11,15 +11,18 @@
             <div class="col-lg-3">
                 <div id="ui">
                     <h1 class="text-center" style="color: #fff; font-family: Bearskin;">Login</h1>
-                    <form class="form-group">
+                    <form class="form-group" action="" method="POST">
+                        {% csrf_token %}
                         <label>Email:</label>
                         <input style="font-family: sans-seriff;" type="text" name="email" class="form-control"placeholder=" Enter your email...">
                         </br>
                         <label>Password:</label>
                         <input style="font-family: sans-seriff;" type="password" name="password" class="form-control"placeholder=" Enter a password...">
                         </br></br>
-                        <input style="font-size:30px;" type="Login" name="Login" value="Login" class="btn btn-primary btn-lock btn-block">
+                        
+                        <input style="font-size:30px;" type="submit" name="submit" value="Login" class="btn btn-primary btn-lock btn-block">
                         </br></br>
+                        <p style="color:white">{{response}}</p>
                     </form>
                 </div>
             </div>

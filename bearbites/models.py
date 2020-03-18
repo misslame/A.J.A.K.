@@ -3,15 +3,20 @@ from django.db import connection
 from bearbites.con import getConnection
 from bearbites.con import dictfetchall
 
+cust_id = 0
+acct = 0
+
 
 class Account(models.Model):
-    email = models.CharField(max_length=128)
-    password = models.CharField(max_length=128)
+    email = []
+    password = []
     firstname = models.CharField(max_length=128)
     lastname = models.CharField(max_length=128)
+    mail = models.CharField(max_length=128)
+    passcode = models.CharField(max_length=128)
     phone = models.IntegerField()
     mobile = models.IntegerField()
-    user = models.IntegerField()
+    account = models.IntegerField()
 
     addrressName= models.CharField(max_length=124)
     aptnum = models.CharField(max_length=24)
@@ -19,22 +24,37 @@ class Account(models.Model):
     city = models.CharField(max_length=60)
     state = models.CharField(max_length=60)
     zipcode = models.IntegerField()
+    userAuthenticated = []
+    accountID = []
+    customerID = []
 
 
     def __str__(self):
         return self.email
     
-    def get_user(self):
-        return self.user
+    def get_userAuthenticated(self):
+        return self.userAuthenticated[0]
 
-    def set_user( self, usr):
-        self.user = usr
+    def get_accountID(self):
+        return self.accountID[0]
+
+
+    def get_customerID(self):
+        return self.customerID[0]
+
+    def set_accountID( self, usr):
+        self.account = usr
 
     def get_firstname(self):
         return self.firstname
         
     def set_firstname( self, first):
         self.firstname = first
+    
+        
+    def set_email( self, eml):
+        self.mail = eml
+
 
     def get_lastname(self):
         return self.lastname
@@ -55,16 +75,14 @@ class Account(models.Model):
         self.mobile = cell
 
     def get_email(self):
-        return self.email
+        return self.email[0]
 
-    def set_email( self, mail):
-        self.email = mail
 
     def get_password(self):
-        return self.password
+        return self.password[0]
 
     def set_password(self, code):
-        self.password = code
+        self.passcode = code
 
     def get_aptnum(self):
         return self.aptnum
@@ -102,6 +120,42 @@ class Account(models.Model):
     def set_addressName( self, adrsn):
         self.addrressName = adrsn
 
+    def authenticateUser(self):      
+        cnxn = getConnection()
+        cursor2 = cnxn.cursor()
+        sqlcommand = "select UserID from UserAccount  where Email='{}' and Password='{}';".format(self.email[0],self.password[0])
+        cursor2.execute(sqlcommand)  
+        rows = cursor2.fetchall()
+        user = []
+        for row in rows:
+            user.append(str(row[0]))
+        cursor = cnxn.cursor()
+        sqlcommand = "select CustomerID from Customer  where UserID={} ;".format(int(user[0]))
+        cursor.execute(sqlcommand)  
+        rows2 = cursor.fetchall()
+        for row in rows2:
+            print(row)
+            user.append(str(row[0]))    
+        cursor.close()
+        cursor2.close()
+        cnxn.close()
+        del cnxn
+        return user
+
+    def addCustomer(self):
+        try:
+            cnxn = getConnection() 
+            cursor = cnxn.cursor()
+            cursor.execute("INSERT INTO Customer (UserID) VALUES  ({});".format(self.account))
+            cnxn.commit()
+            cursor.close()
+            cnxn.close()
+            del cnxn
+            response = "Account was created, please login"
+        except:
+            response = "An Error Ocurred While Creating Account, Please Try Again"
+        return response
+
 
 
     def view_users(self):
@@ -114,20 +168,20 @@ class Account(models.Model):
     def getUserAccount(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        cursor.execute('EXEC AccountLookup @UserName="{}" , @PassCode="{}";'.format(self.email,self.password))
+        cursor.execute('EXEC AccountLookup @UserName="{}" , @PassCode="{}";'.format(self.email[0],self.password[0]))
         return dictfetchall(cursor)
 
     def getUserAddress(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        cursor.execute('EXEC AddressLookup @User={} , @Description="Main";'.format(self.user))
+        cursor.execute('EXEC AddressLookup @User={} , @Description="Main";'.format(self.accountID[0]))
         return dictfetchall(cursor)
 
-    def updateUserAccount(self,account):
+    def updateUserAccount(self):
         try:
             cnxn = getConnection()
             cursor = cnxn.cursor()
-            cursor.execute('EXEC UpdateAccount @Account={}, @FirstName="{}" , @LastName="{}", @Phone={};'.format(account,self.firstname,self.lastname, self.phone))
+            cursor.execute('EXEC UpdateAccount @Account={}, @FirstName="{}" , @LastName="{}", @Phone={};'.format(self.accountID[0],self.firstname,self.lastname, self.phone))
             cnxn.commit() #need commit when you are inserting/updating values to a table
             cursor.close() #close current connection to db
             cnxn.close()
@@ -137,15 +191,16 @@ class Account(models.Model):
             response = "An Error Ocurred While Updating Account, Please Try Again"
         return response
 
+
     def addUserAccount(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        sqlcommand = 'EXEC RegisterAccount @FirstName="{}", @LastName="{}", @Phone={}, @Mobile={}, @Email="{}", @Password ="{}";'.format(self.firstname,self.lastname,self.phone,self.mobile,self.email,self.password)
+        sqlcommand = 'EXEC RegisterAccount @FirstName="{}", @LastName="{}", @Phone={}, @Mobile={}, @Email="{}", @Password ="{}";'.format(self.firstname,self.lastname,self.phone,self.mobile,self.mail,self.passcode)
         print (sqlcommand)
         cursor.execute(sqlcommand)
         cnxn.commit()
         cursor2 = cnxn.cursor()
-        sqlcommand = "select UserID from UserAccount  where Email='{}' and Password='{}';".format(self.email,self.password)
+        sqlcommand = "select UserID from UserAccount  where Email='{}' and Password='{}';".format(self.email[0],self.password[0])
         print (sqlcommand)
         cursor2.execute(sqlcommand)  
         rows = cursor2.fetchall()
@@ -162,7 +217,9 @@ class Account(models.Model):
         try:
             cnxn = getConnection()
             cursor = cnxn.cursor()
-            cursor.execute('EXEC RegisterAddress @User= {} , @Name= "{}", @StreetAddress= "{}", @AptNum= "{}", @City= "{}", @State= "{}", @Zip= "{}" ;'.format(self.user,self.addrressName, self.street, self.aptnum,self.city,self.state,self.zipcode))
+            sqlcommand = 'EXEC RegisterAddress @User= {} , @Name= "{}", @StreetAddress= "{}", @AptNum= "{}", @City= "{}", @State= "{}", @Zip= {} ;'.format(int(self.account),self.addrressName, self.street, self.aptnum,self.city,self.state,self.zipcode)
+            print(sqlcommand)
+            cursor.execute(sqlcommand)
             cnxn.commit()
             cursor.close()
             cnxn.close()
@@ -173,11 +230,11 @@ class Account(models.Model):
 
         return response
 
-    def updateUserAddress(self,user,old):
+    def updateUserAddress(self,old):
         try:
             cnxn = getConnection()
             cursor = cnxn.cursor()
-            cursor.execute('EXEC UpdateAddress @User= {} , @old= "{}" ,@Description= "{}", @StreetAddress= "{}", @AptNum= "{}", @City= "{}", @State= "{}", @Zip= "{}" ;'.format(user,old,self.addrressName, self.street, self.aptnum,self.city,self.state,self.zipcode))
+            cursor.execute('EXEC UpdateAddress @User= {} , @old= "{}" ,@Description= "{}", @StreetAddress= "{}", @AptNum= "{}", @City= "{}", @State= "{}", @Zip= "{}" ;'.format(self.accountID[0],old,self.addrressName, self.street, self.aptnum,self.city,self.state,self.zipcode))
             cnxn.commit()
             cursor.close()
             cnxn.close()
@@ -188,10 +245,12 @@ class Account(models.Model):
 
         return response
     
-    def view_userAddresses(self, accountID):
+    def view_userAddresses(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        cursor.execute('EXEC LookUpUserAddress @User = "{}";'.format(accountID))
+        cursor.execute('EXEC LookUpUserAddress @User = "{}";'.format(self.accountID[0]))
         return dictfetchall(cursor) #return query result into dict 
+
+
 
 # Create your models here.

@@ -5,27 +5,23 @@ from bearbites.con import dictfetchall
 
 
 class Customer(models.Model):
-    accountID = models.IntegerField()
-    customerID = models.IntegerField()
+    accountID = []
+    customerID = []
     preference= models.CharField(max_length=150)
     preferenceID = models.IntegerField()
     allergyID = models.IntegerField()
     allergy = models.CharField(max_length=128)
 
     def __str__(self):
-        return self.customerID
+        return self.allergy
 
     def get_acountID(self):
-        return self.accountID
+        return self.accountID[0]
 
-    def set_accountID(self, a_id):
-        self.accountID = a_id
 
     def get_customerID(self):
-        return self.customerID
+        return self.customerID[0]
 
-    def set_customerID(self, c_id):
-        self.customerID = c_id
 
     def get_preference(self):
         return self.preference
@@ -50,16 +46,6 @@ class Customer(models.Model):
 
     def set_allergyID(self, a_id):
         self.allergyID = a_id
-
-
-    def addCustomer(self, user):
-        cnxn = getConnection() 
-        cursor = cnxn.cursor()
-        cursor.execute("INSERT INTO Customer (UserID) VALUES  ({});".format(user))
-        cnxn.commit()
-        cursor.close()
-        cnxn.close()
-        del cnxn
         
         
 
@@ -67,7 +53,7 @@ class Customer(models.Model):
         try:
             cnxn = getConnection()
             cursor = cnxn.cursor()
-            sqlCommand = 'EXEC AddPreference @Customer= {}, @Preference= "{}";'.format(self.customerID,self.preference)
+            sqlCommand = 'EXEC AddPreference @Customer= {}, @Preference= "{}";'.format(int(self.customerID[0]),self.preference)
             cursor.execute(sqlCommand)
             cnxn.commit()
             cursor.close()
@@ -82,7 +68,7 @@ class Customer(models.Model):
         try:
             cnxn = getConnection()
             cursor = cnxn.cursor()
-            cursor.execute('EXEC AddAllergy @Customer= {}, @Allergy= "{}";'.format(self.customerID,self.allergy))
+            cursor.execute('EXEC AddAllergy @Customer= {}, @Allergy= "{}";'.format(int(self.customerID[0]),self.allergy))
             cnxn.commit()
             cursor.close()
             cnxn.close()
@@ -96,7 +82,7 @@ class Customer(models.Model):
             try:
                 cnxn = getConnection()
                 cursor = cnxn.cursor()
-                sqlCommand = 'EXEC RemovePreference @Customer= {}, @Preference= "{}";'.format(self.customerID,self.preference)
+                sqlCommand = 'EXEC RemovePreference @Customer= {}, @Preference= "{}";'.format(int(self.customerID[0]),self.preference)
                 cursor.execute(sqlCommand)
                 cnxn.commit()
                 cursor.close()
@@ -111,7 +97,7 @@ class Customer(models.Model):
         try:
             cnxn = getConnection()
             cursor = cnxn.cursor()
-            cursor.execute('EXEC RemoveAllergy @Customer= {}, @Allergy= "{}";'.format(self.customerID,self.allergy))
+            cursor.execute('EXEC RemoveAllergy @Customer= {}, @Allergy= "{}";'.format(int(self.customerID[0]),self.allergy))
             cnxn.commit()
             cursor.close()
             cnxn.close()
@@ -124,7 +110,7 @@ class Customer(models.Model):
     def viewPreferences(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        cursor.execute('EXEC ViewPreferences @User= {};'.format(self.customerID))
+        cursor.execute('EXEC ViewPreferences @User= {};'.format(int(self.customerID[0])))
         rows = cursor.fetchall()
         list_preferences = []
         for row in rows:
@@ -134,7 +120,7 @@ class Customer(models.Model):
     def viewAllergy(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        cursor.execute('EXEC ViewAllergy @User= {};'.format(self.customerID))
+        cursor.execute('EXEC ViewAllergy @User= {};'.format(int(self.customerID[0])))
         rows = cursor.fetchall()
         list_allergy = []
         for row in rows:
