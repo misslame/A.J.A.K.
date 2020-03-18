@@ -18,17 +18,44 @@ class Account(models.Model):
         return self.password
     def set_password(self, code):
         self.password = code
+    
     def view_users(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        row = cursor.execute("EXEC AllAccounts;")
-        return dictfetchall(cursor)
-    def getUserAccount(self, mail, code):
+        cursor.execute("EXEC AllAccounts;")
+        cursor.close() #close current connection to db
+        cnxn.close()
+        del cnxn
+        return dictfetchall(cursor) #return query result into dict 
+
+
+    def getUserAccount(self,email, code):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        cursor.execute("EXEC AccountLookup @UserName=admin , @PassCode=testbear;")
+        cursor.execute('EXEC AccountLookup @UserName={} , @PassCode="{}";'.format(email,code))
+        cursor.close() #close current connection to db
+        cnxn.close()
+        del cnxn
         return dictfetchall(cursor)
 
+    def updateUserAccount(self, account,firstname,lastname, phone, mobile):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        cursor.execute('EXEC UpdateAccount @Account={}, @FirstName="{}" , @LastName="{}", @Phone={}, @MobilePhone={};'.format(account,firstname,lastname, phone, mobile))
+        cnxn.commit() #need commit when you are inserting/updating values to a table
+        cursor.close() #close current connection to db
+        cnxn.close()
+        del cnxn
+        response = "Account was Updated"
+        return response
 
-
-# Create your models here.
+    def updateUserAddress(self,user,old, description, street, apt,city,state,zipcode):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        cursor.execute('EXEC UpdateAddress @User= {} , @old= "{}" ,@Description= "{}", @StreetAddress= "{}", @AptNum= "{}", @City= "{}", @State= "{}", @Zip= "{}" ;'.format(user,old,description, street, apt,city,state,zipcode))
+        cnxn.commit()
+        cursor.close()
+        cnxn.close()
+        del cnxn
+        response = "Address was Updated"
+        return response
