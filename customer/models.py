@@ -1,6 +1,5 @@
 from django.db import models
 from django.db import connection
-<<<<<<< HEAD
 
 ######### DO NOT CHANGE THE CON. WINDOWS ONLY ALLOWS _CON OR A DIFFERENT NAME COMPLETELY ############
 from bearbites._con import getConnection
