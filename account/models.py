@@ -1,4 +1,7 @@
 from django.db import models
+
+# Create your models here.
+from django.db import models
 from django.db import connection
 from bearbites.con import getConnection
 from bearbites.con import dictfetchall
@@ -77,6 +80,3 @@ class Customer(models.Model):
         del cnxn
         response = "Allergy added to account"
         return response
-
-    
-

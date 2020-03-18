@@ -59,7 +59,3 @@ class Account(models.Model):
         del cnxn
         response = "Address was Updated"
         return response
-
-
-
-# Create your models here.
