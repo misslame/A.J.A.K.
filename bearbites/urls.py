@@ -13,8 +13,8 @@ urlpatterns = [
     path('profile/DietaryPreferences/',account_views.customerPreference,name="addPreference_url"),
     path('profile/DietaryRestrictions/',account_views.customerAllergy,name="addAllergy_url"),
     path('profile/',account_views.loadProfile,name="profile"),
-    path('profile/EditProfile/',account_views.editProfile,name="profile"),
-    path('profile/EditAddresses/',account_views.editAddress,name="profile"),
-
+    path('profile/EditProfile/',account_views.editProfile,name="edit profile"),
+    path('profile/EditAddresses/',account_views.editAddress,name="edit address"),
+    path('profile/Addresses/',account_views.loadProfile,name="Addresses"),
 
 ]
