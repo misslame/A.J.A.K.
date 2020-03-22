@@ -119,7 +119,7 @@ USE_TZ = True
 #DataFlair #Django #Static files
 
 #--------------------------------------------------
-STATIC_ROOT = os.path.abspath(SETTINGS_PATH+'/static/')
+STATIC_ROOT = os.path.abspath(SETTINGS_PATH+'/bearbites/static/')
 #-----------------------------------------------------
 STATIC_URL = '/static/'
 # Additional locations of static files
@@ -130,7 +130,11 @@ STATICFILES_DIRS = (
     os.path.join(os.path.dirname(__file__), 'static'),
     )
 
-
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+) 
 
 
 
