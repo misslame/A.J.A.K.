@@ -4,7 +4,7 @@
 {% block content %}
 <body style = "background-image: url({% static 'images/background1.1.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
     
-    <div class="register-content">    
+        <div class="register-content">    
         {% csrf_token %}
         <div class="row">
             <div class="col-lg-3"></div>
@@ -15,6 +15,7 @@
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-6">
+                                
                                 <label>First Name:</label>
                                 <input style="font-family: sans-seriff;" type="text" name="firstname" class="form-control"placeholder=" Enter your first name...">
                             </div>
@@ -31,6 +32,7 @@
                         </br>
                         <label>E-mail</label>
                         <input style="font-family: sans-seriff;" type="email" name="email" class="form-control" placeholder="Enter your e-mail...">
+                        <p>{{check_fields.1}}</p>
                         </br></br>
                         
                         <h2 style="color: #fff;">Address</h2>
@@ -49,7 +51,6 @@
                             </div>
                             <div class="col-lg-3">
                                 <label>State</label>
-
                                 <select class="form-control text" name="state" style="font-family: sans-seriff;">
                                     <option value="AL">Alabama</option>
                                     <option value="AK">Alaska</option>
@@ -125,6 +126,8 @@
                                 <label>Retype Password:</label>
                                 <input style="font-family: sans-seriff;" type="password" name="rpassword" class="form-control" placeholder="Retype password...">
                             </div>
+                            <p style="color:white">{{check_fields.0}}</p> 
+                            <p style="color:white">{{check_fields.2}}</p> 
                         </div>
                         </br>
                         
@@ -135,13 +138,12 @@
                         </br></br>
                         <input type="checkbox" id="termcond" name="termcond">
                         <label for="termcond"> I have read and agree to the <a href="{% static 'brand/terms&conditions.txt' %}" download> Terms & Conditions</a></label>
-                        
+                       
                         </br></br>
                         
                         <input style="font-size:30px;" type="submit" name="submit" value="submit" class="btn btn-primary btn-lock btn-block">
                         </br></br>
-                        
-                        <p>{{response}}</p>
+                        <p style="color:white">{{response}}</p>
                     </form>
                 </div>
             </div>
