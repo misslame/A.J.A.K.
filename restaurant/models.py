@@ -117,11 +117,12 @@ class Restaurant(models.Model):
         cursor.execute(sql.format(int(zipQuery[0])))
         adresses = cursor.fetchall()
         restaurants = []
-        sql_restaurant = "SELECT * FROM Restaurant WHERE AddressID = {};" # FIX: Needs to be cleaned up to a stored procedure
+        sql_restaurant = "SELECT * FROM Restaurant WHERE AddressID IN {};" # FIX: Needs to be cleaned up to a stored procedure
         cursor2 = cnxn.cursor()
-        for address in adresses: # Fetch Restaurants based on AddressID that Have Matching Zip Codes
-            cursor2.execute(sql.format(int(address)))
-            restaurants.append(cursor2.fetchall())
+        cursor2.execute(sql.format(tuple(addresses)))
+        rows = cursor2.fetchall()
+        for row in rows:
+            restaurants.append(str(rows[0]))
         cursor.close()
         cursor2.close()
         cnxn.close()
