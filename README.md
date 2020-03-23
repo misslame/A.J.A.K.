@@ -12,7 +12,7 @@ If you find a bug (especially minor) create an issue with the label "bug" and an
 ### Branch Etiquette:
 Before you begin development:
 - **Make a new branch**. If you are working mid-end, branch off of mid-end or work on mid-end only. if you are working front-end branch off of front-end or work on front-end. **DO NOT BRANCH OFF OF WEBAPP OR MASTER.** Exceptions will be made only after communication with the team. 
-- **Name your branch the thing you're working on.** Example: if you're working on the navbar, name it "front-end:Navbar" No more "Andrew" or anything like that. 
+- **Name your branch the thing you're working on.** Example: if you're working on the navbar, name it "front-end_Navbar" No more "Andrew" or anything like that. 
 
 ### Documentation:
 _We are lacking in documentation._ Please reach inside and remember freshman you who was very interested in making documentation, if that never was you, please make it the new you. Documentation makes someone else looking at your code understand it. It doesn't even need to be extensive. Simply put little lines saying things like "sidebar navigation toggle methods for animation" or something. Don't go crazy. 
