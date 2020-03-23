@@ -120,11 +120,4 @@ class Restaurant(models.Model):
         sql_restaurant = "SELECT * FROM Restaurant WHERE AddressID IN {};" # FIX: Needs to be cleaned up to a stored procedure
         cursor2 = cnxn.cursor()
         cursor2.execute(sql.format(tuple(addresses)))
-        rows = cursor2.fetchall()
-        for row in rows:
-            restaurants.append(str(rows[0]))
-        cursor.close()
-        cursor2.close()
-        cnxn.close()
-        del cnxn
-        return restaurants
+        return dictfetchall(cursor2)
