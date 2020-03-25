@@ -13,45 +13,46 @@
                     <h1 class="text-center" style="color: #fff; font-family: Bearskin;">Create New Account</h1>
                     <form class="form-group" method="POST">
                         {% csrf_token %}
+                        <p style="color:white">{{response}}</p>
                         <div class="row">
                             <div class="col-lg-6">
                                 
                                 <label>First Name:</label>
-                                <input style="font-family: sans-seriff;" type="text" name="firstname" class="form-control"placeholder=" Enter your first name...">
+                                <input style="font-family: sans-seriff;" type="text" name="firstname"  value ="{{form_fields.0}}"class="form-control"placeholder=" Enter your first name...">
                             </div>
                             
                             <div class="col-lg-6">
                                 <label>Last Name:</label>
-                                <input style="font-family: sans-seriff;" type="text" name="lastname" class="form-control" placeholder="Enter your last name...">
+                                <input style="font-family: sans-seriff;" type="text" name="lastname" value ="{{form_fields.1}}" class="form-control" placeholder="Enter your last name...">
                             </div>
                             <div class="col-lg-6">
                                 <label>Phone Number:</label>
-                                <input style="font-family: sans-seriff;" type="text" name="phonenumber" class="form-control" placeholder="Enter your phone number...">
+                                <input style="font-family: sans-seriff;" type="text" name="phonenumber" class="form-control" value ="{{form_fields.2}}" placeholder="Enter your phone number...">
                             </div>
                         </div>
                         </br>
                         <label>E-mail</label>
-                        <input style="font-family: sans-seriff;" type="email" name="email" class="form-control" placeholder="Enter your e-mail...">
-                        <p>{{check_fields.1}}</p>
+                        <input style="font-family: sans-seriff;" type="email" name="email" class="form-control" value ="{{form_fields.3}}" placeholder="Enter your e-mail...">
+                        <p style="color:white">{{check_fields.1}}</p>
                         </br></br>
                         
                         <h2 style="color: #fff;">Address</h2>
                         <label>Street</label>
-                        <input style="font-family: sans-seriff;" type="text" name="street" class="form-control" placeholder="Enter street name...">
+                        <input style="font-family: sans-seriff;" type="text" name="street" class="form-control" value ="{{form_fields.7}}" placeholder="Enter street name...">
                         </br>
                        
                         <div class="row">
                             <div class="col-lg-3">
                                 <label>Apt. Number</label>
-                                <input style="font-family: sans-seriff;" type="text" name="aptNum" class="form-control" placeholder="Apt. Number">
+                                <input style="font-family: sans-seriff;" type="text" name="aptNum" class="form-control" value ="{{form_fields.6}}" placeholder="Apt. Number">
                             </div>
                             <div class="col-lg-3">
                                 <label>City</label>
-                                <input style="font-family: sans-seriff;" type="text" name="city" class="form-control" placeholder="Enter city name...">
+                                <input style="font-family: sans-seriff;" type="text" name="city" class="form-control" value ="{{form_fields.8}}" placeholder="Enter city name...">
                             </div>
                             <div class="col-lg-3">
                                 <label>State</label>
-                                <select class="form-control text" name="state" style="font-family: sans-seriff;">
+                                <select class="form-control text" name="state" value ="{{form_fields.9}}" style="font-family: sans-seriff;">
                                     <option value="AL">Alabama</option>
                                     <option value="AK">Alaska</option>
                                     <option value="AZ">Arizona</option>
@@ -107,7 +108,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <label>Zip Code</label>
-                                <input style="font-family: sans-seriff;" type="text" name="zip" class="form-control" placeholder="Enter zipcode">
+                                <input style="font-family: sans-seriff;" type="text" name="zip" class="form-control" value ="{{form_fields.10}}" placeholder="Enter zipcode">
                             </div>
                         </div>
                         
@@ -119,14 +120,15 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <label>Password:</label>
-                                <input style="font-family: sans-seriff;" type="password" name="password" class="form-control"placeholder=" Enter a password...">
+                                <input style="font-family: sans-seriff;" type="password" name="password" class="form-control" value ="{{form_fields.4}}" placeholder=" Enter a password...">
                             </div>
                             
                             <div class="col-lg-6">
                                 <label>Retype Password:</label>
-                                <input style="font-family: sans-seriff;" type="password" name="rpassword" class="form-control" placeholder="Retype password...">
+                                <input style="font-family: sans-seriff;" type="password" name="rpassword" class="form-control" value ="{{form_fields.5}}" placeholder="Retype password...">
                             </div>
                             <p style="color:white">{{check_fields.0}}</p> 
+                            </br>
                             <p style="color:white">{{check_fields.2}}</p> 
                         </div>
                         </br>
@@ -143,7 +145,6 @@
                         
                         <input style="font-size:30px;" type="submit" name="submit" value="submit" class="btn btn-primary btn-lock btn-block">
                         </br></br>
-                        <p style="color:white">{{response}}</p>
                     </form>
                 </div>
             </div>

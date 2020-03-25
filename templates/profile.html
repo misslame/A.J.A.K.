@@ -56,10 +56,10 @@
                                         {% for user in users %}
                                     </div>
                                     <div class="row">
-                                        <p>First Name: {{user.FirstName}}</p>
+                                        <p>First Name: <p id="First">{{user.FirstName}}</p></p>
                                     </div>
                                     <div class="row">
-                                        <p>Last Name: {{user.LastName}}</p>
+                                        <p>Last Name: <p id="Last">{{user.LastName}}</p></p>
                                     </div>
                                     <div class="row">
                                         <p>Last Name: {{user.Phone}}</p>
@@ -391,7 +391,10 @@
                     </div>
                 </div>
                 <script>
-                
+                    var user = document.getElementById("First").innerHTML +" "+ document.getElementById("Last").innerHTML;
+                    
+                    document.getElementById("login").innerHTML = user;
+
                     /* TAB CONTENT */
                     function openPage(pageName,element) {
                         var i, tabcontent, tablinks;

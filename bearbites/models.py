@@ -1,7 +1,9 @@
 from django.db import models
 from django.db import connection
-from bearbites.con import getConnection
-from bearbites.con import dictfetchall
+
+######### DO NOT CHANGE THE CON. WINDOWS ONLY ALLOWS _CON OR A DIFFERENT NAME COMPLETELY ############
+from bearbites._con import getConnection
+from bearbites._con import dictfetchall
 
 cust_id = 0
 acct = 0
@@ -146,6 +148,7 @@ class Account(models.Model):
         try:
             cnxn = getConnection() 
             cursor = cnxn.cursor()
+            print("user id before creating customer",self.account)
             cursor.execute("INSERT INTO Customer (UserID) VALUES  ({});".format(self.account))
             cnxn.commit()
             cursor.close()
@@ -211,6 +214,7 @@ class Account(models.Model):
         cursor2.close()
         cnxn.close()
         del cnxn
+        print(user[0])
         return user[0]
 
     def addAddress(self):
@@ -245,6 +249,17 @@ class Account(models.Model):
 
         return response
     
+    def checkEmailExists(self, email):
+
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        cursor.execute("select UserID  from UserAccount where Email= '{}';".format(email))
+        rows = cursor.fetchall()
+        if len(rows)==0:
+            return False
+        else:
+            return True #return True if an account exsists with that email 
+
     def view_userAddresses(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()

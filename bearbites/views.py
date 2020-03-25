@@ -1,6 +1,7 @@
 import re
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
+from django.http import JsonResponse
 from .models import Account
 from customer.views import loadAllergies, loadPreferences
 from customer.models import Customer
@@ -21,20 +22,37 @@ def registerView(request):
     if request.method == 'POST': # If the form has been submitted...
         valid = 0
         checkFields = []
+        formFields = [] #save form fields
+        formFields.append(request.POST.get('firstname'))
+        formFields.append(request.POST.get('lastname'))
+        formFields.append(request.POST.get('phonenumber'))
+        formFields.append(request.POST.get('email'))
+        formFields.append(request.POST.get('password'))
+        formFields.append(request.POST.get('rpassword'))
+        formFields.append(request.POST.get('aptNum'))
+        formFields.append(request.POST.get('street'))
+        formFields.append(request.POST.get('city'))
+        formFields.append(request.POST.get('state'))
+        formFields.append(request.POST.get('zip'))
+
         pas = request.POST.get('password')
         pas_c = request.POST.get('rpassword')
         email = request.POST.get('email')
-        if pas == pas_c: #verify that both password and cormirmation field match
+        if pas == pas_c: #verify that both password and confirmation field match
             valid = 1
             checkFields.append(" ")
         else:
             checkFields.append("Passwords do not match")
         regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+        obj = Account()
         if (re.search(regex,email)):
-            valid += 1
-            checkFields.append(" ")
+            if obj.checkEmailExists(email)== False:
+                valid += 1
+                checkFields.append(" ")
+            else:
+                checkFields.append("An account with this email exsists already")   
         else:
-            checkFields.append("Invalid Email Address")
+            checkFields.append("Invalid Email Address please enter a valid email")
         rules = [  #check that password has an upper and lower case letter as well as an number and 
         lambda pas: any(x.isupper() for x in pas) or 'upper',
         lambda pas: any(x.islower() for x in pas) or 'lower',
@@ -48,7 +66,6 @@ def registerView(request):
         else:
             checkFields.append("Password does not meet security requirements")
         if valid == 3:
-            obj = Account()
             obj.email.clear()
             obj.password.clear()
             obj.email.append(request.POST.get('email'))
@@ -75,10 +92,13 @@ def registerView(request):
             obj.addAddress()
             response = obj.addCustomer()
             context = {'response': response}
+            
             return render(request,'register.html', context)
         else:
-            context = {'check_fields': checkFields}
-            return render(request,'register.html', context)
+            response = "There was an error creating the account. Please see the fields below."
+            context = {'response': response,'check_fields': checkFields,'form_fields': formFields}
+
+            return render(request,'register.html',context)
     else :
         context = {'response': ""}
         return render(request,'register.html',context)

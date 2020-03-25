@@ -14,6 +14,7 @@ urlpatterns = [
     path('profile/',account_views.loadProfile,name="profile"),
     path('profile/EditProfile/',account_views.editProfile,name="profile"),
     path('profile/EditAddresses/',account_views.editAddress,name="profile"),
+    path('profile/Addresses/',account_views.loadProfile,name="profile"),
 
 
 ]

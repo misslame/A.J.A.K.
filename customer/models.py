@@ -1,7 +1,9 @@
 from django.db import models
 from django.db import connection
-from bearbites.con import getConnection
-from bearbites.con import dictfetchall
+
+######### DO NOT CHANGE THE CON. WINDOWS ONLY ALLOWS _CON OR A DIFFERENT NAME COMPLETELY ############
+from bearbites._con import getConnection
+from bearbites._con import dictfetchall
 
 
 class Customer(models.Model):
