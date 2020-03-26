@@ -45,7 +45,14 @@
                         
                         <!-- button for ordering from -->
                         <!-- TO DO: Check if user is logged in first-> if not ask if they want to log in. -->
-                        <p><input style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>
+                        <p><input onclick="document.getElementById('restaurantPop')" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>
+                        <!-- Supposed popup box that shows up when you click on resturant order button-->
+                        <div id="restaurantPop">
+                            <p>Resturant Name: {{restaurant.name}}</p>
+                            <p>~ MENU ~</p>
+                            <p>{{restaurant.menu}}</p>
+                            <p><button> onclick="document.getElementById('restaurantPop').style.display='none'" close</button></p>
+                        </div>
                     
                 </a>
                 
