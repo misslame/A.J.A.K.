@@ -12,4 +12,12 @@ def openMenuView(request):
         name = request.POST.get("name")
         restaurant.set_restaurantName(name)
         location = request.POST.get("location")
-        restaurant.fetchLocation(location)
+        resID = restaurant.fetchLocation(location) #Get the RestaurantID for target Location
+        menu = Menu()
+        menuID = menu.queryMenu(resID)
+        menuItem = MenuItem()
+        context = menuItem.queryMenu(menuID) #Query ALl Menu Items as a Dictionary
+        return render(request,'menu.html',context)
+    else:
+        context = {'response':""}
+        return render(request,'menu.html',context)

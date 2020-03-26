@@ -3,7 +3,7 @@ from django.db import connection
 from bearbites._con import getConnection
 from bearbites._con import dictfetchall
 # Create your models here.
-class Menu (models.Model):
+class Menu(models.Model):
     menuID = models.IntegerField()
     restaurantID = []
 
@@ -117,9 +117,11 @@ class MenuItem(models.Model):
         cursor = cnxn.cursor()
         sql = "SELECT ItemName,ItemDesc,Price FROM Items WHERE MenuID = {} AND itemType = {};".format(self.menuID[0],self.itemType)
         cursor.execute(sql)
-        return cursor.fetchall()
-#Query all Items
-    def viewMenu
+        return dictfetchall(cursor)
+#Query All Menu Items
+    def viewMenu(self,menu):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        sql = "SELECT"
+        sql = "SELECT ItemName,ItemDesc,Price FROM Items WHERE MenuID = {}".format(menu)
+        cursor.execute(sql)
+        return dictfetchall(cursor)
