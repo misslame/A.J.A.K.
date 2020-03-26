@@ -43,19 +43,19 @@ class Restaurant(models.Model):
 
 # Setter Methods
     def set_restaurantID(self,restaurant):
-        restaurantID = restaurantID
+        self.restaurantID = restaurantID
 
     def set_restaurantName(self,name):
-        restaurantName = name
+        self.restaurantName = name
 
     def set_orderMin(self,min):
-        orderMin = min
+        self.orderMin = min
 
     def set_imageURL(self,url):
-        imageURL = url
+        self.imageURL = url
 
     def set_logoURL(self,url):
-        logoURL = url
+        self.logoURL = url
 
 ## Database Queries
 
@@ -80,7 +80,7 @@ class Restaurant(models.Model):
         try:
             cnxn = getConnection()
             cursor = cnxn.cursor() # Establish Connection to the Database
-            sql = "EXEC RemoveRestuarant @UserID={}, @Restaurant={}" # SQL Stored Procedure
+            sql = "EXEC RemoveRestuarant @UserID={}, @Restaurant={};" # SQL Stored Procedure
             cursor.execute(sql.format(int(self.accountID[0]),int(self.addressID[0]))) #Delete Based on AccountID and addressID
             cnxn.commit()
             cursor.close()
@@ -97,7 +97,7 @@ class Restaurant(models.Model):
     def viewRestaurant(self):
         cnxn = getConnection()
         cursor = cnxn.cursor() # Establish Conenction to the Database
-        sql = "SELECT * FROM Restaurant WHERE RestaurantID = {};".format(int(restaurantID)) # FIX: Needs to be cleaned up to a stored procedure
+        sql = "SELECT * FROM Restaurant WHERE RestaurantID = {};".format(int(self.restaurantID)) # FIX: Needs to be cleaned up to a stored procedure
         cursor.execute(sql)
         row = cursor.fetchall() # Store Values from Query
         print(row) #Assuming row is a 1-D Array of Table Columns
@@ -114,10 +114,10 @@ class Restaurant(models.Model):
         cnxn = getConnection()
         cursor = cnxn.cursor() #Establish Connection to the Database
         sql = "SELECT AddressID FROM Adresses WHERE Zip = {} INTERSECT SELECT AddressID FROM Restaurant;" #Returns All Adress IDs in Given Zip Code
-        cursor.execute(sql.format(int(zipQuery[0])))
+        cursor.execute(sql.format(int(self.zipQuery[0])))
         adresses = cursor.fetchall()
         restaurants = []
         sql_restaurant = "SELECT * FROM Restaurant WHERE AddressID IN {};" # FIX: Needs to be cleaned up to a stored procedure
         cursor2 = cnxn.cursor()
-        cursor2.execute(sql.format(tuple(addresses)))
+        cursor2.execute(sql.format(str(tuple(addresses))))
         return dictfetchall(cursor2)
