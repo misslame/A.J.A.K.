@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bearbites',
     'customer',
-    'restaurant'
+    'restaurant',
+    'menu',
 ]
 CRISPY_TEMPLATE_PACK =  'bootstrap4'
 MIDDLEWARE = [

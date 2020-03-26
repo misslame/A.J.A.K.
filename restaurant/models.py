@@ -121,3 +121,16 @@ class Restaurant(models.Model):
         cursor2 = cnxn.cursor()
         cursor2.execute(sql.format(str(tuple(addresses))))
         return dictfetchall(cursor2)
+
+# Finding a Specific Restaurant Location
+    def fetchLocation(self,location):
+        cnxn = getConnection()
+        cursor= cnxn.cursor() #Establish Connection to the Database
+        sql = "SELECT AddressID FROM Adresses WHERE StreetAddress = {};" #Find all Addresses at that location
+        cursor.execute(sql.format(location))
+        potential = cursor.fetchall()
+        sql2 = "SELECT RestaurantID FROM Restaurant WHERE AddressID IN {} AND RestuarantName = {};" #FIX: Clean up to stored procedure
+        cursor2 = cnxn.cursor() #Filter Adresses to the Restaurant ID Matching that Specific Restaurant
+        cursor2.execute(sql2.format(str(tuple(potential)),self.restaurantName))
+        idNum = cursor2.fetchall()
+        return idNum[0]
