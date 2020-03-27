@@ -18,8 +18,9 @@ def indexView(request):
 def dashboardView(request):
     return render(request,'index.html')
 
+
 def registerView(request):
-    if request.method == 'POST': # If the form has been submitted...
+    if request.method == 'POST': # If the form has been submitted..
         valid = 0
         checkFields = []
         formFields = [] #save form fields
@@ -91,31 +92,35 @@ def registerView(request):
             obj.set_accountID(int(user))
             obj.addAddress()
             response = obj.addCustomer()
-            context = {'response': response}
+            context = {'response': response, 'alert_flag': True}
             
             return render(request,'register.html', context)
         else:
             response = "There was an error creating the account. Please see the fields below."
-            context = {'response': response,'check_fields': checkFields,'form_fields': formFields}
+            context = {'response': response,'check_fields': checkFields,'form_fields': formFields, 'alert_flag': True}
 
             return render(request,'register.html',context)
     else :
         context = {'response': ""}
         return render(request,'register.html',context)
 
+
 def loginView(request):
+    
     if request.method == 'POST': # If the form has been submitted...
-        
         obj = Account()
         obj.email.clear()
         obj.password.clear()
         obj.userAuthenticated.clear()
-        obj.email.append(request.POST.get('email'))
-        obj.password.append(request.POST.get('password'))
+        email = request.POST.get('email')
+        obj.email.append(email)
+        passw =obj.password.append(request.POST.get('password'))
         row = obj.getUserAccount()
         print (row)
         if len(row) >0:
             user = obj.authenticateUser()
+            request.session["user"] = email
+            request.session["password"] = passw
             obj.userAuthenticated.append("TRUE")
             obj.accountID.append(int(user[0]))
             obj.customerID.append(int(user[1]))
@@ -128,8 +133,6 @@ def loginView(request):
             preferences = loadPreferences()
             user_info = obj.getUserAccount()
             address_info = obj.getUserAddress()
-            print(user_info)
-            print(obj.get_accountID())
             return render(request,'profile.html',{'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
         else:
             response = "Invalid Credentials, please try again!"
@@ -139,6 +142,19 @@ def loginView(request):
     context = {'response': ""}
     return render(request,'login.html',context)
 
-def profileView(request):
 
+
+def logout(request):
+    del request.session["user"]
+    del request.session["password"]
+    obj = Account()
+    obj.email.clear()
+    obj.password.clear()
+    obj.userAuthenticated.clear()
+    obj.userAuthenticated.append("False")
+    response ="You have been logged out"
+    context = {'response': response, 'alert_flag': True}
+    return render(request,'login.html',context)
+
+def profileView(request):
     return render(request,'profile.html')

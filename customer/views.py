@@ -3,8 +3,8 @@ from .models import Customer
 from bearbites.models import Account
 # Create your views here.
 cus_id = 1
-checkbox_list = ['Milk', 'Eggs', 'True Nuts', 'Wheat', 'Peanuts', 'Soy','Fish','ShellFish']
-p_checkbox_list = ['Diabetic', 'Gluten-Free', 'Vegetarian', 'Vegan', 'Pescatarian', 'Kosher','Paleo Diet','Mediterranean Diet', 'Keto Diet', 'High Protein', 'Low Carb', 'Low Fat', 'Raw Food', 'Fast Food','Street Food','Fresh Food', 'Seafood','Sugar-Free','Low-Sodium','Low-Cholesterol','Organic', 'Non-GMO','Asian','African','American','Latin','European','Middle Eastern','Pasific']
+checkbox_list = ['Dairy', 'Eggs', 'True Nuts', 'Wheat', 'Peanuts', 'Soy','Fish','ShellFish']
+p_checkbox_list = ['Diabetic', 'Gluten-Free', 'Vegetarian', 'Vegan', 'Pescatarian', 'Kosher','Paleo Diet','Mediterranean Diet', 'Keto Diet', 'High Protein', 'Low Carb', 'Low Fat', 'Fast Food','Street Food','Fresh Food','Raw Food', 'Seafood','Sugar-Free','Low-Sodium','Low-Cholesterol','Organic', 'Non-GMO','Asian','African','American','Latin','European','Middle Eastern','Pacific']
 def loadAllergies():
     obj = Customer()
     obj2 = Account()
@@ -150,15 +150,20 @@ def customerAllergy(request):
                 if removed == 0:
                     obj.set_allergy(user_a)
                     obj.removeAllergy()
+            user_info = obj3.getUserAccount()
+            address_info = obj3.getUserAddress()
             response = "Allergies are up-to-date" 
             allergies = loadAllergies()
             preferences = loadPreferences()
-            context = {'response': response, 'check_list': allergies ,'p_check_list': preferences}
+            context = {'response': response, 'check_list': allergies ,'p_check_list': preferences, 'users': user_info,'addresses': address_info }
             return render(request, 'profile.html', context) # Redirect after POST
         else:
             allergies = loadAllergies()
             preferences = loadPreferences()
-            return render(request, 'profile.html', {'check_list': allergies, 'p_check_list': preferences}) # Redirect 
+            obj = Account()
+            user_info = obj.getUserAccount()
+            address_info = obj.getUserAddress()
+            return render(request, 'profile.html', {'check_list': allergies, 'p_check_list': preferences, 'users': user_info,'addresses': address_info }) # Redirect 
     else:
             return render(request, 'login.html')    
 
@@ -189,16 +194,21 @@ def customerPreference(request):
                 if removed_p == 0:
                     obj.set_preference(user_p)
                     obj.removePreference()
+            user_info = obj3.getUserAccount()
+            address_info = obj3.getUserAddress()
             response = "Preferences are up-to-date" 
             context = {'response': response}
             allergies = loadAllergies()
             preferences = loadPreferences()
-            context = {'response': response, 'check_list': allergies ,'p_check_list': preferences}
+            context = {'response': response, 'check_list': allergies ,'p_check_list': preferences, 'users': user_info,'addresses': address_info}
             return render(request, 'profile.html', context) # Redirect after POST
         else:
             allergies = loadAllergies()
             preferences = loadPreferences()
-            context = {'check_list': allergies ,'p_check_list': preferences}
+            obj = Account()
+            user_info = obj.getUserAccount()
+            address_info = obj.getUserAddress()
+            context = {'check_list': allergies ,'p_check_list': preferences, 'users': user_info,'addresses': address_info}
             return render(request, 'profile.html', context)
     else:
         return render(request, 'login.html')

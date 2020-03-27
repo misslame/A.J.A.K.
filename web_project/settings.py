@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bearbites',
     'customer',
+    'restaurant',
+    'menu'
 ]
 CRISPY_TEMPLATE_PACK =  'bootstrap4'
 MIDDLEWARE = [
@@ -76,6 +78,23 @@ WSGI_APPLICATION = 'web_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': 'BearBites',
+        'USER': 'ajakad@bearbites',
+        'PASSWORD': 'cs4800BearBites',
+        'HOST': 'bearbites.database.windows.net',
+        'PORT': '1433',
+        'OPTIONS':{
+            'driver': 'ODBC Driver 17 for SQL Server',
+        }
+
+    }
+}
+
+
 
 
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
