@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<body style="background-image: url({% static 'images/background1.2.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;overflow:hidden;">
+<body style="background-image: url({% static 'images/background1.2.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
     
     <div class = "location-content">
         <div style="background-color:white; color: black; margin: 3%; border-radius:10px;">
@@ -24,7 +24,7 @@
             <br>
             
             <h1 class="text-center" style="font-family: Bearskin; flex-grow:1;"> Locations: </h1>
-            
+            {% for restaurant in restaurants %}
             <!-- To Do: show restaurant upon clicking it. -->
             <div class = "card-deck" style = "margin:2%; padding-bottom:100px;">
                 <link rel="stylesheet" type="text/css" href="{% static 'css/popup.css' %}">
@@ -33,11 +33,11 @@
                 <!-- For loop here! -->
                 <a class = "col-sm col-md-6 card-block text-decoration-none" href="#" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); max-width: 300px; margin: auto; text-align: center; background-color:#333; border-radius:10px; opacity: 0.9;">
                         <!-- image of restaurant -->
-                        <img src="img.jpg"  style="width:100%">
+                        <img src="{{restaurant.LogoUrl}}"  style="width:100%">
                         
                         <!-- restaurant name -->
-                        <h1>Restaurant Name</h1>
-                        
+                        <h1>{{restaurant.RestaurantName}}</h1>
+                        <p class="title" style = "color:white; font-weight:bold; font-size: 18px;font-family: sans seriff;">{{restaurant.address}}</p>
                         <!-- availability -->
                         <p class="title" style = "color:white; font-weight:bold; font-size: 18px;font-family: sans seriff;">Available for Delivery!</p>
                         
@@ -70,7 +70,7 @@
                 </div>   
             
             </div>
-            
+            {% endfor %}
         </div>
     </div>
     <script>

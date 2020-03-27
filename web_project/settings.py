@@ -79,20 +79,7 @@ WSGI_APPLICATION = 'web_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'BearBites',
-        'USER': 'ajakad@bearbites',
-        'PASSWORD': 'cs4800BearBites',
-        'HOST': 'bearbites.database.windows.net',
-        'PORT': '1433',
-        'OPTIONS':{
-            'driver': 'ODBC Driver 17 for SQL Server',
-        }
 
-    }
-}
 
 
 

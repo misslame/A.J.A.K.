@@ -134,3 +134,9 @@ class Restaurant(models.Model):
         cursor2.execute(sql2.format(str(tuple(potential)),self.restaurantName))
         idNum = cursor2.fetchall()
         return idNum[0]
+
+    def view_AllRestaurants(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        cursor.execute('EXEC ViewRestaurants;')
+        return dictfetchall(cursor) #return query result into dict 
