@@ -6,6 +6,9 @@
     
         <div class="register-content">    
         {% csrf_token %}
+        {% if alert_flag %}
+        <script>alert("{{response}}")</script>  
+        {% endif %}
         <div class="row">
             <div class="col-lg-4"></div>
             <div class="col-lg-3">

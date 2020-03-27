@@ -66,7 +66,13 @@ def registerView(request):
             valid += 1
         else:
             checkFields.append("Password does not meet security requirements")
-        if valid == 3:
+        check_term = request.POST.getlist('termcond')
+        if len(check_term) ==1:
+            checkFields.append(" ")
+            valid += 1
+        else:
+            checkFields.append("Please accept terms and conditions!")
+        if valid == 4:
             obj.email.clear()
             obj.password.clear()
             obj.email.append(request.POST.get('email'))
@@ -133,7 +139,8 @@ def loginView(request):
             preferences = loadPreferences()
             user_info = obj.getUserAccount()
             address_info = obj.getUserAddress()
-            return render(request,'profile.html',{'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
+            state =[ sub['state'] for sub in address_info ] 
+            return render(request,'profile.html',{'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info ,'state':state})
         else:
             response = "Invalid Credentials, please try again!"
             obj.userAuthenticated.append("False")
@@ -145,8 +152,12 @@ def loginView(request):
 
 
 def logout(request):
-    del request.session["user"]
-    del request.session["password"]
+    try:
+        del request.session['user']
+        del request.session['password']
+    except:
+        return HttpResponse("<h1>dataflair<br>Session Data not cleared</h1>")
+    request.session.modified = True
     obj = Account()
     obj.email.clear()
     obj.password.clear()

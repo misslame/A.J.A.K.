@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import Context, loader
 from .models import Restaurant
 from bearbites.models import Account
+from menu.models import Menu, MenuItem
 # Create your views here.
 
 def browseLocationView(request):
@@ -28,6 +29,9 @@ def browseLocationView(request):
         return render(request,'locations.html',context)
     else:
         target = Restaurant()
+        menuIt = MenuItem()
         restaurants = target.view_AllRestaurants()
-        context = {'response': "",'restaurants':restaurants}
+        RestaurantName ="Carl's JR"
+        menuItems = menuIt.viewMenu(1)
+        context = {'response': "",'restaurants':restaurants,'menuitems':menuItems,'RestaurantName':RestaurantName}
         return render(request,'locations.html',context)

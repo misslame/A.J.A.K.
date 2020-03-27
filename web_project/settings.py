@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '@o4369!z&0zsj#prt+k-3o_pg2e4si$%y7myc#w8laark-mot%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -79,7 +79,20 @@ WSGI_APPLICATION = 'web_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': 'BearBites',
+        'USER': 'ajakad@bearbites',
+        'PASSWORD': 'cs4800BearBites',
+        'HOST': 'bearbites.database.windows.net',
+        'PORT': '1433',
+        'OPTIONS':{
+            'driver': 'ODBC Driver 17 for SQL Server',
+        }
 
+    }
+}
 
 
 

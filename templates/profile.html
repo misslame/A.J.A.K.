@@ -53,8 +53,8 @@
                                 <div class="container">
                                     <h1>User Profile</h1>
                                     {% for user in users %}
-                                        <p>First Name: <p id="First">{{user.FirstName}}</p></p>
-                                        <p>Last Name: <p id="Last">{{user.LastName}}</p></p>
+                                        <p style="display: inline-block;">First Name: <p style="display: inline-block;" id="First">{{user.FirstName}}</p></p>
+                                        <p style="display: inline-block;">Last Name: <p style="display: inline-block;" id="Last">{{user.LastName}}</p></p>
                                         <p>Phone Number: {{user.Phone}}</p>
                                         <p>E-mail: {{user.Email}}</p>
                                         <div class="row">
@@ -115,7 +115,7 @@
                                     {% endfor %}
                                     
                                     <div class="row">
-                                        <button class = "btn" onclick="openPage('EditAddresses', this)">Edit</button>
+                                        <button class = "btn" onclick="openPage('EditAddresses', this);">Edit</button>
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@
                                         <!-- STATE DROPDOWN -->
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">State: </label>
-                                            <select class="form-control" value="{{address.state}}"  name="state"  style="font-family: sans-seriff;" value="{{address.state}}">
+                                            <select class="form-control" id="stateselect" value="{{address.state}}"  name="state"  style="font-family: sans-seriff;" value="{{address.state}}">
                                                 <option value="AL">Alabama</option>
                                                 <option value="AK">Alaska</option>
                                                 <option value="AZ">Arizona</option>
@@ -230,6 +230,8 @@
                                                 <div class="col-sm">Diabetic<p><input type="checkbox" name="p_checks[]" value="Diabetic" {{p_check_list.0}}></p></div>
                                                 <div class="col-sm">Gluten-Free<p><input type="checkbox" name="p_checks[]" value="Gluten-Free" {{p_check_list.1}}></p></div>
                                                 <div class="col-sm">Vegetarian<p><input type="checkbox" name="p_checks[]" value="Vegetarian" {{p_check_list.2}}></p></div>
+                                            </div>
+                                            <div class="row"> 
                                                 <div class="col-sm">Vegan<p><input type="checkbox" name="p_checks[]" value="Vegan" {{p_check_list.3}}></p></div>
                                                 <div class="col-sm">Pescetarian<p><input type="checkbox" name="p_checks[]" value="Pescetarian" {{p_check_list.4}}></p></div>
                                                 <div class="col-sm">Kosher<p><input type="checkbox" name="p_checks[]" value="Kosher" {{p_check_list.5}}></p></div>
@@ -241,6 +243,8 @@
                                                 <div class="col-sm">Paleo<p><input type="checkbox" name="p_checks[]" value="Paleo Diet" {{p_check_list.6}}></p></div>
                                                 <div class="col-sm">Mediterranean<p><input type="checkbox" name="p_checks[]" value="Mediterranean Diet" {{p_check_list.7}}></p></div>
                                                 <div class="col-sm">Keto<p><input type="checkbox" name="p_checks[]" value="Keto Diet" {{p_check_list.8}}></p></div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-sm">High Protein<p><input type="checkbox" name="p_checks[]" value="High Protein" {{p_check_list.9}}></p></div>
                                                 <div class="col-sm">Low Carb<p><input type="checkbox" name="p_checks[]" value="Low Carb" {{p_check_list.10}}></p></div>
                                                 <div class="col-sm">Low Fat<p><input type="checkbox" name="p_checks[]" value="Low Fat" {{p_check_list.11}}></p></div>
@@ -252,9 +256,12 @@
                                                 <div class="col-sm">Fast Food<p><input type="checkbox" name="p_checks[]" value="Fast Food" {{p_check_list.12}}></p></div>
                                                 <div class="col-sm">Street Food<p><input type="checkbox" name="p_checks[]" value="Street Food" {{p_check_list.13}}></p></div>
                                                 <div class="col-sm">Fresh Food<p><input type="checkbox" name="p_checks[]" value="Fresh Food" {{p_check_list.14}}></p></div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-sm">Raw Food<p><input type="checkbox" name="p_checks[]" value="Raw Food" {{p_check_list.15}}></p></div>
                                                 <div class="col-sm">Seafood<p><input type="checkbox" name="p_checks[]" value="Seafood" {{p_check_list.16}}></p></div>
-                                        </div>
+                                                <div class="col-sm"></div>
+                                            </div>
                                         <br></br>
                                         
                                         <h1>Health</h1>
@@ -262,8 +269,11 @@
                                                 <div class="col-sm">Sugar-Free<p><input type="checkbox" name="p_checks[]" value="Sugar-Free" {{p_check_list.17}}></p></div>
                                                 <div class="col-sm">Low-Sodium<p><input type="checkbox" name="p_checks[]" value="Low-Sodium" {{p_check_list.18}}></p></div>
                                                 <div class="col-sm">Low-Cholesterol<p><input type="checkbox" name="p_checks[]" value="Low-Cholesterol" {{p_check_list.19}}></p></div>
+                                            </div>
+                                            <div class="row">  
                                                 <div class="col-sm">Organic<p><input type="checkbox" name="p_checks[]" value="Organic" {{p_check_list.20}}></p></div>
                                                 <div class="col-sm">Non-GMO<p><input type="checkbox" name="p_checks[]" value="Non-GMO" {{p_check_list.21}}></p></div>
+                                                <div class="col-sm"></div>
                                         </div>
                                         <br></br>
                                                 
@@ -273,10 +283,13 @@
                                                 <div class="col-sm">African<p><input type="checkbox" name="p_checks[]" value="African" {{p_check_list.23}}></p></div>
                                                 <div class="col-sm">American<p><input type="checkbox" name="p_checks[]" value="American" {{p_check_list.24}}></p></div>
                                                 <div class="col-sm">Latin<p><input type="checkbox" name="p_checks[]" value="Latin" {{p_check_list.25}}></p></div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-sm">European<p><input type="checkbox" name="p_checks[]" value="European" {{p_check_list.26}}></p></div>
                                                 <div class="col-sm">Middle Eastern<p><input type="checkbox" name="p_checks[]" value="Middle Eastern" {{p_check_list.27}}></p></div>
                                                 <div class="col-sm">Pacific<p><input type="checkbox" name="p_checks[]" value="Pacific" {{p_check_list.28}}></p></div>
-                                        </div>
+                                                <div class="col-sm"></div>
+                                            </div>
                                         <input type="submit" value="Update">
                                     </form>
                                 </div>    
@@ -293,10 +306,12 @@
                                         <p>Check all restrictions that apply.</p>
                                         <h1>Type</h1>
                                         <div class="row">
-                                                <div class="col-sm">Milk<p><input type="checkbox" name="a_checks[]" value="Milk" {{check_list.0}}></p></div>
+                                                <div class="col-sm">Dairy<p><input type="checkbox" name="a_checks[]" value="Dairy" {{check_list.0}}></p></div>
                                                 <div class="col-sm">Eggs<p><input type="checkbox" name="a_checks[]" value="Eggs" {{check_list.1}}></p></div>
                                                 <div class="col-sm">Tree Nuts<p><input type="checkbox" name="a_checks[]" value="Tree Nuts" {{check_list.2}}></p></div>
                                                 <div class="col-sm">Wheat<p><input type="checkbox" name="a_checks[]" value="Wheat" {{check_list.3}}></p></div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-sm">Peanuts<p><input type="checkbox" name="a_checks[]" value="Peanuts" {{check_list.4}}></p></div>
                                                 <div class="col-sm">Soy<p><input type="checkbox" name="a_checks[]" value="Soy" {{check_list.5}}></p></div>
                                                 <div class="col-sm">Fish<p><input type="checkbox" name="a_checks[]" value="Fish" {{check_list.6}}></p></div>
@@ -389,6 +404,8 @@
                     document.getElementById("login").setAttribute("href", "/profile");
                     var elem = document.getElementById('logout');
                     $(elem).show();
+
+
                     tabcontent = document.getElementsByClassName("tabcontent");
                     $(tabcontent).hide();
 
@@ -419,6 +436,11 @@
                     document.getElementById("defaultOpen").click();
                    
                     
+
+                  //   function selectElement(id, valueToSelect) {    
+                   //      let element = document.getElementById(id);
+                   //      element.value = valueToSelect;
+                   //  }
                 </script>     
                    
             </main>
