@@ -33,5 +33,9 @@ def browseLocationView(request):
         restaurants = target.view_AllRestaurants()
         RestaurantName ="Carl's JR"
         menuItems = menuIt.viewMenu(1)
-        context = {'response': "",'restaurants':restaurants,'menuitems':menuItems,'RestaurantName':RestaurantName}
+        if 'name' in request.session:
+            userInfo = request.session["name"]
+        else:
+            userInfo = ""
+        context = {'response': "",'restaurants':restaurants,'menuitems':menuItems,'RestaurantName':RestaurantName,'username':userInfo}
         return render(request,'locations.html',context)

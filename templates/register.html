@@ -14,7 +14,7 @@
                     <form class="form-group" method="POST">
                         {% csrf_token %}
                         {% if alert_flag %}
-                        <script>alert("{{response}}")</script>  
+                        <script>window.alert("{{response}}")</script>  
                         {% endif %}
                         <p style="color:white">{{response}}</p>
                         <div class="row">

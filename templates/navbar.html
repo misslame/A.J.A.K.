@@ -24,13 +24,28 @@
                         <button type="button" style="font-size: 30px;" class="btn btn-primary btn-lock btn-block">Logout</button>
                     </div>
                 {% else %}
-                    <a class="nav-link" id="login" href="/login"> Login</a>
+                    <a class="nav-link" id="login" href="/login" data-js-vars="{{ username }}"> Login</a>
                 {% endif %}
             </li>
             <li class = "nav-item">
                 <a class="nav-link" style="display: none"  id="logout"  href="/logout">Logout</a>
             </li>
         </ul>
+        <script>
+            function my_code(){
+            var my_name = document.getElementById("login").getAttribute('data-js-vars');  
+            if (my_name == null) {
+             // do something 
+                 document.getElementById("home").innerHTML = "Dashboard";
+                 document.getElementById("home").setAttribute("href", "/dashboard");
+                 document.getElementById("login").innerHTML = user;
+                 document.getElementById("login").setAttribute("href", "/profile");
+                 var elem = document.getElementById('logout');
+            }
+            }
+            window.onload = my_code;
+          </script>
     </div>  
 </div>
 </nav>
+

@@ -100,6 +100,22 @@
         function closeForm() {
           document.getElementById("restaurantPopup").style.display = "none";
         }
+
+        var username = document.getElementById("login").getAttribute('data-js-vars');  
+            if (username != "") {
+             // do something 
+                 document.getElementById("home").innerHTML = "Dashboard";
+                 document.getElementById("home").setAttribute("href", "/dashboard");
+                 document.getElementById("login").innerHTML = username;
+                 document.getElementById("login").setAttribute("href", "/profile");
+                 var elem = document.getElementById('logout');
+                 $(elem).show();
+
+            }
+            else{
+                var elem = document.getElementById('logout');
+                 $(elem).hide();
+            }
     </script>
 </body>                
 {% endblock %}
