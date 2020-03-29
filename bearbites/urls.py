@@ -2,7 +2,8 @@ from django.urls import path, include
 from django.contrib  import admin
 from . import views
 from customer import views as account_views
-
+from restaurant import views as restaurant_views
+from menu import views as menu_views
 
 
 urlpatterns = [
@@ -16,5 +17,6 @@ urlpatterns = [
     path('profile/EditProfile/',account_views.editProfile,name="edit profile"),
     path('profile/EditAddresses/',account_views.editAddress,name="edit address"),
     path('profile/Addresses/',account_views.loadProfile,name="Addresses"),
-
+    path('locations/', restaurant_views.browseLocationView,name="locations"),
+    path('locations/menu',menu_views.openMenuView,name="Menu")
 ]
