@@ -6,6 +6,7 @@ from bearbites.models import Account
 # Create your views here.
 
 def browseLocationView(request):
+
     if request.method == 'POST':
         target = Restaurant()
         target.zipQuery.clear()
@@ -25,5 +26,8 @@ def browseLocationView(request):
             context = target.searchZipCode()
         return render(request,'locations.html',context)
     else:
-        context = {'response': ""}
+        target = Restaurant()
+        restaurants = target.view_AllRestaurants()
+        context = {'response': "",'restaurants':restaurants}
+        
         return render(request,'locations.html',context)

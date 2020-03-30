@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from bearbites._con import get_database,get_password,get_server,get_username
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,7 +41,7 @@ INSTALLED_APPS = [
     'bearbites',
     'customer',
     'restaurant',
-    'menu',
+    'menu'
 ]
 CRISPY_TEMPLATE_PACK =  'bootstrap4'
 MIDDLEWARE = [
@@ -79,10 +80,24 @@ WSGI_APPLICATION = 'web_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': get_database(),
+        'USER': get_username(),
+        'PASSWORD': get_password(),
+        'HOST': get_server(),
+        'PORT': '1433',
+        'OPTIONS':{
+            'driver': 'ODBC Driver 17 for SQL Server',
+        }
+
+    }
+}
 
 
 
-# Password validation
+
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -118,7 +133,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-#DataFlair #Django #Static files
+
 
 #--------------------------------------------------
 STATIC_ROOT = os.path.abspath(SETTINGS_PATH+'/bearbites/static/')
@@ -136,4 +151,4 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
-)
+) 

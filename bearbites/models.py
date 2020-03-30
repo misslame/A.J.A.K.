@@ -5,6 +5,9 @@ from django.db import connection
 from bearbites._con import getConnection
 from bearbites._con import dictfetchall
 
+cust_id = 0
+acct = 0
+
 
 class Account(models.Model):
     email = []
@@ -36,7 +39,6 @@ class Account(models.Model):
 
     def get_accountID(self):
         return self.accountID[0]
-
 
     def get_customerID(self):
         return self.customerID[0]
@@ -210,6 +212,7 @@ class Account(models.Model):
         cursor2.close()
         cnxn.close()
         del cnxn
+        print(user[0])
         return user[0]
 
     def addAddress(self):
@@ -243,7 +246,17 @@ class Account(models.Model):
             response = "An Error Occured Updating The Address"
 
         return response
-    
+
+    def checkEmailExists(self, email):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        cursor.execute("select UserID  from UserAccount where Email= '{}';".format(email))
+        rows = cursor.fetchall()
+        if len(rows)==0:
+            return False
+        else:
+            return True #return True if an account exsists with that email 
+
     def view_userAddresses(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()

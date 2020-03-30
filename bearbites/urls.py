@@ -10,13 +10,19 @@ urlpatterns = [
     path('', views.indexView,name = "home"),
     path('dashboard/',views.dashboardView,name="dashboard"),
     path('login/',views.loginView,name="login"),
+    path('logout/',views.logout,name="logout"),
     path('register/',views.registerView,name="register_url"),
+    
+    # Customer Profile Page:
     path('profile/DietaryPreferences/',account_views.customerPreference,name="addPreference_url"),
     path('profile/DietaryRestrictions/',account_views.customerAllergy,name="addAllergy_url"),
     path('profile/',account_views.loadProfile,name="profile"),
-    path('profile/EditProfile/',account_views.editProfile,name="edit profile"),
-    path('profile/EditAddresses/',account_views.editAddress,name="edit address"),
-    path('profile/Addresses/',account_views.loadProfile,name="Addresses"),
+    path('profile/EditProfile/',account_views.editProfile,name="profile"),
+    path('profile/EditAddresses/',account_views.editAddress,name="profile"),
+    path('profile/Addresses/',account_views.loadProfile,name="profile"),
+    
+    # Browse locations Page
     path('locations/', restaurant_views.browseLocationView,name="locations"),
-    path('locations/menu',menu_views.openMenuView,name="Menu")
+    path('locations/menu',menu_views.openMenuView,name="Menu"),
+
 ]
