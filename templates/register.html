@@ -14,7 +14,7 @@
                     <form class="form-group" method="POST">
                         {% csrf_token %}
                         {% if alert_flag %}
-                        <script>alert("{{response}}")</script>  
+                        <script>window.alert("{{response}}")</script>  
                         {% endif %}
                         <p style="color:white">{{response}}</p>
                         <div class="row">
@@ -35,8 +35,8 @@
                         </div>
                         </br>
                         <label>E-mail</label>
-                        <input style="font-family: sans-seriff;" type="email" name="email" class="form-control" placeholder="Enter your e-mail...">
-                        <p>{{check_fields.1}}</p>
+                        <input style="font-family: sans-seriff;" type="email" name="email" class="form-control" value ="{{form_fields.3}}" placeholder="Enter your e-mail...">
+                        <p style="color:white">{{check_fields.1}}</p>
                         </br></br>
                         
                         <h2 style="color: #fff;">Address</h2>
@@ -131,6 +131,7 @@
                                 <input style="font-family: sans-seriff;" type="password" name="rpassword" class="form-control" value ="{{form_fields.5}}" placeholder="Retype password...">
                             </div>
                             <p style="color:white">{{check_fields.0}}</p> 
+                            </br>
                             <p style="color:white">{{check_fields.2}}</p> 
                         </div>
                         </br>
@@ -142,12 +143,11 @@
                         </br></br>
                         <input type="checkbox" id="termcond" name="termcond">
                         <label for="termcond"> I have read and agree to the <a href="{% static 'brand/terms&conditions.txt' %}" download> Terms & Conditions</a></label>
-                       
+                        <p style="color:white">{{check_fields.3}}</p> 
                         </br></br>
                         
                         <input style="font-size:30px;" type="submit" name="submit" value="submit" class="btn btn-primary btn-lock btn-block">
                         </br></br>
-                        <p style="color:white">{{response}}</p>
                     </form>
                 </div>
             </div>

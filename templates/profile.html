@@ -1,7 +1,6 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content %}
-
 <body style = "background-image: url({% static 'images/background1.2.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
     <div class="container-fluid">
         <div class="row flex-nowrap wrapper">
@@ -26,15 +25,15 @@
                         var i;
 
                         for (i = 0; i < dropdown.length; i++) {
-                          dropdown[i].addEventListener("click", function() {
-                              this.classList.toggle("active");
-                              var dropdownContent = this.nextElementSibling;
-                              if (dropdownContent.style.display === "block") {
-                                dropdownContent.style.display = "none";
-                              } else {
-                                dropdownContent.style.display = "block";
-                              }
-                          });
+                            dropdown[i].addEventListener("click", function() {
+                                this.classList.toggle("active");
+                                var dropdownContent = this.nextElementSibling;
+                                if (dropdownContent.style.display === "block") {
+                                    dropdownContent.style.display = "none";
+                                } else {
+                                    dropdownContent.style.display = "block";
+                                }
+                            });
                         }
                     
                     </script>
@@ -52,17 +51,16 @@
                             <!-- PROFILE INFORMATION -->
                             <div id="Profile" class="tabcontent">
                                 <div class="container">
-
-                                        <h1>User Profile</h1>
-                                        {% for user in users %}
-                                            <p>First Name: {{user.FirstName}}</p>
-                                            <p>Last Name: {{user.LastName}}</p>
-                                            <p>Phone Number: {{user.Phone}}</p>
-                                            <p>E-mail: {{user.Email}}</p>
-                                        {% endfor %}
-                                    <div class="row">
-                                        <button class = "btn" onclick="openPage('EditProfile', this)">Edit</button>
-                                    </div>
+                                    <h1>User Profile</h1>
+                                    {% for user in users %}
+                                        <p style="display: inline-block;">First Name: <p style="display: inline-block;" id="First">{{user.FirstName}}</p></p>
+                                        <p style="display: inline-block;">Last Name: <p style="display: inline-block;" id="Last">{{user.LastName}}</p></p>
+                                        <p>Phone Number: {{user.Phone}}</p>
+                                        <p>E-mail: {{user.Email}}</p>
+                                        <div class="row">
+                                            <button class = "btn" onclick="openPage('EditProfile', this)">Edit</button>
+                                        </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                             
@@ -72,11 +70,9 @@
                                 <div class="container">
                                     <form action="" method="POST">
                                         {% csrf_token %}
-                                        <div class="row">
-                                            <h1>Edit User Profile</h1>
-                                            {% for user in users %}
-                                        </div>
                                         
+                                        <h1>Edit User Profile</h1>
+                                        {% for user in users %}
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">First Name: </label>
                                             <input type="text" name="firstname" value ="{{user.FirstName}}"></input>
@@ -111,17 +107,15 @@
                                     <h1>Addresses</h1>
                                     
                                     {% for address in addresses %}
-                                        {% ifchanged address.street %}
-                                            <p>Street:{{address.street}}</p>
-                                            <p>Apt Number:{{address.apt}}</p>
-                                            <p>City: {{address.city}}</p>
-                                            <p>State: {{address.state}}</p>
-                                            <p>Zip: {{address.zip}}</p>
-                                        {% endifchanged %}
+                                    <p>Street:{{address.street}}</p>
+                                    <p>Apt Number:{{address.apt}}</p>
+                                    <p>City: {{address.city}}</p>
+                                    <p>State: {{address.state}}</p>
+                                    <p>Zip: {{address.zip}}</p>
                                     {% endfor %}
                                     
                                     <div class="row">
-                                        <button class = "btn" onclick="openPage('EditAddresses', this)">Edit</button>
+                                        <button class = "btn" onclick="openPage('EditAddresses', this);">Edit</button>
                                     </div>
                                 </div>
                             </div>
@@ -131,13 +125,10 @@
                                 <div class="container">
                                     <form action="" method="POST">
                                         {% csrf_token %}
-                                        <div class="row">
-                                            <h1>Edit Addresses</h1>
                                         
-                                            {% for address in addresses %}
-                                            {% ifchanged address.street %}
-                                        </div>
+                                        <h1>Edit Addresses</h1>
                                         
+                                        {% for address in addresses %}
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">Street: </label>
                                             <input type="text" name="street" value ="{{address.street}}"></input>
@@ -156,7 +147,7 @@
                                         <!-- STATE DROPDOWN -->
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">State: </label>
-                                            <select class="form-control text={{address.state}}"  name="state"  style="font-family: Bearskin;" value="{{address.state}}">
+                                            <select class="form-control" id="stateselect" value="{{address.state}}"  name="state"  style="font-family: sans-seriff;" value="{{address.state}}">
                                                 <option value="AL">Alabama</option>
                                                 <option value="AK">Alaska</option>
                                                 <option value="AZ">Arizona</option>
@@ -215,7 +206,7 @@
                                             <label style="color: black; font-family: Bearskin">Zip Code: </label>
                                             <input type="text" name="zip" value="{{address.zip}}"></input>
                                         </div>
-                                        {% endifchanged %}
+                                        
                                         {% endfor %}
                                         
                                         <div class="row">
@@ -237,23 +228,23 @@
                                         <h1>Classification</h1>
                                         <div class="row">
                                                 <div class="col-sm">Diabetic<p><input type="checkbox" name="p_checks[]" value="Diabetic" {{p_check_list.0}}></p></div>
-                                                <div class="col-sm">Gluten-Free<p><input type="checkbox" name="p_checks[]" value="Gluten-free" {{p_check_list.1}}></p></div>
+                                                <div class="col-sm">Gluten-Free<p><input type="checkbox" name="p_checks[]" value="Gluten-Free" {{p_check_list.1}}></p></div>
                                                 <div class="col-sm">Vegetarian<p><input type="checkbox" name="p_checks[]" value="Vegetarian" {{p_check_list.2}}></p></div>
-                                        </div>
-                                        <div class="row">
+                                            </div>
+                                            <div class="row"> 
                                                 <div class="col-sm">Vegan<p><input type="checkbox" name="p_checks[]" value="Vegan" {{p_check_list.3}}></p></div>
                                                 <div class="col-sm">Pescetarian<p><input type="checkbox" name="p_checks[]" value="Pescetarian" {{p_check_list.4}}></p></div>
                                                 <div class="col-sm">Kosher<p><input type="checkbox" name="p_checks[]" value="Kosher" {{p_check_list.5}}></p></div>
                                                 
                                         </div>
-                                        <br></br>
+                                        
                                         <h1>Diet</h1>
                                         <div class="row">
                                                 <div class="col-sm">Paleo<p><input type="checkbox" name="p_checks[]" value="Paleo Diet" {{p_check_list.6}}></p></div>
                                                 <div class="col-sm">Mediterranean<p><input type="checkbox" name="p_checks[]" value="Mediterranean Diet" {{p_check_list.7}}></p></div>
                                                 <div class="col-sm">Keto<p><input type="checkbox" name="p_checks[]" value="Keto Diet" {{p_check_list.8}}></p></div>
-                                        </div>
-                                        <div class="row">
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-sm">High Protein<p><input type="checkbox" name="p_checks[]" value="High Protein" {{p_check_list.9}}></p></div>
                                                 <div class="col-sm">Low Carb<p><input type="checkbox" name="p_checks[]" value="Low Carb" {{p_check_list.10}}></p></div>
                                                 <div class="col-sm">Low Fat<p><input type="checkbox" name="p_checks[]" value="Low Fat" {{p_check_list.11}}></p></div>
@@ -265,12 +256,12 @@
                                                 <div class="col-sm">Fast Food<p><input type="checkbox" name="p_checks[]" value="Fast Food" {{p_check_list.12}}></p></div>
                                                 <div class="col-sm">Street Food<p><input type="checkbox" name="p_checks[]" value="Street Food" {{p_check_list.13}}></p></div>
                                                 <div class="col-sm">Fresh Food<p><input type="checkbox" name="p_checks[]" value="Fresh Food" {{p_check_list.14}}></p></div>
-                                        </div>
-                                        <div class="row">
-                                                <div class="col-sm">Raw Food<p><input type="checkbox" name="p_checks[]" value="Raw Food" {{p_check_list.11}}></p></div>
-                                                <div class="col-sm">Seafood<p><input type="checkbox" name="p_checks[]" value="Seafood" {{p_check_list.15}}></p></div>
-                                                <div class="col-sm">Gourmet<p><input type="checkbox" name="p_checks[]" value="Gourmet" {{p_check_list.16}}></p></div>
-                                        </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm">Raw Food<p><input type="checkbox" name="p_checks[]" value="Raw Food" {{p_check_list.15}}></p></div>
+                                                <div class="col-sm">Seafood<p><input type="checkbox" name="p_checks[]" value="Seafood" {{p_check_list.16}}></p></div>
+                                                <div class="col-sm"></div>
+                                            </div>
                                         <br></br>
                                         
                                         <h1>Health</h1>
@@ -278,8 +269,8 @@
                                                 <div class="col-sm">Sugar-Free<p><input type="checkbox" name="p_checks[]" value="Sugar-Free" {{p_check_list.17}}></p></div>
                                                 <div class="col-sm">Low-Sodium<p><input type="checkbox" name="p_checks[]" value="Low-Sodium" {{p_check_list.18}}></p></div>
                                                 <div class="col-sm">Low-Cholesterol<p><input type="checkbox" name="p_checks[]" value="Low-Cholesterol" {{p_check_list.19}}></p></div>
-                                        </div>
-                                        <div class="row">
+                                            </div>
+                                            <div class="row">  
                                                 <div class="col-sm">Organic<p><input type="checkbox" name="p_checks[]" value="Organic" {{p_check_list.20}}></p></div>
                                                 <div class="col-sm">Non-GMO<p><input type="checkbox" name="p_checks[]" value="Non-GMO" {{p_check_list.21}}></p></div>
                                                 <div class="col-sm"></div>
@@ -292,13 +283,13 @@
                                                 <div class="col-sm">African<p><input type="checkbox" name="p_checks[]" value="African" {{p_check_list.23}}></p></div>
                                                 <div class="col-sm">American<p><input type="checkbox" name="p_checks[]" value="American" {{p_check_list.24}}></p></div>
                                                 <div class="col-sm">Latin<p><input type="checkbox" name="p_checks[]" value="Latin" {{p_check_list.25}}></p></div>
-                                        </div>
-                                        <div class="row">
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-sm">European<p><input type="checkbox" name="p_checks[]" value="European" {{p_check_list.26}}></p></div>
                                                 <div class="col-sm">Middle Eastern<p><input type="checkbox" name="p_checks[]" value="Middle Eastern" {{p_check_list.27}}></p></div>
                                                 <div class="col-sm">Pacific<p><input type="checkbox" name="p_checks[]" value="Pacific" {{p_check_list.28}}></p></div>
                                                 <div class="col-sm"></div>
-                                        </div>
+                                            </div>
                                         <input type="submit" value="Update">
                                     </form>
                                 </div>    
@@ -337,15 +328,11 @@
                             <!-- FAVORITES INFORMATION -->
                             <div id="Favorites" class="tabcontent">
                                 <div class="container">
-                                    <h1>Favorite Restaurants</h1>
-                                    <p>Restaurants:</p>
-                                    {% for favorite in favorites%}
-                                    {% ifchanged favorite%}
+                                    <h1>Favorite Resturants</h1>
+                                    <p>Resturants:</p>
                                     <ul>
                                         <li>{{favorites}}</li>
                                     </ul>
-                                    {% endifchanged %}
-                                    {% endfor %}
                                     <div class="row">
                                         <button class = "btn" onclick="openPage('EditFavorites', this)">Edit</button>
                                     </div>
@@ -356,26 +343,19 @@
                             <div id="EditFavorites" class="tabcontent">
                                 <div class="container">
                                     <form>
+                                        <h1>Edit Favorites:</h1>
                                         <div class="row">
-                                            <h1>Edit Favorites:</h1>
+                                            <p>Resturants: </p>
                                         </div>
-                                        <div class="row">
-                                            <p>Restaurants: </p>
-                                        </div>
-                                        {% for restaurant in favorites %}
+                                        
                                         <div class="row">
                                             <ul style="list-style-type:none;">
-                                                <li><button id="deleteFavorite">Delete</button> {{favorites}} restaurantName</li>
+                                                <li><button id="deleteFavorite">View</button> {{favorites}} resturantName</li>
                                             </ul>
                                         </div>
-                                        {% endfor %}
-
+                                        
                                         <div class="row">
-                                                <label style="color: black; font-family: Bearskin">Restaurant Name: </label>
-                                                <input type="text" name="restaurantName" value ="{{favorites}}"></input>
-                                            </div>
-                                        <div class="row">
-                                            <input type="submit" value="Submit">
+                                            <input type="submit" value="Back">
                                         </div>
                                     </form>
                                 </div>
@@ -386,36 +366,74 @@
                                 <div class="container">
                                     <h1>Order History</h1>
                                     <p>Orders:</p>
-                                    {% for order in orderHistory%}
                                     <ul>
                                         <li>{{orderHistory}}</li>
                                     </ul>
-                                    {% endfor %}
+                                    <div class="row">
+                                        <button class = "btn" onclick="openPage('EditOrderHistory', this)">Edit</button>
+                                    </div>
                                 </div>
                             </div>
-
+                            
+                            <!-- ORDER HISTORY INFORMATION EDIT -->
+                            <div id="EditOrderHistory" class="tabcontent">
+                                <div class="container">
+                                    <form>
+                                        <h1>Edit Orders:</h1>
+                                        <div class="row">
+                                            <ul style="list-style-type:none;">
+                                                <li><button id="editOrder">Edit</button> {{orderHistory}} orderName</li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <input type="submit" value="Back">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <script>
-                
+                    /* Update menu for user */
+                    var user = document.getElementById("First").innerHTML +" "+ document.getElementById("Last").innerHTML;
+                    document.getElementById("home").innerHTML = "Dashboard";
+                    document.getElementById("home").setAttribute("href", "/dashboard");
+                    document.getElementById("login").innerHTML = user;
+                    document.getElementById("login").setAttribute("href", "/profile");
+                    var elem = document.getElementById('logout');
+                    $(elem).show();
+
+
+                    tabcontent = document.getElementsByClassName("tabcontent");
+                    $(tabcontent).hide();
+
+
                     /* TAB CONTENT */
                     function openPage(pageName,element) {
-                        var i, tabcontent, tablinks;
-                        
-                        tabcontent = document.getElementsByClassName("tabcontent");
-                        
-                        for (i = 0; i < tabcontent.length; i++) {
-                            tabcontent[i].style.display = "none";
-                        }
-                        
-                        tablinks = document.getElementsByClassName("tablink");
-                        document.getElementById(pageName).style.display = "block";
-                    }
 
-                    /* Get the element with id="defaultOpen" and click on it */
-                    document.getElementById("defaultOpen").click();
+                        if(pageName != "Profile"){
+                            var orgurl = window.location.protocol + "/" + window.location.host +"/profile"
+                            var newurl = "/profile/"+pageName +"/";
+                            window.history.pushState({path:orgurl},'',newurl);
+                        }else{
+                            window.history.pushState({path:orgurl},'',"/profile/");
+                        }
+                        var i, tabcontent, tablinks;
+                        tabcontent = document.getElementsByClassName("tabcontent");
+
+                        $(tabcontent).hide();
+
+                        tablinks = document.getElementsByClassName("tablink");
+                        var pickedElem = document.getElementById(pageName);
+                        $(pickedElem).show();
+                      
+                    }
                     
+                    // Get the element with id="defaultOpen" and click on it
+                    document.getElementById("defaultOpen").click();
+                   
                 </script>     
                    
             </main>
@@ -423,4 +441,3 @@
     </div>    
 </body>
 {% endblock %}
-
