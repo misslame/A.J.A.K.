@@ -1,6 +1,7 @@
 import re
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
+from django.http import JsonResponse
 from .models import Account
 from customer.views import loadAllergies, loadPreferences
 from customer.models import Customer
@@ -17,25 +18,44 @@ def indexView(request):
 def dashboardView(request):
     return render(request,'index.html')
 
+
 def registerView(request):
-    if request.method == 'POST': # If the form has been submitted...
+    if request.method == 'POST': # If the form has been submitted..
         valid = 0
         checkFields = []
+        formFields = [] #save form fields
+        formFields.append(request.POST.get('firstname'))
+        formFields.append(request.POST.get('lastname'))
+        formFields.append(request.POST.get('phonenumber'))
+        formFields.append(request.POST.get('email'))
+        formFields.append(request.POST.get('password'))
+        formFields.append(request.POST.get('rpassword'))
+        formFields.append(request.POST.get('aptNum'))
+        formFields.append(request.POST.get('street'))
+        formFields.append(request.POST.get('city'))
+        formFields.append(request.POST.get('state'))
+        formFields.append(request.POST.get('zip'))
+
         pas = request.POST.get('password')
         pas_c = request.POST.get('rpassword')
         email = request.POST.get('email')
-        if pas == pas_c: #verify that both password and cormirmation field match
+        if pas == pas_c: #verify that both password and confirmation field match
             valid = 1
             checkFields.append(" ")
         else:
             checkFields.append("Passwords do not match")
         regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+        
+        obj = Account()
         if (re.search(regex,email)):
-            valid += 1
-            checkFields.append(" ")
+            if obj.checkEmailExists(email)== False:
+                valid += 1
+                checkFields.append(" ")
+            else:
+                checkFields.append("An account with this email exsists already")   
         else:
-            checkFields.append("Invalid Email Address")
-        rules = [  #check that password has an upper and lower case letter as well as a number and min length
+            checkFields.append("Invalid Email Address please enter a valid email")
+        rules = [  #check that password has an upper and lower case letter as well as an number and 
         lambda pas: any(x.isupper() for x in pas) or 'upper',
         lambda pas: any(x.islower() for x in pas) or 'lower',
         lambda pas: any(x.isdigit() for x in pas) or 'digit',
@@ -48,7 +68,6 @@ def registerView(request):
         else:
             checkFields.append("Password does not meet security requirements")
         if valid == 3:
-            obj = Account()
             obj.email.clear()
             obj.password.clear()
             obj.email.append(request.POST.get('email'))
@@ -74,28 +93,35 @@ def registerView(request):
             obj.set_accountID(int(user))
             obj.addAddress()
             response = obj.addCustomer()
-            context = {'response': response}
+            context = {'response': response, 'alert_flag': True}
+            
             return render(request,'register.html', context)
         else:
-            context = {'check_fields': checkFields}
-            return render(request,'register.html', context)
+            response = "There was an error creating the account. Please see the fields below."
+            context = {'response': response,'check_fields': checkFields,'form_fields': formFields, 'alert_flag': True}
+
+            return render(request,'register.html',context)
     else :
         context = {'response': ""}
         return render(request,'register.html',context)
 
+
 def loginView(request):
+    
     if request.method == 'POST': # If the form has been submitted...
-        
         obj = Account()
         obj.email.clear()
         obj.password.clear()
         obj.userAuthenticated.clear()
-        obj.email.append(request.POST.get('email'))
-        obj.password.append(request.POST.get('password'))
+        email = request.POST.get('email')
+        obj.email.append(email)
+        passw =obj.password.append(request.POST.get('password'))
         row = obj.getUserAccount()
         print (row)
         if len(row) >0:
             user = obj.authenticateUser()
+            request.session["user"] = email
+            request.session["password"] = passw
             obj.userAuthenticated.append("TRUE")
             obj.accountID.append(int(user[0]))
             obj.customerID.append(int(user[1]))
@@ -108,8 +134,6 @@ def loginView(request):
             preferences = loadPreferences()
             user_info = obj.getUserAccount()
             address_info = obj.getUserAddress()
-            print(user_info)
-            print(obj.get_accountID())
             return render(request,'profile.html',{'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
         else:
             response = "Invalid Credentials, please try again!"
@@ -117,6 +141,19 @@ def loginView(request):
             context = {'response': response}
             return render(request,'login.html',context)
     context = {'response': ""}
+    return render(request,'login.html',context)
+
+
+def logout(request):
+    del request.session["user"]
+    del request.session["password"]
+    obj = Account()
+    obj.email.clear()
+    obj.password.clear()
+    obj.userAuthenticated.clear()
+    obj.userAuthenticated.append("False")
+    response ="You have been logged out"
+    context = {'response': response, 'alert_flag': True}
     return render(request,'login.html',context)
 
 def profileView(request):
