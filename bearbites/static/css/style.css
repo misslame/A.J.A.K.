@@ -5,6 +5,10 @@
     src: url(Bearskin.otf);
     
 }
+@font-face{
+    font-family:Mono;
+    src: url(monof.ttf);
+}
 
 html, body{
     font-family: Bearskin;
@@ -180,6 +184,7 @@ html, body{
     color: #fff;
     font-family: sans-seriff;
 }
+
 
 /*  END PROFILE CSS */ 
 
