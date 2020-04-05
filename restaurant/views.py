@@ -7,8 +7,7 @@ from menu.models import Menu, MenuItem
 # Create your views here.
 
 def browseLocationView(request):
-    
-    
+
     if request.method == 'POST':
         target = Restaurant()
         target.zipQuery.clear()

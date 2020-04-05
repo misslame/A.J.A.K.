@@ -146,7 +146,6 @@ def loginView(request):
     return render(request,'login.html',context)
 
 
-
 def logout(request):
     try:
         del request.session["user"]

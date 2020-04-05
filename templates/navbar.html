@@ -1,3 +1,5 @@
+
+  
 {% load static %}
 
 <nav id="men" style="z-index: 1;" class="navbar navbar-expand-md navbar-light bg-light sticky-top navbar-fixed-top">
@@ -33,19 +35,18 @@
         </ul>
         <script>
             function my_code(){
-            var my_name = document.getElementById("login").getAttribute('data-js-vars');  
-            if (my_name == null) {
-             // do something 
-                 document.getElementById("home").innerHTML = "Dashboard";
-                 document.getElementById("home").setAttribute("href", "/dashboard");
-                 document.getElementById("login").innerHTML = user;
-                 document.getElementById("login").setAttribute("href", "/profile");
-                 var elem = document.getElementById('logout');
-            }
+                var my_name = document.getElementById("login").getAttribute('data-js-vars');  
+                if (my_name == null) {
+                 // do something 
+                     document.getElementById("home").innerHTML = "Dashboard";
+                     document.getElementById("home").setAttribute("href", "/dashboard");
+                     document.getElementById("login").innerHTML = user;
+                     document.getElementById("login").setAttribute("href", "/profile");
+                     var elem = document.getElementById('logout');
+                }
             }
             window.onload = my_code;
-          </script>
+        </script>
     </div>  
 </div>
 </nav>
-

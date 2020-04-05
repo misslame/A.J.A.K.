@@ -35,7 +35,14 @@ class Account(models.Model):
         return self.userAuthenticated
 
     def get_accountID(self):
+<<<<<<< HEAD
         return self.accountID
+=======
+        return self.accountID[0]
+
+    def get_customerID(self):
+        return self.customerID[0]
+>>>>>>> e88ed2e2e036e4aa9ead613012c8ac69b80fe27b
 
     def set_accountID( self, usr):
         self.accountID = usr
@@ -142,6 +149,25 @@ class Account(models.Model):
         del cnxn
         return user
 
+<<<<<<< HEAD
+=======
+    def addCustomer(self):
+        try:
+            cnxn = getConnection() 
+            cursor = cnxn.cursor()
+            cursor.execute("INSERT INTO Customer (UserID) VALUES  ({});".format(self.account))
+            cnxn.commit()
+            cursor.close()
+            cnxn.close()
+            del cnxn
+            response = "Account was created, please login"
+        except:
+            response = "An Error Ocurred While Creating Account, Please Try Again"
+        return response
+
+
+
+>>>>>>> e88ed2e2e036e4aa9ead613012c8ac69b80fe27b
     def view_users(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()
@@ -228,9 +254,8 @@ class Account(models.Model):
             response = "An Error Occured Updating The Address"
 
         return response
-    
-    def checkEmailExists(self, email):
 
+    def checkEmailExists(self, email):
         cnxn = getConnection()
         cursor = cnxn.cursor()
         cursor.execute("select UserID  from UserAccount where Email= '{}';".format(email))

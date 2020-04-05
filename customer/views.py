@@ -183,16 +183,29 @@ def customerAllergy(request):
                 if removed == 0:
                     obj.set_allergy(user_a)
                     obj.removeAllergy()
+<<<<<<< HEAD
             user_info = obj.getUserAccount()
             address_info = obj.getUserAddress()
+=======
+
+            user_info = obj3.getUserAccount()
+            address_info = obj3.getUserAddress()
+>>>>>>> e88ed2e2e036e4aa9ead613012c8ac69b80fe27b
             response = "Allergies are up-to-date" 
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
             context = {'response': response, 'check_list': allergies ,'p_check_list': preferences, 'users': user_info,'addresses': address_info }
             return render(request, 'profile.html', context) # Redirect after POST
         else:
+<<<<<<< HEAD
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
+=======
+            allergies = loadAllergies()
+            preferences = loadPreferences()
+
+            obj = Account()
+>>>>>>> e88ed2e2e036e4aa9ead613012c8ac69b80fe27b
             user_info = obj.getUserAccount()
             address_info = obj.getUserAddress()
             return render(request, 'profile.html', {'check_list': allergies, 'p_check_list': preferences, 'users': user_info,'addresses': address_info }) # Redirect 
@@ -239,6 +252,7 @@ def customerPreference(request):
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
             context = {'response': response, 'check_list': allergies ,'p_check_list': preferences, 'users': user_info,'addresses': address_info}
+            
             return render(request, 'profile.html', context) # Redirect after POST
         else:
             allergies = loadAllergies(request)

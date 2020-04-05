@@ -25,15 +25,15 @@
                         var i;
 
                         for (i = 0; i < dropdown.length; i++) {
-                          dropdown[i].addEventListener("click", function() {
-                              this.classList.toggle("active");
-                              var dropdownContent = this.nextElementSibling;
-                              if (dropdownContent.style.display === "block") {
-                                dropdownContent.style.display = "none";
-                              } else {
-                                dropdownContent.style.display = "block";
-                              }
-                          });
+                            dropdown[i].addEventListener("click", function() {
+                                this.classList.toggle("active");
+                                var dropdownContent = this.nextElementSibling;
+                                if (dropdownContent.style.display === "block") {
+                                    dropdownContent.style.display = "none";
+                                } else {
+                                    dropdownContent.style.display = "block";
+                                }
+                            });
                         }
                     
                     </script>
@@ -413,19 +413,18 @@
                     /* TAB CONTENT */
                     function openPage(pageName,element) {
 
-                      if(pageName != "Profile"){
-                        var orgurl = window.location.protocol + "/" + window.location.host +"/profile"
-                        var newurl = "/profile/"+pageName +"/";
-                        window.history.pushState({path:orgurl},'',newurl);
-                      }
-                      else{
-                        window.history.pushState({path:orgurl},'',"/profile/");
-                      }
-                      var i, tabcontent, tablinks;
+                        if(pageName != "Profile"){
+                            var orgurl = window.location.protocol + "/" + window.location.host +"/profile"
+                            var newurl = "/profile/"+pageName +"/";
+                            window.history.pushState({path:orgurl},'',newurl);
+                        }else{
+                            window.history.pushState({path:orgurl},'',"/profile/");
+                        }
+                        var i, tabcontent, tablinks;
                         tabcontent = document.getElementsByClassName("tabcontent");
-                        
+
                         $(tabcontent).hide();
-                        
+
                         tablinks = document.getElementsByClassName("tablink");
                         var pickedElem = document.getElementById(pageName);
                         $(pickedElem).show();
@@ -435,12 +434,6 @@
                     // Get the element with id="defaultOpen" and click on it
                     document.getElementById("defaultOpen").click();
                    
-                    
-
-                  //   function selectElement(id, valueToSelect) {    
-                   //      let element = document.getElementById(id);
-                   //      element.value = valueToSelect;
-                   //  }
                 </script>     
                    
             </main>

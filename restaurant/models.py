@@ -139,4 +139,3 @@ class Restaurant(models.Model):
         cnxn = getConnection()
         cursor = cnxn.cursor()
         cursor.execute('EXEC ViewRestaurants;')
-        return dictfetchall(cursor) #return query result into dict 

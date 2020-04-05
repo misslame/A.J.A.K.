@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from bearbites._con import get_database,get_password,get_server,get_username
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -82,10 +83,10 @@ WSGI_APPLICATION = 'web_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'BearBites',
-        'USER': 'ajakad@bearbites',
-        'PASSWORD': 'cs4800BearBites',
-        'HOST': 'bearbites.database.windows.net',
+        'NAME': get_database(),
+        'USER': get_username(),
+        'PASSWORD': get_password(),
+        'HOST': get_server(),
         'PORT': '1433',
         'OPTIONS':{
             'driver': 'ODBC Driver 17 for SQL Server',
