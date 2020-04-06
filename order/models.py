@@ -99,3 +99,9 @@ class OrderHistory(models.Model):
     cartItemID = []
     restaurantID = []
     totalPrice = models.CharField(max_length=128)
+
+    def get_totalPrice(self):
+        return self.totalPrice
+
+    def set_totalPrice(self,total):
+        self.totalPrice = total
