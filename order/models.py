@@ -57,12 +57,41 @@ class Delivery(models.Model):
 
 ## Database Queries
 
+# ---> Insert Database Queries Here <---
+
 class CartItem(models.Model):
     cartItemID = models.IntegerField()
     customerID = []
     itemID = []
     specialInstructions = models.CharField(max_length=128)
     quantity = models.IntegerField()
+
+# Getter Methods
+    def __str__(self):
+        return self.cartItemID
+
+    def get_cartItemID(self):
+        return self.itemID
+
+    def get_specialInstructions(self):
+        return self.specialInstructions
+
+    def get_quantity(self):
+        return self.quantity
+
+# Setter Methods
+    def set_cartItemID(self,num):
+        self.cartItemID = num
+
+    def set_specialInstructions(self,instruction):
+        self.specialInstructions = instruction
+
+    def set_quantity(self,amount):
+        self.quantity = amount
+
+## Database Queries
+
+# ---> Insert Database Queries Here <---
 
 class OrderHistory(models.Model):
     customerID = []
