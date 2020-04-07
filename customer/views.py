@@ -79,7 +79,7 @@ def loadProfile(request):
         print(user_info)
         print(obj.get_accountID())
 
-        return render(request, 'profile.html', {'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
+        return render(request, 'profile.html', {'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info , 'is_authenticated':authenticated})
     else:
         return render(request,'login.html')
 
@@ -109,7 +109,7 @@ def editProfile(request):
             user = acnt.authenticateCustomer()
             name = user[2]
             request.session["name"] = name
-            return render(request, 'profile.html', {'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
+            return render(request, 'profile.html', {'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info,'is_authenticated':authenticated })
         else:
             user_info = acnt.getUserAccount()
             address_info = acnt.getUserAddress()
@@ -141,7 +141,7 @@ def editAddress(request):
             acnt.updateUserAddress("Main")
             user_info = acnt.getUserAccount()
             address_info = acnt.getUserAddress()
-            return render(request, 'profile.html', {'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
+            return render(request, 'profile.html', {'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info,'is_authenticated':authenticated })
         else:
             user_info = acnt.getUserAccount()
             address_info = acnt.getUserAddress()
@@ -183,29 +183,16 @@ def customerAllergy(request):
                 if removed == 0:
                     obj.set_allergy(user_a)
                     obj.removeAllergy()
-<<<<<<< HEAD
             user_info = obj.getUserAccount()
             address_info = obj.getUserAddress()
-=======
-
-            user_info = obj3.getUserAccount()
-            address_info = obj3.getUserAddress()
->>>>>>> e88ed2e2e036e4aa9ead613012c8ac69b80fe27b
             response = "Allergies are up-to-date" 
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
-            context = {'response': response, 'check_list': allergies ,'p_check_list': preferences, 'users': user_info,'addresses': address_info }
+            context = {'response': response, 'check_list': allergies ,'p_check_list': preferences, 'users': user_info,'addresses': address_info, 'is_authenticated':authenticated }
             return render(request, 'profile.html', context) # Redirect after POST
         else:
-<<<<<<< HEAD
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
-=======
-            allergies = loadAllergies()
-            preferences = loadPreferences()
-
-            obj = Account()
->>>>>>> e88ed2e2e036e4aa9ead613012c8ac69b80fe27b
             user_info = obj.getUserAccount()
             address_info = obj.getUserAddress()
             return render(request, 'profile.html', {'check_list': allergies, 'p_check_list': preferences, 'users': user_info,'addresses': address_info }) # Redirect 

@@ -4,6 +4,8 @@ from django.template import Context, loader
 from .models import Restaurant
 from bearbites.models import Account
 from menu.models import Menu, MenuItem
+
+
 # Create your views here.
 
 def browseLocationView(request):
@@ -11,21 +13,34 @@ def browseLocationView(request):
     if request.method == 'POST':
         target = Restaurant()
         target.zipQuery.clear()
-        zip = request.POST.get('search')
-        isInteger = False
+        search = request.POST.get('search')
+       
         try:
-            float(zip)
+            int(search)
         except ValueError:
-            response = "Not a Valid 5-Digit Zip Code. Try Again!"
-            context = {'response': response}
+            if len(search) ==0:
+                restaurants = target.view_AllRestaurants()    
+                context = {'response': "",'restaurants':restaurants}
+                return render(request,'locations.html',context)
+            else:
+                
+                restaurants = target.searchStreetAddressOrName(search)    
+                context = {'response': "",'restaurants':restaurants}
+                return render(request,'locations.html',context)
+        
+        if len(int(search))== 5:
+            menuIt = MenuItem()
+            restaurants = target.searchZipCode(int(search))
+            RestaurantName ="Carl's JR"
+            menuItems = menuIt.viewMenu(1)
+            if 'name' in request.session:
+                userInfo = request.session["name"]
+            else:
+                userInfo = ""
+            context = {'response': "",'restaurants':restaurants,'menuitems':menuItems,'RestaurantName':RestaurantName,'username':userInfo}
             return render(request,'locations.html',context)
-        else:
-            isInteger=float(zip).is_integer()
-        if isInteger == True:
-            zip = int(zip)
-            target.zipQuery.append(zip)
-            context = target.searchZipCode()
-        return render(request,'locations.html',context)
+      
+
     else:
         target = Restaurant()
         menuIt = MenuItem()

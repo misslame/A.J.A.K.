@@ -73,8 +73,7 @@ def registerView(request):
         else:
             checkFields.append("Please accept terms and conditions!")
         if valid == 4:
-            obj.email.append(request.POST.get('email'))
-            obj.password.append(request.POST.get('password'))
+            
             obj.set_firstname(request.POST.get('firstname'))
             obj.set_lastname(request.POST.get('lastname'))
             obj.set_mobile(int(request.POST.get('phonenumber')))
@@ -115,9 +114,12 @@ def loginView(request):
         obj = Customer()
         email = request.POST.get('email')
         password = request.POST.get('password')
-        obj.set_email(email)
-        obj.set_password(password)
-        row = obj.getUserAccount()
+        if len(email)== 0 or len(password)== 0:
+            row = ""
+        else:
+            obj.set_email(email)
+            obj.set_password(password)
+            row = obj.getUserAccount()
         
         print (row)
         if len(row) >0:
@@ -140,7 +142,7 @@ def loginView(request):
         else:
             response = "Invalid Credentials, please try again!"
             obj.set_userAuthenticated(False)
-            context = {'response': response}
+            context = {'response': response, 'alert_flag': True}
             return render(request,'login.html',context)
     context = {'response': ""}
     return render(request,'login.html',context)

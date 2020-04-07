@@ -16,6 +16,9 @@
                     <h1 class="text-center" style="color: #fff; font-family: Bearskin;">Login</h1>
                     <form class="form-group" action="" method="POST">
                         {% csrf_token %}
+                        {% if alert_flag %}
+                        <script>window.alert("{{response}}")</script>  
+                        {% endif %}
                         <label>Email:</label>
                         <input style="font-family: sans-seriff;" type="text" name="email" class="form-control"placeholder=" Enter your email...">
                         </br>
