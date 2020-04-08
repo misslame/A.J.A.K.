@@ -25,96 +25,118 @@
             
             <h1 class="text-center" style="font-family: Bearskin; flex-grow:1;"> Locations: </h1>
             
+            
+            
             <!-- To Do: show restaurant upon clicking it. -->
             <div class = "card-deck" style = "margin:2%; padding-bottom:100px;">
-                <link rel="stylesheet" type="text/css" href="{% static 'css/popup.css' %}">
                 <!--Restaurant List-->
-                <!-- To Do: Only show restaurants that are Open during current hours -->
               
+                <!-- To Do: Only show restaurants that are Open during current hours -->
                 {% for restaurant in restaurants %}
-                    <a class = "col-sm col-md-6 card-block text-decoration-none" href="#" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); max-width: 300px; margin: auto; text-align: center; background-color:#333; border-radius:10px; opacity: 0.9;">
-                            <!-- image of restaurant -->
-                            <img src="{{restaurant.LogoUrl}}"  style="width:100%">
-                            
-                            <!-- restaurant name -->
-                            <h1>{{restaurant.RestaurantName}}</h1>
-                            <p class="title" style = "color:white; font-weight:bold; font-size: 18px;font-family: sans seriff;">{{restaurant.address}}</p>
-                            <!-- availability -->
-                            <p class="title" style = "color:white; font-weight:bold; font-size: 18px;font-family: sans seriff;">Available for Delivery!</p>
-                            
-                            <!-- restaurant item type -->
-                            
-                            <!-- button for ordering from -->
-                            <!-- TO DO: Check if user is logged in first-> if not ask if they want to log in. -->
-                            <p><input onclick="openForm()" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>
-                            <!-- Supposed popup box that shows up when you click on resturant order button-->
-                            
-                        
-                    </a>
+                    <div class= "col-sm">
+                        <br>
+                        <div class="card-block text-decoration-none" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); max-width: 300px; margin: auto; text-align: center; background-color:#333; border-radius:10px; opacity: 0.9; padding:25px;">
+                                
+                                <!-- image of restaurant -->
+                                <div style="width:250px; height:200px; overflow: hidden;">
+                                    <img src="{{restaurant.LogoUrl}}" style="width:350px;">
+                                </div> 
+                                
+                                <!-- restaurant name -->
+                                <h1 style="color:#0094FF;">{{restaurant.RestaurantName}}</h1>
+                                
+                                <p class="title" style = "color:white; font-weight:bold; font-size: 18px;font-family: sans seriff;">{{restaurant.address}}</p>
+                                
+                                <!-- availability -->
+                                <p class="title" style = "color:white; font-weight:bold; font-size: 18px;font-family: sans seriff;">Available for Delivery!</p>
+                                
+                                <!-- restaurant item type -->
+                                
+                                <!-- button for ordering from -->
+                                <!-- TO DO: Check if user is logged in first-> if not ask if they want to log in. -->
+                                <p><input onclick= "" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>
+                                <!-- Supposed popup box that shows up when you click on resturant order button-->
+                                <a data-target="#restaurantPop" href="" data-target="#restaurantPop"></a>
+                        </div>
+                    </div>
                 {% endfor %}
                 
             </div>
             
-            <div id="restaurantPopup" style="z-index:999;">
-                <!-- Popup Div Starts Here -->
-                
-                <div id="popupContact" style="width: 80%;left:20%;">
-                    
-                    <form action="#" id="form" method="post" name="form">
-                        <img id="close" style="width:40px;" src="https://icons.iconarchive.com/icons/custom-icon-design/mono-general-1/512/close-icon.png" onclick ="closeForm()">
-                        <h2>{{RestaurantName}}</h2>
-                        <hr>
-                        <table class="table table-striped" style = "color: white;">
-                            <thead>
-                                <tr>
-                                    <th style = "color: white;">Item</th>
-                                    <th style = "color: white;">Price</th>      
-                                </tr>
-                            </thead>
-                            <tbody>
+            <div class="modal fade" role="dialog" tabindex="-1" id="restaurantPop">
+                <div class =  "modal-dialog modal-lg" role="document" >
+                    <div class = "modal-content">
                         
-                            {% for item in menuitems %}
-                            <tr><td style = "color: white;">{{ item.ItemName }}</td><td style = "color: white;">{{ item.Price }}</td>
-                            </tr>
-                        <!-- End loop through menus here -->
-                        {% endfor %}
-                    </tbody>
-                        </table>
-                    </form>
-                    
+                        <!-- HEADER -->
+                        <div class = "modal-header" style="background-image: url({% static 'images/banner.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
+                            <h2 style="color: #0094FF; border: 5px solid black; padding:10px; background:white;">Restaurant Name</h2> <i class="fa fa-times-circle fa-2x" aria-hidden="true" data-dismiss="modal"></i> 
+                        </div>
+                        
+                        <div class = "modal-body" style="font-size:24px;">
+                            <div class="container">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#menu">Menu</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#about">About</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#reviews">Reviews</a>
+                                    </li>
+                                </ul>
+
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div id="menu" class="container tab-pane active"><br>
+                                        <h3>Menu Tab</h3>
+                                        
+                                        <!-- For typesOfItems in restaurantItemTypes-->
+                                            <h4>Item Type (example:Entree)</h4> 
+
+                                            <div class="row">
+                                                <!-- For item in typeOfItems -->
+                                                    <div class ="col-sm-6">
+                                                        <div class="card">
+                                                            <br>
+                                                            <div class="card-body">
+                                                                <h5>Item Name</h5>
+                                                                <h6>Item Price</h6>
+                                                                <p> Item Description Here</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <!-- End For item in typeOfItems-->
+                                            </div>
+                                        <!-- End For typesOfItems in restaurantItemTypes-->
+                                        
+                                    </div>
+                                    
+                                    <div id="about" class="container tab-pane fade"><br>
+                                        <h3>About Tab</h3>
+                                    
+                                    </div>
+                                    
+                                    <div id="reviews" class="container tab-pane fade"><br>
+                                        <h3>Review Tab</h3>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- FOOTER -->
+                        <div class = "modal-footer">
+                            <p><input onclick= "" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>
+                        </div>
+                        
+                    </div>
                 </div>
-                
-                <!-- Popup Div Ends Here -->
-            </div>   
+            </div>
             
         </div>
             
     </div>
-    
-    <script>
-        function openForm() {
-             document.getElementById("restaurantPopup").style.display = "block";
-        }
-        
-        function closeForm() {
-          document.getElementById("restaurantPopup").style.display = "none";
-        }
 
-        var username = document.getElementById("login").getAttribute('data-js-vars');  
-            if (username != "") {
-             // do something 
-                 document.getElementById("home").innerHTML = "Dashboard";
-                 document.getElementById("home").setAttribute("href", "/dashboard");
-                 document.getElementById("login").innerHTML = username;
-                 document.getElementById("login").setAttribute("href", "/profile");
-                 var elem = document.getElementById('logout');
-                 $(elem).show();
-
-            }
-            else{
-                var elem = document.getElementById('logout');
-                 $(elem).hide();
-            }
-    </script>
 </body>                
 {% endblock %}
