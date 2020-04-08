@@ -56,7 +56,6 @@ class MenuItem(models.Model):
         return self.imageURL
 
 # Setter Methods
-
     def set_itemID(self, num):
         self.itemID = num
 

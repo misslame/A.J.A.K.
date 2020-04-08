@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'bearbites',
     'customer',
     'restaurant',
-    'menu'
+    'menu',
+    'order'
 ]
 CRISPY_TEMPLATE_PACK =  'bootstrap4'
 MIDDLEWARE = [
@@ -152,4 +153,4 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
-) 
+)
