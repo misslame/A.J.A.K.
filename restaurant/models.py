@@ -43,7 +43,7 @@ class Restaurant(models.Model):
 
 # Setter Methods
     def set_restaurantID(self,restaurant):
-        self.restaurantID = restaurantID
+        self.restaurantID = restaurant
 
     def set_restaurantName(self,name):
         self.restaurantName = name
@@ -56,6 +56,8 @@ class Restaurant(models.Model):
 
     def set_logoURL(self,url):
         self.logoURL = url
+    
+    
 
 ## Database Queries
 
@@ -64,8 +66,8 @@ class Restaurant(models.Model):
         try:
             cnxn = getConnection()
             cursor = cnxn.cursor() # Establish Connection to the Database
-            sql = "EXEC AddRestaurant @UserID={}, @RestaurantName={}, @AddressID ={}, @OrderMin={}, @ImageUrl={}, @LogoUrl={};" # SQL Stored Procedure
-            cursor.execute(sql.format(int(self.accountID[0]),self.restaurantName,int(self.addressID[0]),self.orderMin,self.imageURL,self.logoURL)) # Fill Command with Data and Execute
+            sql = 'EXEC AddRestaurant @UserID={}, @RestaurantName="{}", @AddressID ={}, @OrderMin={}, @ImageUrl="{}", @LogoUrl="{}";' # SQL Stored Procedure
+            cursor.execute(sql.format(int(self.accountID),self.restaurantName,int(self.addressID[0]),self.orderMin,self.imageURL,self.logoURL)) # Fill Command with Data and Execute
             cnxn.commit()
             cursor.close()
             cnxn.close()
@@ -108,19 +110,36 @@ class Restaurant(models.Model):
         cnxn.close()
         del cnxn
         return row_entries
+    
+    # Restaurant Name Query
+    def searchName(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        cursor.execute('EXEC ViewRestaurantByName @Name = "%{}%";'.format(self.restaurantName))
+        return dictfetchall(cursor) #return query result into dict
 
 # Zip Code Query
-    def searchZipCode(self):
+    def searchZipCode(self,zip):
         cnxn = getConnection()
-        cursor = cnxn.cursor() #Establish Connection to the Database
-        sql = "SELECT AddressID FROM Adresses WHERE Zip = {} INTERSECT SELECT AddressID FROM Restaurant;" #Returns All Adress IDs in Given Zip Code
-        cursor.execute(sql.format(int(self.zipQuery[0])))
-        adresses = cursor.fetchall()
-        restaurants = []
-        sql_restaurant = "SELECT * FROM Restaurant WHERE AddressID IN {};" # FIX: Needs to be cleaned up to a stored procedure
-        cursor2 = cnxn.cursor()
-        cursor2.execute(sql.format(str(tuple(addresses))))
-        return dictfetchall(cursor2)
+        cursor = cnxn.cursor()
+        cursor.execute('EXEC ViewRestaurantByZip @Zip = {};'.format(zip))
+        return dictfetchall(cursor) #return query result into dict
+
+# Street Address Query
+    def searchStreetAddress(self,street):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        cursor.execute('EXEC ViewRestaurantByStreet @Street ="%{}%";'.format(street))
+        return dictfetchall(cursor) #return query result into dict
+
+# Street Address or Restaurant Name Query
+    def searchStreetAddressOrName(self,value):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sqlcommand = 'EXEC ViewRestaurantByStreetOrName @Value ="%{}%";'.format(value)
+        print(sqlcommand)
+        cursor.execute(sqlcommand)
+        return dictfetchall(cursor) #return query result into dict
 
 # Finding a Specific Restaurant Location
     def fetchLocation(self,location):
@@ -139,3 +158,4 @@ class Restaurant(models.Model):
         cnxn = getConnection()
         cursor = cnxn.cursor()
         cursor.execute('EXEC ViewRestaurants;')
+        return dictfetchall(cursor) #return query result into dict

@@ -420,6 +420,7 @@
                         }else{
                             window.history.pushState({path:orgurl},'',"/profile/");
                         }
+                        
                         var i, tabcontent, tablinks;
                         tabcontent = document.getElementsByClassName("tabcontent");
 
@@ -428,7 +429,10 @@
                         tablinks = document.getElementsByClassName("tablink");
                         var pickedElem = document.getElementById(pageName);
                         $(pickedElem).show();
-                      
+                        if(pageName != "EditAddresses"){
+                            var add = document.getElementById("stateselect").getAttribute('value'); 
+                            document.getElementById("stateselect").value = add;
+                        }
                     }
                     
                     // Get the element with id="defaultOpen" and click on it

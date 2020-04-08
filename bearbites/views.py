@@ -2,6 +2,7 @@ import re
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.shortcuts import redirect
 from .models import Account
 from customer.views import loadAllergies, loadPreferences
 from customer.models import Customer
@@ -10,8 +11,7 @@ from django.template import Context, loader
 
 
 def indexView(request):
-    obj = Account()
-    obj.userAuthenticated.append("False")
+    request.session['auth'] = False
     return render(request, 'index.html')
     
 
@@ -45,8 +45,7 @@ def registerView(request):
         else:
             checkFields.append("Passwords do not match")
         regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
-        
-        obj = Account()
+        obj = Customer()
         if (re.search(regex,email)):
             if obj.checkEmailExists(email)== False:
                 valid += 1
@@ -67,11 +66,14 @@ def registerView(request):
             valid += 1
         else:
             checkFields.append("Password does not meet security requirements")
-        if valid == 3:
-            obj.email.clear()
-            obj.password.clear()
-            obj.email.append(request.POST.get('email'))
-            obj.password.append(request.POST.get('password'))
+        check_term = request.POST.getlist('termcond')
+        if len(check_term) ==1:
+            checkFields.append(" ")
+            valid += 1
+        else:
+            checkFields.append("Please accept terms and conditions!")
+        if valid == 4:
+            
             obj.set_firstname(request.POST.get('firstname'))
             obj.set_lastname(request.POST.get('lastname'))
             obj.set_mobile(int(request.POST.get('phonenumber')))
@@ -109,52 +111,55 @@ def registerView(request):
 def loginView(request):
     
     if request.method == 'POST': # If the form has been submitted...
-        obj = Account()
-        obj.email.clear()
-        obj.password.clear()
-        obj.userAuthenticated.clear()
+        obj = Customer()
         email = request.POST.get('email')
-        obj.email.append(email)
-        passw =obj.password.append(request.POST.get('password'))
-        row = obj.getUserAccount()
+        password = request.POST.get('password')
+        if len(email)== 0 or len(password)== 0:
+            row = ""
+        else:
+            obj.set_email(email)
+            obj.set_password(password)
+            row = obj.getUserAccount()
+        
         print (row)
         if len(row) >0:
-            user = obj.authenticateUser()
+            user = obj.authenticateCustomer()
             request.session["user"] = email
-            request.session["password"] = passw
-            obj.userAuthenticated.append("TRUE")
-            obj.accountID.append(int(user[0]))
-            obj.customerID.append(int(user[1]))
-            cus = Customer()
-            cus.accountID.clear()
-            cus.customerID.clear()
-            cus.customerID.append(int(user[1]))
-            cus.accountID.append(int(user[0]))
-            allergies = loadAllergies()
-            preferences = loadPreferences()
+            request.session["password"] = password
+            request.session["auth"] = True
+            request.session["account"] = int(user[0])
+            request.session["customer"] = int(user[1])
+            obj.set_accountID(int(user[0]))
+            obj.set_customerID(int(user[1]))
+            allergies = loadAllergies(request)
+            preferences = loadPreferences(request)
             user_info = obj.getUserAccount()
             address_info = obj.getUserAddress()
-            return render(request,'profile.html',{'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
+            state =[ sub['state'] for sub in address_info ] 
+            name = user[2]
+            request.session["name"] = name
+            return render(request,'profile.html',{'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info ,'state':state})
         else:
             response = "Invalid Credentials, please try again!"
-            obj.userAuthenticated.append("False")
-            context = {'response': response}
+            obj.set_userAuthenticated(False)
+            context = {'response': response, 'alert_flag': True}
             return render(request,'login.html',context)
     context = {'response': ""}
     return render(request,'login.html',context)
 
 
 def logout(request):
-    del request.session["user"]
-    del request.session["password"]
-    obj = Account()
-    obj.email.clear()
-    obj.password.clear()
-    obj.userAuthenticated.clear()
-    obj.userAuthenticated.append("False")
-    response ="You have been logged out"
-    context = {'response': response, 'alert_flag': True}
-    return render(request,'login.html',context)
+    try:
+        del request.session["user"]
+        del request.session["name"]
+        del request.session["password"]
+        del request.session["auth"]
+        del request.session["account"]
+        del request.session["customer"]
+    except:
+        return HttpResponse("<h1>dataflair<br>Session Data not cleared</h1>")
+    request.session.modified = True
+    return redirect('/login')
 
 def profileView(request):
     return render(request,'profile.html')
