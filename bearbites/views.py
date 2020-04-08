@@ -18,6 +18,9 @@ def indexView(request):
 def dashboardView(request):
     return render(request,'index.html')
 
+def trialDashBoardView(request):
+    return render(request, 'trial_dashboard.html')
+
 
 def registerView(request):
     if request.method == 'POST': # If the form has been submitted..

@@ -18,6 +18,7 @@
                         </div>
                         <li class="tablink" onclick="openPage('Favorites', this)">Favorites</li>
                         <li class="tablink" onclick="openPage('OrderHistory', this)">Order History</li>
+                        <li class="tablink" onclick="openPage('OrderHistory', this)">Review History</li>
                     </ul>
                     
                     <script>
@@ -48,19 +49,46 @@
                     <div class="col-lg-1"></div>
                     <div class="col-lg-6">
                         <div id="profileui">
+
                             <!-- PROFILE INFORMATION -->
                             <div id="Profile" class="tabcontent">
                                 <div class="container">
-                                    <h1>User Profile</h1>
+                                
                                     {% for user in users %}
-                                        <p style="display: inline-block;">First Name: <p style="display: inline-block;" id="First">{{user.FirstName}}</p></p>
-                                        <p style="display: inline-block;">Last Name: <p style="display: inline-block;" id="Last">{{user.LastName}}</p></p>
-                                        <p>Phone Number: {{user.Phone}}</p>
-                                        <p>E-mail: {{user.Email}}</p>
-                                        <div class="row">
-                                            <button class = "btn" onclick="openPage('EditProfile', this)">Edit</button>
+                                        <div style="border: 5px solid black;padding:25px;">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <img style="width:200px;" src="{% static 'images/profileholder.png' %}" alt="Bearstomer" class="img-rounded img-responsive" />
+                                                </div>
+                                                <div class="col-sm-7">
+                                                
+                                                    
+                                                        <h1 style="color:#0094FF;"> Hello, {{user.FirstName}}!</h1>
+                                                        Last order on:<br>
+                                                        Delivered to 'Home'
+                                                        
+                                                        <input style="font-size:30px;" type="submit" name="submit" value="View Orders" class="btn btn-primary btn-lock btn-block">
+                                                        <input style="font-size:30px;" type="submit" name="submit" value="New Order" class="btn btn-primary btn-lock btn-block">
+                                                    
+                                                    
+                                                </div>
+                                            </div>
                                         </div>
+                                        <br>
+                                        <h1 style="text-decoration: underline;color:#0094FF;border: 5px solid black; padding:10px;">Contact Information</h1>
+                                        <div style= "font-family:Mono;">
+                                            <b>Name:</b><p style="margin:0 0 0 0;display: inline-block;" id="First">{{user.FirstName}}</p> <p style="margin:0 0 0 0;display:inline-block;" id="Last">{{user.LastName}}</p><br>
+                                            <b>Phone Number:</b>  {{user.Phone}}<br>
+                                            <b>Email Address:</b> {{user.Email}}<br>
+                                            
+                                        </div>
+                                        <input style="font-size:30px;" onclick="openPage('EditProfile', this)" type="submit" name="submit" value="Edit Contact Information" class="btn btn-primary btn-lock btn-block">
+                                        <br>
+                                        <h1 style="text-decoration: underline;color:#0094FF;border: 5px solid black;padding:10px;">Password</h1>
+                                        <p style="font-family:Mono;">It is recommended that you change your password regularly!</p>
+                                        <input style="font-size:30px;" onclick="openPage('ChangePassword', this)" type="submit" name="submit" value="Change Password" class="btn btn-primary btn-block">
                                     {% endfor %}
+
                                 </div>
                             </div>
                             
@@ -70,35 +98,64 @@
                                 <div class="container">
                                     <form action="" method="POST">
                                         {% csrf_token %}
-                                        
-                                        <h1>Edit User Profile</h1>
                                         {% for user in users %}
-                                        <div class="row">
-                                            <label style="color: black; font-family: Bearskin">First Name: </label>
-                                            <input type="text" name="firstname" value ="{{user.FirstName}}"></input>
-                                        </div>
-                                        
-                                        <div class="row">
-                                            <label style="color: black; font-family: Bearskin">Last Name: </label>
-                                            <input type="text" name="lastname" value ="{{user.LastName}}"></input>
-                                        </div>
-                                        
-                                        <div class="row">
-                                            <label style="color: black; font-family: Bearskin">Phone Number: </label>
-                                            <input type="text" name="phonenumber" value ="{{user.Phone}}"></input>
-                                        </div>
-                                        
-                                        <div class="row">
-                                            <label style="color: black; font-family: Bearskin">E-mail: </label>
-                                            <input type="text" name="email" value ="{{user.Email}}"></input>
-                                        </div>
+                                            <div style="border: 5px solid black;padding:25px;">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <img style="width:200px;" src="{% static 'images/profileholder.png' %}" alt="Bearstomer" class="img-rounded img-responsive" />
+                                                    </div>
+                                                    <div class="col-sm-7">
+                                                        <h1 style="color:#0094FF;"> Edit Contact Information </h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <h1 style="text-decoration: underline;color:#0094FF;border: 5px solid black; padding:10px;">Contact Information</h1>
+                                            <div style= "font-family:Mono;">
+                                                <b>Name:</b><input type="text" name="firstname" value ="{{user.FirstName}}"></input> <input type="text" name="lastname" value ="{{user.LastName}}"></input><br>
+                                                <b>Phone Number:</b>  <input type="text" name="phonenumber" value ="{{user.Phone}}"></input><br>
+                                                <b>Email Address:</b> <input type="text" name="email" value ="{{user.Email}}"></input><br>
+                                                
+                                            </div>
                                         {% endfor %}
-                                        <div class="row">
-                                            <input type="submit" value="Update">
-                                        </div>
+                                        <br>
+                                        <input style="font-size:30px;" class="btn btn-primary btn-lock btn-block" type="submit" value="Update">
                                     </form>
                                 </div>
                             </div>
+                            
+                            <!-- CHANGE PASSWORD -->
+                            <div id="ChangePassword" class="tabcontent">
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    {% for user in users %}
+                                        <div style="border: 5px solid black;padding:25px;">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <img style="width:200px;" src="{% static 'images/profileholder.png' %}" alt="Bearstomer" class="img-rounded img-responsive" />
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    <h1 style="color:#0094FF;"> Change Password </h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <h1 style="text-decoration: underline;color:#0094FF;border: 5px solid black; padding:10px;">Contact Information</h1>
+                                        <div style= "font-family:Mono;">
+                                            <b>Name:</b><p style="margin:0 0 0 0;display: inline-block;" id="First">{{user.FirstName}}</p> <p style="margin:0 0 0 0;display:inline-block;" id="Last">{{user.LastName}}</p><br>
+                                            <b>Phone Number:</b>  {{user.Phone}}<br>
+                                            <b>Email Address:</b> {{user.Email}}<br>
+                                            
+                                        </div>
+                                    {% endfor %}
+                                    <br>
+                                    <h1 style="text-decoration: underline;color:#0094FF;border: 5px solid black;padding:10px;">Password</h1>
+                                    <b style="font-family:Mono;">Old Password:</b> <input type="password" name="oldPassword" value =""></input><br>
+                                    <b style="font-family:Mono;">New Password:</b> <input type="password" name="newPassword" value =""></input><br><br>
+                                    <input style="font-size:30px;" class="btn btn-primary btn-lock btn-block" type="submit" value="Update">
+                                </form>
+                            </div>
+                                    
 
 
                             <!-- ADDRESS INFORMATION -->
