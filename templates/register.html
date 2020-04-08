@@ -12,9 +12,16 @@
                 <div id="ui">
                     <h1 class="text-center" style="color: #fff; font-family: Bearskin;">Create New Account</h1>
                     <form class="form-group" method="POST">
+                        
                         {% csrf_token %}
                         {% if alert_flag %}
-                        <script>window.alert("{{response}}")</script>  
+                        <script>window.alert("{{response}}");
+                            setTimeout(setAddress,6);
+                            function setAddress() {
+                            var add = document.getElementById("selectstate").getAttribute('value'); 
+                            document.getElementById("selectstate").value = add;
+                            }
+                            </script>  
                         {% endif %}
                         <p style="color:white">{{response}}</p>
                         <div class="row">
@@ -55,7 +62,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <label>State</label>
-                                <select class="form-control text" name="state" value ="{{form_fields.9}}" style="font-family: sans-seriff;">
+                                <select class="form-control text" id="selectstate" name="state" value ="{{form_fields.9}}" style="font-family: sans-seriff;">
                                     <option value="AL">Alabama</option>
                                     <option value="AK">Alaska</option>
                                     <option value="AZ">Arizona</option>
