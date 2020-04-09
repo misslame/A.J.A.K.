@@ -34,9 +34,8 @@
               
                 <!-- To Do: Only show restaurants that are Open during current hours -->
                 {% for restaurant in restaurants %}
-                    <div class= "col-sm">
                         <br>
-                        <div class="card-block text-decoration-none" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); max-width: 300px; margin: auto; text-align: center; background-color:#333; border-radius:10px; opacity: 0.9; padding:25px;">
+                        <a data-toggle="modal" data-target="#restaurantPop" href="" class="col-sm card-block text-decoration-none" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); max-width: 300px; margin: auto; text-align: center; background-color:#333; border-radius:10px; opacity: 0.9; padding:25px;">
                                 
                                 <!-- image of restaurant -->
                                 <div style="width:250px; height:200px; overflow: hidden;">
@@ -57,9 +56,8 @@
                                 <!-- TO DO: Check if user is logged in first-> if not ask if they want to log in. -->
                                 <p><input onclick= "" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>
                                 <!-- Supposed popup box that shows up when you click on resturant order button-->
-                                <a data-target="#restaurantPop" href="" data-target="#restaurantPop"></a>
-                        </div>
-                    </div>
+                                
+                        </a>
                 {% endfor %}
                 
             </div>
