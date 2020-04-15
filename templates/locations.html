@@ -35,11 +35,11 @@
                 <!-- To Do: Only show restaurants that are Open during current hours -->
                 {% for restaurant in restaurants %}
                         <br>
-                        <a data-toggle="modal" data-target="#restaurantPop" href="" class="col-sm card-block text-decoration-none" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); max-width: 300px; margin: auto; text-align: center; background-color:#333; border-radius:10px; opacity: 0.9; padding:25px;">
+                        <a data-toggle="modal" id='menurestaurant' data-target="#restaurantPop" onclick='UpdatePKFunction({{ restaurant.RestaurantID }})' class="col-sm card-block text-decoration-none" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); max-width: 300px; margin: auto; text-align: center; background-color:#333; border-radius:10px; opacity: 0.9; padding:25px;">
                                 
                                 <!-- image of restaurant -->
                                 <div style="width:250px; height:200px; overflow: hidden;">
-                                    <img src="{{restaurant.LogoUrl}}" style="width:350px;">
+                                    <img src="{{restaurant.LogoUrl}}" style="width:inherit; height:inherit">
                                 </div> 
                                 
                                 <!-- restaurant name -->
@@ -68,7 +68,7 @@
                         
                         <!-- HEADER -->
                         <div class = "modal-header" style="background-image: url({% static 'images/banner.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
-                            <h2 style="color: #0094FF; border: 5px solid black; padding:10px; background:white;">Restaurant Name</h2> <i class="fa fa-times-circle fa-2x" aria-hidden="true" data-dismiss="modal"></i> 
+                            <h2 style="color: #0094FF; border: 5px solid black; padding:10px; background:white;">{{RestaurantName}}</h2> <i class="fa fa-times-circle fa-2x" aria-hidden="true" data-dismiss="modal"></i> 
                         </div>
                         
                         <div class = "modal-body" style="font-size:24px;">
@@ -88,24 +88,29 @@
                                 <!-- Tab panes -->
                                 <div class="tab-content">
                                     <div id="menu" class="container tab-pane active"><br>
-                                        <h3>Menu Tab</h3>
+                                   
                                         
                                         <!-- For typesOfItems in restaurantItemTypes-->
-                                            <h4>Item Type (example:Entree)</h4> 
+                                            <h4>Item Type </h4> 
 
                                             <div class="row">
                                                 <!-- For item in typeOfItems -->
+                                                {% for item in menuitems %}
                                                     <div class ="col-sm-6">
                                                         <div class="card">
                                                             <br>
                                                             <div class="card-body">
-                                                                <h5>Item Name</h5>
-                                                                <h6>Item Price</h6>
-                                                                <p> Item Description Here</p>
+                                                                <div style="width:150px; height:100px; overflow: hidden;">
+                                                                    <img src="{{item.ItemUrl}}" style="width:inherit; height:inherit">
+                                                                </div> 
+                                                                <p>{{ item.ItemName }}</p>
+                                                                <h6>{{ item.Price }}</h6>
+                                                                <h5> {{ item.ItemDesc }}</h5>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 <!-- End For item in typeOfItems-->
+                                                {% endfor %}
                                             </div>
                                         <!-- End For typesOfItems in restaurantItemTypes-->
                                         
@@ -136,6 +141,36 @@
         </div>
             
     </div>
+    <script>
+        function UpdatePKFunction(pk) {
+            pk = pk
+            
+            $.ajax({ 
+                url: '/searchRestaurant',
+                data: { 
+                    'pk': pk
+                },
+                success: function(pk) { 
+                $('#restaurantPop').html(pk);
+                }
+            });
+            };
 
+        var username = document.getElementById("login").getAttribute('data-js-vars');  
+            if (username != "") {
+             // do something 
+                 document.getElementById("home").innerHTML = "Dashboard";
+                 document.getElementById("home").setAttribute("href", "/dashboard");
+                 document.getElementById("login").innerHTML = username;
+                 document.getElementById("login").setAttribute("href", "/profile");
+                 var elem = document.getElementById('logout');
+                 $(elem).show();
+
+            }
+            else{
+                var elem = document.getElementById('logout');
+                 $(elem).hide();
+            }
+    </script>
 </body>                
 {% endblock %}

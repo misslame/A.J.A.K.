@@ -17,36 +17,15 @@
                 <a class="nav-link" href="/locations">Browse Locations</a>
             </li>
             <li class= "nav-item">
-            
-                {% if user.is_authenticated == True %}
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">{{ user }}</a>
-                
-                    <div class="dropdown-menu dropdown-menu-right dropdown-info" style= " width: 300px !important; height: auto;"aria-labelledby="navbarDropdownMenuLink-4">
-                        <button type="button" style="font-size: 30px;" class="btn btn-primary btn-lock btn-block">Hello, {{ username }}</button>
-                        <button type="button" style="font-size: 30px;" class="btn btn-primary btn-lock btn-block" href="/logout">Logout</button>
-                    </div>
-                {% else %}
+               
                     <a class="nav-link" id="login" href="/login" data-js-vars="{{ username }}"> Login</a>
-                {% endif %}
+                
             </li>
             <li class = "nav-item">
                 <a class="nav-link" style="display: none"  id="logout"  href="/logout">Logout</a>
             </li>
         </ul>
-        <script>
-            function my_code(){
-                var my_name = document.getElementById("login").getAttribute('data-js-vars');  
-                if (my_name == null) {
-                 // do something 
-                     document.getElementById("home").innerHTML = "Dashboard";
-                     document.getElementById("home").setAttribute("href", "/dashboard");
-                     document.getElementById("login").innerHTML = user;
-                     document.getElementById("login").setAttribute("href", "/profile");
-                     var elem = document.getElementById('logout');
-                }
-            }
-            window.onload = my_code;
-        </script>
+        
     </div>  
 </div>
 </nav>

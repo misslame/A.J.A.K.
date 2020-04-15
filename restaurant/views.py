@@ -14,42 +14,51 @@ def browseLocationView(request):
         target = Restaurant()
         target.zipQuery.clear()
         search = request.POST.get('search')
-       
+        
+        if 'name' in request.session:
+                userInfo = request.session["name"]
+        else:
+            userInfo = ""
         try:
             int(search)
         except ValueError:
+
             if len(search) ==0:
                 restaurants = target.view_AllRestaurants()    
-                context = {'response': "",'restaurants':restaurants}
+                context = {'response': "",'restaurants':restaurants,'username':userInfo}
                 return render(request,'locations.html',context)
             else:
-                
                 restaurants = target.searchStreetAddressOrName(search)    
-                context = {'response': "",'restaurants':restaurants}
+                context = {'response': "",'restaurants':restaurants,'username':userInfo}
                 return render(request,'locations.html',context)
         
-        if len(int(search))== 5:
-            menuIt = MenuItem()
+        if len(search)== 5:
+            
             restaurants = target.searchZipCode(int(search))
-            RestaurantName ="Carl's JR"
-            menuItems = menuIt.viewMenu(1)
-            if 'name' in request.session:
-                userInfo = request.session["name"]
-            else:
-                userInfo = ""
-            context = {'response': "",'restaurants':restaurants,'menuitems':menuItems,'RestaurantName':RestaurantName,'username':userInfo}
+            
+            context = {'response': "",'restaurants':restaurants,'username':userInfo}
             return render(request,'locations.html',context)
       
 
     else:
         target = Restaurant()
-        menuIt = MenuItem()
         restaurants = target.view_AllRestaurants()
-        RestaurantName ="Carl's JR"
-        menuItems = menuIt.viewMenu(1)
+        
         if 'name' in request.session:
             userInfo = request.session["name"]
         else:
             userInfo = ""
-        context = {'response': "",'restaurants':restaurants,'menuitems':menuItems,'RestaurantName':RestaurantName,'username':userInfo}
+        context = {'response': "",'restaurants':restaurants,'username':userInfo}
         return render(request,'locations.html',context)
+
+def searchRestaurant(request):
+   
+    menuIt = MenuItem()
+    restaurantID = request.GET['pk']
+    print(str(restaurantID))
+    menuIt.set_restaurantID(int(restaurantID))
+    menuItems = menuIt.viewItems()
+    restaurantInfo =  menuIt.viewRestaurant()
+    
+    con = {'menuitems':menuItems,'restaurantInfo':restaurantInfo}
+    return render(request,'menu.html',con)

@@ -13,13 +13,27 @@ from django.template import Context, loader
 def indexView(request):
     request.session['auth'] = False
     return render(request, 'index.html')
-    
+
+def get_userinfo(request):
+    if 'name' in request.session:
+        userInfo = request.session["name"]
+        auth = True
+    else:
+        userInfo = ""
+        auth = False
+    dict = {'authenticated_user':userInfo,'user.authenticated':auth}
+    return   dict  
 
 def dashboardView(request):
     return render(request,'index.html')
 
 def trialDashBoardView(request):
-    return render(request, 'trial_dashboard.html')
+    if 'name' in request.session:
+            userInfo = request.session["name"]
+    else:
+        userInfo = ""
+    context = {'username':userInfo}
+    return render(request, 'trial_dashboard.html',context)
 
 
 def registerView(request):
@@ -141,7 +155,10 @@ def loginView(request):
             state =[ sub['state'] for sub in address_info ] 
             name = user[2]
             request.session["name"] = name
-            return render(request,'profile.html',{'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info ,'state':state})
+            print(request.session["name"])
+            context = get_userinfo(request)
+            context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info ,'state':state})
+            return render(request,'profile.html',context)
         else:
             response = "Invalid Credentials, please try again!"
             obj.set_userAuthenticated(False)

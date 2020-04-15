@@ -1,0 +1,73 @@
+{% load static %}
+<div class =  "modal-dialog modal-lg" role="document" >
+    <div class = "modal-content">
+        {% for restaurant in restaurantInfo %}
+        <!-- HEADER -->
+        <div class = "modal-header" style="background-image: url({% static 'images/banner.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
+            <h2 style="color: #0094FF; border: 5px solid black; padding:10px; background:white;">{{restaurant.RestaurantName}}</h2> {{restaurant.address}}<i class="fa fa-times-circle fa-2x" aria-hidden="true" data-dismiss="modal"></i> 
+        </div>
+        {% endfor %}
+        <div class = "modal-body" style="font-size:24px;">
+            <div class="container">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#menu">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#reviews">Reviews</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div id="menu" class="container tab-pane active"><br>
+                   
+                        
+                        <!-- For typesOfItems in restaurantItemTypes-->
+                            <h4>Menu Items </h4> 
+
+                            <div class="row">
+                                <!-- For item in typeOfItems -->
+                                {% for item in menuitems %}
+                                    <div class ="col-sm-6">
+                                        <div class="card">
+                                            <br>
+                                            <div class="card-body">
+                                                <div style="width:150px; height:100px; overflow: hidden;">
+                                                    <img src="{{item.ItemUrl}}" style="width:inherit; height:inherit">
+                                                </div> 
+                                                <p>{{ item.ItemName }}</p>
+                                                <h6>{{ item.Price }}</h6>
+                                                <h5> {{ item.ItemDesc }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!-- End For item in typeOfItems-->
+                                {% endfor %}
+                            </div>
+                        <!-- End For typesOfItems in restaurantItemTypes-->
+                        
+                    </div>
+                    
+                    <div id="about" class="container tab-pane fade"><br>
+                        <h3>About Tab</h3>
+                    
+                    </div>
+                    
+                    <div id="reviews" class="container tab-pane fade"><br>
+                        <h3>Review Tab</h3>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FOOTER -->
+        <div class = "modal-footer">
+            <p><input onclick= "" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>
+        </div>
+        
+    </div>

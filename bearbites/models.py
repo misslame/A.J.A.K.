@@ -8,6 +8,7 @@ from bearbites._con import dictfetchall
 
 
 
+
 class Account(models.Model):
     firstname = models.CharField(max_length=128)
     lastname = models.CharField(max_length=128)
@@ -135,6 +136,7 @@ class Account(models.Model):
         for row in rows3:
             user.append(str(row[0])) 
         self.userAuthenticated = True   
+        
         cursor.close()
         cursor2.close()
         cursor3.close()
