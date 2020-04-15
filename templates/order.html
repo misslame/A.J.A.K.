@@ -1,0 +1,175 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block content %}
+
+
+
+<body style = "background-image: url({% static 'images/background1.2.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            <div style="background-color: #E2E2E2; padding: 30px; margin-top: 50px; border-radius:10px;">
+
+                <!-- BANNER FOR RESTAURANT IMAGE -->
+                <div style="padding: 5%; border: 5px solid black; height: 125px; max-width:100%; background-image: url({% static 'images/banner.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
+                    <h2 style="color: #0094FF; border: 5px solid black; padding:10px; background:white;">Restaurant Name</h2>
+                </div>
+                
+                <br>
+                
+                
+                <div style="padding-left:25px; color:black;"> 
+
+                    <!-- PAGE 1: SELECTING ITEMS-->
+                    <div id="Page1">
+                       
+                        <!--
+                        <div class="progress" style="max-width:50%; height:50px;">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:33%">
+                            <b style="font-size:19px; ">S e l e c t i n g&nbsp;&nbsp;&nbsp;&nbsp;N u m m i e s</b>
+                            </div>
+                        </div>
+                        -->
+                        
+                        <h1>Select items for your picnic basket!</h2>
+                    
+                        <br>
+                        
+                        <!-- For typesOfItems in restaurantItemTypes-->
+                            <h4>Item Type (example:Entree)</h4> 
+
+                            <div class="row" style="color:black;">
+                                <!-- For item in typeOfItems -->
+                                    <div class ="col-sm-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <div class="custom-control custom-checkbox checkbox-lg" style="padding-left:90%;">
+                                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                        <label class="custom-control-label" for="customCheck1"></label>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div>
+                                                    <h5>Item Name</h5>
+                                                    <h6>Item Price</h6>
+                                                    <p> Item Description Here</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!-- End For item in typeOfItems-->
+                            </div>
+                        <!-- End For typesOfItems in restaurantItemTypes-->
+                        
+                        <br>
+                        
+                        <div class="form-group" style="max-width:50%;">
+                            <h4> Special Instructions</h4>
+                            <textarea class="form-control" rows="5" id="comment"></textarea>
+                        </div>
+                        
+                        <nav>  
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item disabled">
+                                  <a class="page-link" href="" tabindex="-1">Previous Step</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link">Select Items</a></li>
+                                <li class="page-item"><a class="page-link" style="color:black;">Delivery Options</a></li>
+                                <li class="page-item"><a class="page-link" style="color:black;">Payment</a></li>
+                                <li class="page-item"><a class="page-link" style="color:black;">Confirm</a></li>
+                                <li class="page-item">
+                                  <a class="page-link" href="" onclick="return show('Page2', 'Page1');">Next Step</a>
+                                </li>
+                            </ul> 
+                        </nav>
+
+                    </div>
+                    
+                    
+                    <!-- PAGE2: DELIVERY OPTIONS -->
+                    <div id="Page2" style="display:none">
+                    
+                        <h1>Delivery Options</h2>
+
+                        <nav>  
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                  <a class="page-link" href="" onclick="return show('Page1','Page2');">Previous Step</a>
+                                </li>
+                                <li class="page-item"><a class="page-link" style="color:black;">Select Items</a></li>
+                                <li class="page-item active"><a class="page-link">Delivery Options</a></li>
+                                <li class="page-item"><a class="page-link" style="color:black;">Payment</a></li>
+                                <li class="page-item"><a class="page-link" style="color:black;">Confirm</a></li>
+                                <li class="page-item">
+                                  <a class="page-link" href="" onclick="return show('Page3', 'Page2');">Next Step</a>
+                                </li>
+                            </ul> 
+                        </nav>
+                    </div>
+                    
+                    
+                    <!-- PAGE3: PAYMENT OPTIONS -->
+                    <div id="Page3" style="display:none">
+                    
+                        <h1>Payment Options</h2>
+
+                        <nav>  
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                  <a class="page-link" href="" onclick="return show('Page2','Page3');">Previous Step</a>
+                                </li>
+                                <li class="page-item"><a class="page-link" style="color:black;">Select Items</a></li>
+                                <li class="page-item"><a class="page-link" style="color:black;">Delivery Options</a></li>
+                                <li class="page-item active"><a class="page-link">Payment</a></li>
+                                <li class="page-item"><a class="page-link" style="color:black;">Confirm</a></li>
+                                <li class="page-item">
+                                  <a class="page-link" href="" onclick="return show('Page4', 'Page3');">Next Step</a>
+                                </li>
+                            </ul> 
+                        </nav>
+                    
+                    </div>
+                    
+                    
+                    <!-- PAGE4: CONFIRM ORDER-->
+                    <div id="Page4" style="display:none">
+                    
+                        <h1>Payment Options</h2>
+
+                        <nav>  
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                  <a class="page-link" href="" onclick="return show('Page3','Page4');">Previous Step</a>
+                                </li>
+                                <li class="page-item"><a class="page-link" style="color:black;">Select Items</a></li>
+                                <li class="page-item"><a class="page-link" style="color:black;">Delivery Options</a></li>
+                                <li class="page-item"><a class="page-link" style="color:black;">Payment</a></li>
+                                <li class="page-item active"><a class="page-link">Confirm</a></li>
+                                <li class="page-item disabled">
+                                  <a class="page-link" href="" tabindex="-1">Next Step</a>
+                                </li>
+                            </ul> 
+                        </nav>
+                    
+                    
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script>
+        function show(shown,hidden){
+            document.getElementById(shown).style.display='block';
+            document.getElementById(hidden).style.display='none';
+            return false;
+        }
+    </script>
+    
+</body>
+
+{% endblock %}
