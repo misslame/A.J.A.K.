@@ -4,10 +4,9 @@
 
 {% block content %}
 <body style="background-image: url({% static 'images/background1.2.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
-    
+
     <div class = "location-content">
-        <div style="background-color:white; color: black; margin: 3%; border-radius:10px;">
-            
+        <div style="background-color:white; color: black; margin: 3%; border-radius:1rem;"><!--border-radius:10px-->
             <br>
             
             <!-- Search Locations: -->
@@ -30,37 +29,38 @@
             
             
             <!-- To Do: show restaurant upon clicking it. -->
-            <div class = "card-deck" style = "margin:2%; padding-bottom:100px;">
+            <div class = "card-deck" style = "margin:2%; padding-bottom:10rem;"> <!--padding-bottom:100px-->
                 <!--Restaurant List-->
               
                 <!-- To Do: Only show restaurants that are Open during current hours -->
                 {% for restaurant in restaurants %}
                         <br>
-                        <a data-toggle="modal" data-target="#restaurantPop" href="" class="col-sm card-block text-decoration-none" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); max-width: 300px; margin: auto; text-align: center; background-color:#333; border-radius:10px; opacity: 0.9; padding:25px;">
-                                
+                        <!--style=" max-width: 300px;border-radius:10px; padding:25px"-->
+                        <a data-toggle="modal" data-target="#restaurantPop" href="" class="col-sm card text-decoration-none" style="margin-left:2rem;margin-right:2rem;width:10rem;max-width:30rem; max-height: 40rem; box-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2); margin: auto; text-align: center; background-color:#333; border-radius:1rem; opacity: 0.9; padding:2.5rem;border-color:white; border-width:0.5rem;">
                                 <!-- image of restaurant -->
-                                <div style="width:250px; height:200px; overflow: hidden;">
-                                    <img src="{{restaurant.LogoUrl}}" style="width:350px;">
+                                <!--style="height:200px"-->
+                                <div style="height:20rem; overflow: hidden;">
+                                    <img src="{{restaurant.LogoUrl}}" style="width:35rem;"> <!--width:350px-->
                                 </div> 
                                 
                                 <!-- restaurant name -->
                                 <h1 style="color:#0094FF;">{{restaurant.RestaurantName}}</h1>
-                                
-                                <p class="title" style = "color:white; font-weight:bold; font-size: 18px;font-family: sans seriff;">{{restaurant.address}}</p>
+                                <!--style:"font-size:18px"-->
+                                <p class="title" style = "color:white; font-weight:bold; font-size: large;font-family: sans seriff;">{{restaurant.address}}</p>
                                 
                                 <!-- availability -->
-                                <p class="title" style = "color:white; font-weight:bold; font-size: 18px;font-family: sans seriff;">Available for Delivery!</p>
+                                <!--style:"font-size:18px"-->
+                                <p class="title" style = "color:white; font-weight:bold; font-size: large;font-family: sans seriff;">Available for Delivery!</p>
                                 
                                 <!-- restaurant item type -->
                                 
                                 <!-- button for ordering from -->
                                 <!-- TO DO: Check if user is logged in first-> if not ask if they want to log in. -->
-                                <p><input onclick= "" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>
+                                <!--style:"font-size:30px"-->
+                                <p><input onclick= "" style="font-size:x-large;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>
                                 <!-- Supposed popup box that shows up when you click on resturant order button-->
-                                
-                        </a>
+                            </a>
                 {% endfor %}
-                
             </div>
             
             <div class="modal fade" role="dialog" tabindex="-1" id="restaurantPop">
@@ -69,10 +69,10 @@
                         
                         <!-- HEADER -->
                         <div class = "modal-header" style="background-image: url({% static 'images/banner.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
-                            <h2 style="color: #0094FF; border: 5px solid black; padding:10px; background:white;">Restaurant Name</h2> <i class="fa fa-times-circle fa-2x" aria-hidden="true" data-dismiss="modal"></i> 
+                            <h2 style="color: #0094FF; border: 0.5rem solid black; padding:1rem; background:white;">Restaurant Name</h2> <i class="fa fa-times-circle fa-2x" aria-hidden="true" data-dismiss="modal"></i> 
                         </div>
                         
-                        <div class = "modal-body" style="font-size:24px;">
+                        <div class = "modal-body" style="font-size:2.4rem;">
                             <div class="container">
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item">
@@ -127,7 +127,8 @@
                         
                         <!-- FOOTER -->
                         <div class = "modal-footer">
-                            <p><input onclick= "" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>
+                            <a class="nav-link" href="/order/" style="color:black;font-size:x-large">Order Now!</a>
+                            <!--<p><input onclick= "" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>-->
                         </div>
                         
                     </div>
