@@ -4,35 +4,22 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from .models import Account
-from customer.views import loadAllergies, loadPreferences
+from customer.views import loadAllergies, loadPreferences, get_userinfo
 from customer.models import Customer
 from django.template import Context, loader
 
 
 
 def indexView(request):
-    request.session['auth'] = False
-    return render(request, 'index.html')
-
-def get_userinfo(request):
-    if 'name' in request.session:
-        userInfo = request.session["name"]
-        auth = True
-    else:
-        userInfo = ""
-        auth = False
-    dict = {'authenticated_user':userInfo,'user.authenticated':auth}
-    return   dict  
+    context = get_userinfo(request)
+    return render(request, 'index.html',context)
+    
 
 def dashboardView(request):
     return render(request,'index.html')
 
 def trialDashBoardView(request):
-    if 'name' in request.session:
-            userInfo = request.session["name"]
-    else:
-        userInfo = ""
-    context = {'username':userInfo}
+    context = get_userinfo(request)
     return render(request, 'trial_dashboard.html',context)
 
 

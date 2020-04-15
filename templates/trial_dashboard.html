@@ -1,13 +1,12 @@
 {% extends 'base.html'%}
 {% load static %}
 {% block content %}
-obj Account()
 
 <body style = "background-image: url({% static 'images/background1.2.jpg' %}); background-size: cover;background-position: center center; font-size: x-large; background-attachment: fixed;">
         <!--greeting-->
         <div class = "container">
             <div class = "jumbotron"; background:white;>
-                <h1>Welcome, <p style="margin:0 0 0 0;display: inline-block;" >{{username}}</p>!</h1>
+                <h1>Welcome, <p style="margin:0 0 0 0;display: inline-block;" >{{authenticated_user}}</p>!</h1>
                 <p>You last ordered: {{orderHistory}}</p>
                 <p>Delivered to: {{address.street}} {{address.apt}} {{address.city}} {{address.state}} {{address.zip}}</p>
                 <!--<button type = "button" class = "btn btn-default">Re-order Last Order</button>-->

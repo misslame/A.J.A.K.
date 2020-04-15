@@ -11,19 +11,30 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto" style="font-size:40px;">
             <li class="nav-item">
+                {% if userauthenticated == True %}
+                <a class="nav-link" id="home" href="/dashboard">Home</a>
+                {% else %}
                 <a class="nav-link" id="home" href="/">Home</a>
+                {% endif %}
             </li>
             <li class = "nav-item">
                 <a class="nav-link" href="/locations">Browse Locations</a>
             </li>
             <li class= "nav-item">
-               
-                    <a class="nav-link" id="login" href="/login" data-js-vars="{{ username }}"> Login</a>
+            
+                {% if userauthenticated == True %}
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">{{ authenticated_user }}</a>
                 
+                    <div class="dropdown-menu dropdown-menu-right dropdown-info" style= " width: 300px !important; height: auto;"aria-labelledby="navbarDropdownMenuLink-4">
+                        <button type="button" style="font-size: 30px;" class="btn btn-primary btn-lock btn-block" onclick="window.location.href='/profile'">{{ authenticated_user }}</button>
+                        <button type="button" style="font-size: 30px;" class="btn btn-primary btn-lock btn-block" onclick="window.location.href='/logout'">Logout</button>
+                    </div>
+                {% else %}
+                    <a class="nav-link" id="login" href="/login" > Login</a>
+                {% endif %}
             </li>
-            <li class = "nav-item">
-                <a class="nav-link" style="display: none"  id="logout"  href="/logout">Logout</a>
-            </li>
+            
+           
         </ul>
         
     </div>  
