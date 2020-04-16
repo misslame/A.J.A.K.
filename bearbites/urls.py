@@ -13,6 +13,7 @@ urlpatterns = [
     path('logout/',views.logout,name="logout"),
     path('register/',views.registerView,name="register_url"),
     path('trial_dashboard/',views.trialDashBoardView,name="trial_dashboard"),
+    path('order/',views.orderView,name="order"),
     
     # Customer Profile Page:
     path('profile/DietaryPreferences/',account_views.customerPreference,name="addPreference_url"),

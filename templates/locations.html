@@ -1,13 +1,11 @@
-  
 {% extends 'base.html'%}
 {% load static %}
 
 {% block content %}
 <body style="background-image: url({% static 'images/background1.2.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
-    
+
     <div class = "location-content">
-        <div style="background-color:white; color: black; margin: 3%; border-radius:10px;">
-            
+        <div style="background-color:white; color: black; margin: 3%; border-radius:1rem;"><!--border-radius:10px-->
             <br>
             
             <!-- Search Locations: -->
@@ -30,42 +28,117 @@
             
             
             <!-- To Do: show restaurant upon clicking it. -->
-            <div class = "card-deck" style = "margin:2%; padding-bottom:100px;">
+            <div class = "card-deck" style = "margin:2%; padding-bottom:5rem;"> <!--padding-bottom:100px-->
                 <!--Restaurant List-->
               
                 <!-- To Do: Only show restaurants that are Open during current hours -->
                 {% for restaurant in restaurants %}
                         <br>
-                        <a data-toggle="modal" id='menurestaurant' data-target="#restaurantPop" onclick='UpdatePKFunction({{ restaurant.RestaurantID }})' class="col-sm card-block text-decoration-none" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); max-width: 300px; margin: auto; text-align: center; background-color:#333; border-radius:10px; opacity: 0.9; padding:25px;">
-                                
+                        <div class="col-sm-6 card text-decoration-none" style="width:10rem;width:30rem; height: 35rem; margin: auto; text-align: center; background-color:#333; border-radius:1rem; opacity: 0.9; padding:1rem;border-color:white; border-width:0.5rem;">
+                        <!--style=" max-width: 300px;border-radius:10px; padding:25px"-->
+                            <a data-toggle="modal" id='menurestaurant' data-target="#restaurantPop" onclick='UpdatePKFunction({{ restaurant.RestaurantID }})' >
                                 <!-- image of restaurant -->
-                                <div style="width:250px; height:200px; overflow: hidden;">
-                                    <img src="{{restaurant.LogoUrl}}" style="width:inherit; height:inherit">
+                                <!--style="height:200px"-->
+                                <div class="card-header" style="height:12rem;width:12rem; overflow: hidden;">
+                                    <img src="{{restaurant.LogoUrl}}" style="width:20rem;"> <!--width:350px-->
                                 </div> 
                                 
-                                <!-- restaurant name -->
-                                <h1 style="color:#0094FF;">{{restaurant.RestaurantName}}</h1>
-                                
-                                <p class="title" style = "color:white; font-weight:bold; font-size: 18px;font-family: sans seriff;">{{restaurant.address}}</p>
-                                
-                                <!-- availability -->
-                                <p class="title" style = "color:white; font-weight:bold; font-size: 18px;font-family: sans seriff;">Available for Delivery!</p>
-                                
+                                <div class="card-body">
+                                    <!-- restaurant name -->
+                                    <h2 style="color:#0094FF;">{{restaurant.RestaurantName}}</h2>
+                                    <!--style:"font-size:18px"-->
+                                    <p class="title" style = "color:white; font-weight:bold; font-size: medium;font-family: sans seriff;">{{restaurant.address}}</p>
+                                    
+                                    <!-- availability -->
+                                    <!--style:"font-size:18px"-->
+                                    <p class="title" style = "color:white; font-weight:bold; font-size: medium;font-family: sans seriff;">Available for Delivery!</p>
+                                </div>
                                 <!-- restaurant item type -->
                                 
                                 <!-- button for ordering from -->
                                 <!-- TO DO: Check if user is logged in first-> if not ask if they want to log in. -->
-                                <p><input onclick= "" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>
+                                <!--style:"font-size:30px"
+                                <div class="card-footer"><input onclick= "to_order()"  type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></div>-->
+
                                 <!-- Supposed popup box that shows up when you click on resturant order button-->
-                                
-                        </a>
+                            </a>
+                            <div class="card-footer" style="align-content: bottom;">
+                                <a class="nav-link btn btn-primary" href="/order/">Order Now!</a>
+                            </div>
+                        </div>
                 {% endfor %}
-                
             </div>
-            
+
             <div class="modal fade" role="dialog" tabindex="-1" id="restaurantPop">
                 <div class =  "modal-dialog modal-lg" role="document" >
                     <div class = "modal-content">
+                        
+                        <!-- HEADER -->
+                        <div class = "modal-header" style="background-image: url({% static 'images/banner.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
+                            <h2 style="color: #0094FF; border: 0.5rem solid black; padding:1rem; background:white;">Restaurant Name</h2> <i class="fa fa-times-circle fa-2x" aria-hidden="true" data-dismiss="modal"></i> 
+                        </div>
+                        
+                        <div class = "modal-body" style="font-size:2.4rem;">
+                            <div class="container">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#menu">Menu</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#about">About</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#reviews">Reviews</a>
+                                    </li>
+                                </ul>
+
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div id="menu" class="container tab-pane active"><br>
+                                        <h3>Menu Tab</h3>
+                                        
+                                        <!-- For typesOfItems in restaurantItemTypes-->
+                                            <h4>Item Type (example:Entree)</h4> 
+
+                                            <div class="row">
+                                                <!-- For item in typeOfItems -->
+                                                    <div class ="col-sm-6">
+                                                        <div class="card">
+                                                            <br>
+                                                            <div class="card-body">
+                                                                <h5>Item Name</h5>
+                                                                <h6>Item Price</h6>
+                                                                <p> Item Description Here</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <!-- End For item in typeOfItems-->
+                                            </div>
+                                        <!-- End For typesOfItems in restaurantItemTypes-->
+                                        
+                                    </div>
+                                    
+                                    <div id="about" class="container tab-pane fade"><br>
+                                        <h3>About Tab</h3>
+                                        <div style="height: 15rem;">
+                                                <img src="{{restaurant.LogoUrl}}" style="width:100%;">
+                                        </div> 
+                                    
+                                    </div>
+                                    
+                                    <div id="reviews" class="container tab-pane fade"><br>
+                                        <h3>Review Tab</h3>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- FOOTER -->
+                        <div class = "modal-footer">
+                            <a class="nav-link btn btn-primary" href="/order/">Order Now!</a>
+                            <!--<p><input onclick= "" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>-->
+                        </div>
                     </div>
                 </div>    
             </div>
@@ -85,9 +158,8 @@
                 $('#restaurantPop').html(pk);
                 }
             });
-            };
-
-        
+        };
+    
     </script>
 </body>                
 {% endblock %}

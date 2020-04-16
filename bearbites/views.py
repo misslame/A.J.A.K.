@@ -22,6 +22,9 @@ def trialDashBoardView(request):
     context = get_userinfo(request)
     return render(request, 'trial_dashboard.html',context)
 
+def orderView(request):
+    return render(request, 'order.html')
+
 
 def registerView(request):
     if request.method == 'POST': # If the form has been submitted..
