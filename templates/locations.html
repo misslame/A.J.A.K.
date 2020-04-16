@@ -36,11 +36,11 @@
                 <!-- To Do: Only show restaurants that are Open during current hours -->
                 {% for restaurant in restaurants %}
                         <br>
-                        <a data-toggle="modal" data-target="#restaurantPop" href="" class="col-sm card-block text-decoration-none" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); max-width: 300px; margin: auto; text-align: center; background-color:#333; border-radius:10px; opacity: 0.9; padding:25px;">
+                        <a data-toggle="modal" id='menurestaurant' data-target="#restaurantPop" onclick='UpdatePKFunction({{ restaurant.RestaurantID }})' class="col-sm card-block text-decoration-none" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); max-width: 300px; margin: auto; text-align: center; background-color:#333; border-radius:10px; opacity: 0.9; padding:25px;">
                                 
                                 <!-- image of restaurant -->
                                 <div style="width:250px; height:200px; overflow: hidden;">
-                                    <img src="{{restaurant.LogoUrl}}" style="width:350px;">
+                                    <img src="{{restaurant.LogoUrl}}" style="width:inherit; height:inherit">
                                 </div> 
                                 
                                 <!-- restaurant name -->
@@ -66,77 +66,28 @@
             <div class="modal fade" role="dialog" tabindex="-1" id="restaurantPop">
                 <div class =  "modal-dialog modal-lg" role="document" >
                     <div class = "modal-content">
-                        
-                        <!-- HEADER -->
-                        <div class = "modal-header" style="background-image: url({% static 'images/banner.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
-                            <h2 style="color: #0094FF; border: 5px solid black; padding:10px; background:white;">Restaurant Name</h2> <i class="fa fa-times-circle fa-2x" aria-hidden="true" data-dismiss="modal"></i> 
-                        </div>
-                        
-                        <div class = "modal-body" style="font-size:24px;">
-                            <div class="container">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#menu">Menu</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#about">About</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#reviews">Reviews</a>
-                                    </li>
-                                </ul>
-
-                                <!-- Tab panes -->
-                                <div class="tab-content">
-                                    <div id="menu" class="container tab-pane active"><br>
-                                        <h3>Menu Tab</h3>
-                                        
-                                        <!-- For typesOfItems in restaurantItemTypes-->
-                                            <h4>Item Type (example:Entree)</h4> 
-
-                                            <div class="row">
-                                                <!-- For item in typeOfItems -->
-                                                    <div class ="col-sm-6">
-                                                        <div class="card">
-                                                            <br>
-                                                            <div class="card-body">
-                                                                <h5>Item Name</h5>
-                                                                <h6>Item Price</h6>
-                                                                <p> Item Description Here</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                <!-- End For item in typeOfItems-->
-                                            </div>
-                                        <!-- End For typesOfItems in restaurantItemTypes-->
-                                        
-                                    </div>
-                                    
-                                    <div id="about" class="container tab-pane fade"><br>
-                                        <h3>About Tab</h3>
-                                    
-                                    </div>
-                                    
-                                    <div id="reviews" class="container tab-pane fade"><br>
-                                        <h3>Review Tab</h3>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- FOOTER -->
-                        <div class = "modal-footer">
-                            <p><input onclick= "" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>
-                        </div>
-                        
                     </div>
-                </div>
+                </div>    
             </div>
-            
         </div>
             
     </div>
+    <script>
+        function UpdatePKFunction(pk) {
+            pk = pk
+            
+            $.ajax({ 
+                url: '/searchRestaurant',
+                data: { 
+                    'pk': pk
+                },
+                success: function(pk) { 
+                $('#restaurantPop').html(pk);
+                }
+            });
+            };
 
+        
+    </script>
 </body>                
 {% endblock %}

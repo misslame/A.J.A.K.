@@ -8,7 +8,7 @@ from menu import views as menu_views
 
 urlpatterns = [
     path('', views.indexView,name = "home"),
-    path('dashboard/',views.dashboardView,name="dashboard"),
+    path('dashboard/',views.trialDashBoardView,name="trial_dashboard"),
     path('login/',views.loginView,name="login"),
     path('logout/',views.logout,name="logout"),
     path('register/',views.registerView,name="register_url"),
@@ -24,6 +24,8 @@ urlpatterns = [
     
     # Browse locations Page
     path('locations/', restaurant_views.browseLocationView,name="locations"),
+   
+    path('searchRestaurant/', restaurant_views.searchRestaurant,name="searchRestaurant"),
     path('locations/menu',menu_views.openMenuView,name="Menu"),
 
 ]

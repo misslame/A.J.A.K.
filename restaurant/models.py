@@ -98,18 +98,9 @@ class Restaurant(models.Model):
 # Single Query (For Popout)
     def viewRestaurant(self):
         cnxn = getConnection()
-        cursor = cnxn.cursor() # Establish Conenction to the Database
-        sql = "SELECT * FROM Restaurant WHERE RestaurantID = {};".format(int(self.restaurantID)) # FIX: Needs to be cleaned up to a stored procedure
-        cursor.execute(sql)
-        row = cursor.fetchall() # Store Values from Query
-        print(row) #Assuming row is a 1-D Array of Table Columns
-        row_entries = []
-        for col in row: #Cast row values to strings
-            row_entries.append(str(col))
-        cursor.close()
-        cnxn.close()
-        del cnxn
-        return row_entries
+        cursor = cnxn.cursor()
+        cursor.execute('EXEC ViewRestaurantDetails @Restaurant = {};'.format(self.restaurantID))
+        return dictfetchall(cursor) #return query result into dict
     
     # Restaurant Name Query
     def searchName(self):
@@ -159,3 +150,5 @@ class Restaurant(models.Model):
         cursor = cnxn.cursor()
         cursor.execute('EXEC ViewRestaurants;')
         return dictfetchall(cursor) #return query result into dict
+    
+    
