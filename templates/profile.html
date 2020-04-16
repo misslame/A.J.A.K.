@@ -63,7 +63,7 @@
                                                 <div class="col-sm-7">
                                                 
                                                     
-                                                        <h1 style="color:#0094FF;"> Hello, {{user.FirstName}}!</h1>
+                                                        <h1 style="color:#0094FF;"> Hello, <p style="margin:0 0 0 0;display: inline-block;" >{{user.FirstName}}</p>!</h1>
                                                         Last order on:<br>
                                                         Delivered to 'Home'
                                                         
@@ -453,15 +453,6 @@
                     </div>
                 </div>
                 <script>
-                    /* Update menu for user */
-                    var user = document.getElementById("First").innerHTML +" "+ document.getElementById("Last").innerHTML;
-                    document.getElementById("home").innerHTML = "Dashboard";
-                    document.getElementById("home").setAttribute("href", "/dashboard");
-                    document.getElementById("login").innerHTML = user;
-                    document.getElementById("login").setAttribute("href", "/profile");
-                    var elem = document.getElementById('logout');
-                    $(elem).show();
-
 
                     tabcontent = document.getElementsByClassName("tabcontent");
                     $(tabcontent).hide();

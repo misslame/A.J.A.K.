@@ -2,10 +2,11 @@ from django.db import models
 from django.db import connection
 from bearbites._con import getConnection
 from bearbites._con import dictfetchall
+from restaurant.models import Restaurant
 # Create your models here.
-class Menu(models.Model):
+class Menu(Restaurant):
     menuID = models.IntegerField()
-    restaurantID = []
+    
 
     def get_menuID(self):
         return menuID
@@ -13,22 +14,17 @@ class Menu(models.Model):
     def set_menuID(self,num):
         self.menuID = num
 
-    def queryMenu(self,restaurant):
-        cnxn = getConnection()
-        cursor = cnxn.cursor()
-        sql = "SELECT MenuID FROM Menu WHERE RestaurantID = {};".format(restaurant)
-        cursor.execute(sql)
-        return dictfetchall(cursor)
+    
 
-class MenuItem(models.Model):
-    menuID = []
+class MenuItem(Menu):
+    
     itemID = models.IntegerField()
     itemName = models.CharField(max_length=128)
     itemType = models.CharField(max_length=128)
     itemDescription = models.CharField(max_length=128)
     itemPrice = models.CharField(max_length=128)
     itemDiscount = models.CharField(max_length=128)
-    imageURL = models.CharField(max_length=128)
+    itemImageURL = models.CharField(max_length=128)
 
 # Getter Methods
     def __str__(self):
@@ -52,8 +48,8 @@ class MenuItem(models.Model):
     def get_itemDiscount(self):
         return self.itemDiscount
 
-    def get_imageURL(self):
-        return self.imageURL
+    def get_itemImageURL(self):
+        return self.itemImageURL
 
 # Setter Methods
     def set_itemID(self, num):
@@ -71,8 +67,8 @@ class MenuItem(models.Model):
     def set_itemDiscount(self,dis):
         self.itemDiscount = dis
 
-    def set_imageURL(self,link):
-        self.imageURL = link
+    def set_itemImageURL(self,link):
+        self.itemImageURL = link
 
 ## Database Queries
 
@@ -114,13 +110,22 @@ class MenuItem(models.Model):
     def viewMenuCategory(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        sql = "SELECT ItemName,ItemDesc,Price FROM Items WHERE MenuID = {} AND itemType = {};".format(self.menuID[0],self.itemType)
+        sql = "SELECT ItemName,ItemDesc,Price FROM Items WHERE MenuID = {} AND itemType = {};".format(self.menuID,self.itemType)
         cursor.execute(sql)
         return dictfetchall(cursor)
+        
 #Query All Menu Items
     def viewMenu(self,menu):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        sql = "SELECT ItemName,ItemDesc,Price FROM Items WHERE MenuID = {}".format(menu)
+        sql = "SELECT ItemName,ItemDesc,Price,ItemURL FROM Items WHERE MenuID = {}".format(menu)
+        cursor.execute(sql)
+        return dictfetchall(cursor)
+
+#Query All Restaurant Items
+    def viewItems(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "EXEC ViewRestaurantsItems @Restaurant= {}".format(self.restaurantID)
         cursor.execute(sql)
         return dictfetchall(cursor)
