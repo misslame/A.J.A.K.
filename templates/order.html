@@ -1,288 +1,351 @@
-{% extends 'base.html' %} 
 {% load static %}
-{% block content %}
+<div class =  "modal-dialog modal-lg" role="document" >
+    <div class = "modal-content">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="restaurantID" value ="{{restaurant}}"></input>
+        {% for restaurant in restaurantInfo %}
+        <!-- HEADER -->
+        <div class = "modal-header" style="background-image: url({% static 'images/banner.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
+            <h2 style="color: #0094FF; border: 5px solid black; padding:10px; background:white;">{{restaurant.RestaurantName}}</h2> {{restaurant.address}}<i class="fa fa-times-circle fa-2x" aria-hidden="true" data-dismiss="modal"></i> 
+        </div>
+        {% endfor %}
+        <br>
+                     
+        <div style="padding-left:25px; color:black;"> 
 
-
-
-<body style = "background-image: url({% static 'images/background1.2.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
-    <div class="row">
-        <div class="col-lg-3"></div>
-        <div class="col-lg-6">
-            <div style="background-color: #E2E2E2; padding: 30px; margin-top: 50px; border-radius:10px;">
-
-                <!-- BANNER FOR RESTAURANT IMAGE -->
-                <div style="padding: 5%; border: 5px solid black; height: 125px; max-width:100%; background-image: url({% static 'images/banner.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
-                    <h2 style="color: #0094FF; border: 5px solid black; padding:10px; background:white;">Restaurant Name</h2>
+            <!-- PAGE 1: SELECTING ITEMS-->
+            <div id="Page1">
+               
+                <!--
+                <div class="progress" style="max-width:50%; height:50px;">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:33%">
+                    <b style="font-size:19px; ">S e l e c t i n g&nbsp;&nbsp;&nbsp;&nbsp;N u m m i e s</b>
+                    </div>
                 </div>
+                -->
+                
+                <h1>Select items for your picnic basket!</h2>
+            
+                <br>
+                
+                <!-- For typesOfItems in restaurantItemTypes-->
+                    <h4>Item Type </h4> 
+
+                    <div class="row" style="color:black;">
+                        <!-- For item in typeOfItems -->
+                        {% for item in menuitems %}
+                            <div class ="col-sm-6">
+                                <div class="card">
+                                    <br>
+                                    <div class="card-body">
+                                        <input type="checkbox" name="cart_items[]" value="{{item.ItemID}}" ></p>
+                                        <div style="width:150px; height:100px; overflow: hidden;">
+                                            <img src="{{item.ItemURL}}" style="width:inherit; height:inherit">
+                                        </div> 
+                                        <p>{{ item.ItemName }}</p>
+                                        <h6>{{ item.Price }}</h6>
+                                        <h5> {{ item.ItemDesc }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- End For item in typeOfItems-->
+                        {% endfor %}
+                    </div>
+                <!-- End For typesOfItems in restaurantItemTypes-->
                 
                 <br>
                 
-                
-                <div style="padding-left:25px; color:black;"> 
-
-                    <!-- PAGE 1: SELECTING ITEMS-->
-                    <div id="Page1">
-                       
-                        <!--
-                        <div class="progress" style="max-width:50%; height:50px;">
-                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:33%">
-                            <b style="font-size:19px; ">S e l e c t i n g&nbsp;&nbsp;&nbsp;&nbsp;N u m m i e s</b>
-                            </div>
-                        </div>
-                        -->
-                        
-                        <h1>Select items for your picnic basket!</h2>
-                    
-                        <br>
-                        
-                        <!-- For typesOfItems in restaurantItemTypes-->
-                            <h4>Item Type (example:Entree)</h4> 
-
-                            <div class="row" style="color:black;">
-                                <!-- For item in typeOfItems -->
-                                    <div class ="col-sm-3">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="form-group">
-                                                    <div class="custom-control custom-checkbox checkbox-lg" style="padding-left:90%;">
-                                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                        <label class="custom-control-label" for="customCheck1"></label>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div>
-                                                    <h5>Item Name</h5>
-                                                    <h6>Item Price</h6>
-                                                    <p> Item Description Here</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <!-- End For item in typeOfItems-->
-                            </div>
-                        <!-- End For typesOfItems in restaurantItemTypes-->
-                        
-                        <br>
-                        
-                        <div class="form-group" style="max-width:50%;">
-                            <h4> Special Instructions</h4>
-                            <textarea class="form-control" rows="5" id="comment"></textarea>
-                        </div>
-                        
-                        <nav>  
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled">
-                                  <a class="page-link" href="" tabindex="-1">Previous Step</a>
-                                </li>
-                                <li class="page-item active"><a class="page-link">Select Items</a></li>
-                                <li class="page-item"><a class="page-link" style="color:black;">Delivery Options</a></li>
-                                <li class="page-item"><a class="page-link" style="color:black;">Payment</a></li>
-                                <li class="page-item"><a class="page-link" style="color:black;">Confirm</a></li>
-                                <li class="page-item">
-                                  <a class="page-link" href="" onclick="return show('Page2', 'Page1');">Next Step</a>
-                                </li>
-                            </ul> 
-                        </nav>
-
-                    </div>
-                    
-                    
-                    <!-- PAGE2: DELIVERY OPTIONS -->
-                    <div id="Page2">
-                    
-                        <h1>Delivery Options</h2>
-
-                        <br>
-                    
-                        <!-- c1 -->
-                            <h4>Shipping Address</h4> 
-
-                            <!-- NOTE: probably would be ideal to have an option to use saved addresses or to input manually a new one -->
-                            <div class="row" style="color:black;">
-                                <!-- c2 -->
-                                    <div class ="col-sm-3">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="form-group">
-                                                    <div class="custom-control custom-checkbox checkbox-lg" style="padding-left:90%;">
-                                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                        <label class="custom-control-label" for="customCheck1"></label>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div>
-                                                    <h5>Firt Name</h5>
-                                                    <input class="form-control form-control-lg ml-3 w-25" type="text" name ="orderFName" placeholder="First Name" aria-label="orderFName">
-                                                    <h6>Last Name</h6>
-                                                    <input class="form-control form-control-lg ml-3 w-25" type="text" name ="orderLName" placeholder="Last Name" aria-label="orderLName">
-                                                    <h6>Street Address</h6>
-                                                    <input class="form-control form-control-lg ml-3 w-25" type="text" name ="orderStreet" placeholder="1234 Bear St." aria-label="orderStreet">
-                                                    <h6>City</h6>
-                                                    <input class="form-control form-control-lg ml-3 w-25" type="text" name ="orderCity" placeholder="Bear City" aria-label="orderCity">
-                                                    <h6>State/Province</h6>
-                                                    <input class="form-control form-control-lg ml-3 w-25" type="text" name ="orderState" placeholder="State or Province" aria-label="orderState">
-                                                    <h6>Zipcode</h6>
-                                                    <input class="form-control form-control-lg ml-3 w-25" type="text" name ="orderZip" placeholder="12345" aria-label="orderZip">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <!-- End c2 -->
-                            </div>
-                        <!-- End c1-->
-                        
-                        <br>
-                        
-                        <div class="form-group" style="max-width:50%;">
-                            <h4> Delivery Instructions</h4>
-                            <textarea class="form-control" rows="5" id="comment"></textarea>
-                        </div>
-
-                        <nav>  
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item">
-                                  <a class="page-link" href="" onclick="return show('Page1','Page2');">Previous Step</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" style="color:black;">Select Items</a></li>
-                                <li class="page-item active"><a class="page-link">Delivery Options</a></li>
-                                <li class="page-item"><a class="page-link" style="color:black;">Payment</a></li>
-                                <li class="page-item"><a class="page-link" style="color:black;">Confirm</a></li>
-                                <li class="page-item">
-                                  <a class="page-link" href="" onclick="return show('Page3', 'Page2');">Next Step</a>
-                                </li>
-                            </ul> 
-                        </nav>
-                    </div>
-                    
-                    
-                    <!-- PAGE3: PAYMENT OPTIONS -->
-                    <div id="Page3"">
-                    
-                        <h1>Payment Options</h2>
-
-                        <br>
-                
-                        <!-- c1 -->
-                            <h4>Credit Card Information</h4> 
-
-                            <!-- NOTE: probably would be ideal to have an option to use saved payment method or to input manually a new one -->
-                            <div class="row" style="color:black;">
-                                <!-- c2 -->
-                                    <div class ="col-sm-3">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="form-group">
-                                                    <div class="custom-control custom-checkbox checkbox-lg" style="padding-left:90%;">
-                                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                        <label class="custom-control-label" for="customCheck1"></label>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div>
-                                                    <h5>Card Number</h5>
-                                                    <input class="form-control form-control-lg ml-3 w-25" type="text" name ="orderCardNum" placeholder="Card Number" aria-label="orderCardNum">
-                                                    <h5>3-Digit Verification Number</h5>
-                                                    <input class="form-control form-control-lg ml-3 w-25" type="text" name ="orderCardVeri" placeholder="###" aria-label="orderCardVeri">
-                                                    <h5>First Name</h5>
-                                                    <input class="form-control form-control-lg ml-3 w-25" type="text" name ="orderCardFName" placeholder="First Name" aria-label="orderCardFName">
-                                                    <h5>Last Name</h5>
-                                                    <input class="form-control form-control-lg ml-3 w-25" type="text" name ="orderCardLName" placeholder="Last Name" aria-label="orderCardLName">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <!-- End c2 -->
-                            </div>
-                        <!-- End c1-->
-                        
-                        <br>
-
-                        <nav>  
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item">
-                                  <a class="page-link" href="" onclick="return show('Page2','Page3');">Previous Step</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" style="color:black;">Select Items</a></li>
-                                <li class="page-item"><a class="page-link" style="color:black;">Delivery Options</a></li>
-                                <li class="page-item active"><a class="page-link">Payment</a></li>
-                                <li class="page-item"><a class="page-link" style="color:black;">Confirm</a></li>
-                                <li class="page-item">
-                                  <a class="page-link" href="" onclick="return show('Page4', 'Page3');">Next Step</a>
-                                </li>
-                            </ul> 
-                        </nav>
-                    
-                    </div>
-                    
-                    
-                    <!-- PAGE4: CONFIRM ORDER-->
-                    <div id="Page4">
-                    
-                        <h1>Confirm Order</h2>
-
-                        <br>
-                
-                        <!-- c1 -->
-                            <h4>Items in Cart</h4> 
-
-                            <div class="row" style="color:black;">
-                                <!-- c2 -->
-                                    <div class ="col-sm-3">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="form-group">
-                                                    <div class="custom-control custom-checkbox checkbox-lg" style="padding-left:90%;">
-                                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                        <label class="custom-control-label" for="customCheck1"></label>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- List Items in Cart here -->
-                                                <div>
-                                                    <h5>Items in Cart...</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <!-- End c2 -->
-                            </div>
-                        <!-- End c1-->
-                        
-                        <br>
-
-                        <nav>  
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item">
-                                  <a class="page-link" href="" onclick="return show('Page3','Page4');">Previous Step</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" style="color:black;">Select Items</a></li>
-                                <li class="page-item"><a class="page-link" style="color:black;">Delivery Options</a></li>
-                                <li class="page-item"><a class="page-link" style="color:black;">Payment</a></li>
-                                <li class="page-item active"><a class="page-link">Confirm</a></li>
-                                <li class="page-item disabled">
-                                  <a class="page-link" href="" tabindex="-1">Next Step</a>
-                                </li>
-                            </ul> 
-                        </nav>
-                    
-                    
-                    </div>
-                    
-                    
+                <div class="form-group" style="max-width:50%;">
+                    <h4> Special Instructions</h4>
+                    <textarea class="form-control" rows="5" name="specialInstructions" id="comment"></textarea>
                 </div>
+                
+                <nav>  
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                          <a class="page-link" href="" tabindex="-1">Previous Step</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link">Select Items</a></li>
+                        <li class="page-item"><a class="page-link" style="color:black;">Delivery Options</a></li>
+                        <li class="page-item"><a class="page-link" style="color:black;">Payment</a></li>
+                        <li class="page-item"><a class="page-link" style="color:black;">Confirm</a></li>
+                        <li class="page-item">
+                          <a class="page-link" href="" onclick="return show('Page2', 'Page1');">Next Step</a>
+                        </li>
+                    </ul> 
+                </nav>
+
+            </div>
+            
+            
+            <!-- PAGE2: DELIVERY OPTIONS -->
+            <div id="Page2" style="display:none">
+            
+                <h1>Delivery Options</h2>
+
+                <br>
+            
+                <!-- c1 -->
+                    <h4>Shipping Address</h4> 
+
+                    <!-- NOTE: probably would be ideal to have an option to use saved addresses or to input manually a new one -->
+                    <div class="row" style="color:black;">
+                        <!-- c2 -->
+                            <div class ="col-sm-3" style="flex: 0 0 100%;max-width:100%">
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        {% for address in addresses %}
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox checkbox-lg" style="padding-left:90%;">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                <label class="custom-control-label" for="customCheck1"></label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div>
+                                           
+                                <div class="row">
+                                    <label style="color: black; font-family: Bearskin">Street: </label>
+                                    <input type="text" name="street" value ="{{address.street}}"></input>
+                                </div>
+                                
+                                <div class="row">
+                                    <label style="color: black; font-family: Bearskin">Aprt Number: </label>
+                                    <input type="text" name="apt" value="{{address.apt}}"></input>
+                                </div>
+                                
+                                <div class="row">
+                                    <label style="color: black; font-family: Bearskin">City: </label>
+                                    <input type="text" name="city" value="{{address.city}}"></input>
+                                </div>
+                                
+                                <!-- STATE DROPDOWN -->
+                                <div class="row">
+                                    <label style="color: black; font-family: Bearskin">State: </label>
+                                    <select class="form-control" id="stateselect" value="{{address.state}}"  name="state"  style="font-family: sans-seriff;" value="{{address.state}}">
+                                        <option value="AL">Alabama</option>
+                                        <option value="AK">Alaska</option>
+                                        <option value="AZ">Arizona</option>
+                                        <option value="AR">Arkansas</option>
+                                        <option value="CA">California</option>
+                                        <option value="CO">Colorado</option>
+                                        <option value="CT">Connecticut</option>
+                                        <option value="DE">Delaware</option>
+                                        <option value="DC">District Of Columbia</option>
+                                        <option value="FL">Florida</option>
+                                        <option value="GA">Georgia</option>
+                                        <option value="HI">Hawaii</option>
+                                        <option value="ID">Idaho</option>
+                                        <option value="IL">Illinois</option>
+                                        <option value="IN">Indiana</option>
+                                        <option value="IA">Iowa</option>
+                                        <option value="KS">Kansas</option>
+                                        <option value="KY">Kentucky</option>
+                                        <option value="LA">Louisiana</option>
+                                        <option value="ME">Maine</option>
+                                        <option value="MD">Maryland</option>
+                                        <option value="MA">Massachusetts</option>
+                                        <option value="MI">Michigan</option>
+                                        <option value="MN">Minnesota</option>
+                                        <option value="MS">Mississippi</option>
+                                        <option value="MO">Missouri</option>
+                                        <option value="MT">Montana</option>
+                                        <option value="NE">Nebraska</option>
+                                        <option value="NV">Nevada</option>
+                                        <option value="NH">New Hampshire</option>
+                                        <option value="NJ">New Jersey</option>
+                                        <option value="NM">New Mexico</option>
+                                        <option value="NY">New York</option>
+                                        <option value="NC">North Carolina</option>
+                                        <option value="ND">North Dakota</option>
+                                        <option value="OH">Ohio</option>
+                                        <option value="OK">Oklahoma</option>
+                                        <option value="OR">Oregon</option>
+                                        <option value="PA">Pennsylvania</option>
+                                        <option value="RI">Rhode Island</option>
+                                        <option value="SC">South Carolina</option>
+                                        <option value="SD">South Dakota</option>
+                                        <option value="TN">Tennessee</option>
+                                        <option value="TX">Texas</option>
+                                        <option value="UT">Utah</option>
+                                        <option value="VT">Vermont</option>
+                                        <option value="VA">Virginia</option>
+                                        <option value="WA">Washington</option>
+                                        <option value="WV">West Virginia</option>
+                                        <option value="WI">Wisconsin</option>
+                                        <option value="WY">Wyoming</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="row">
+                                    <label style="color: black; font-family: Bearskin">Zip Code: </label>
+                                    <input type="text" name="zip" value="{{address.zip}}"></input>
+                                </div>
+                                
+                                
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- End c2 -->
+                    </div>
+                <!-- End c1-->
+                
+                <br>
+                
+                <div class="form-group" style="max-width:50%;">
+                    <h4> Delivery Instructions</h4>
+                    <textarea class="form-control" name="DeliveryInstructions"rows="5" id="comment"></textarea>
+                </div>
+
+                <nav>  
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                          <a class="page-link" href="" onclick="return show('Page1','Page2');">Previous Step</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" style="color:black;">Select Items</a></li>
+                        <li class="page-item active"><a class="page-link">Delivery Options</a></li>
+                        <li class="page-item"><a class="page-link" style="color:black;">Payment</a></li>
+                        <li class="page-item"><a class="page-link" style="color:black;">Confirm</a></li>
+                        <li class="page-item">
+                          <a class="page-link" href="" onclick="return show('Page3', 'Page2');">Next Step</a>
+                        </li>
+                    </ul> 
+                </nav>
+            </div>
+            
+            
+            <!-- PAGE3: PAYMENT OPTIONS -->
+            <div id="Page3" style="display:none">
+            
+                <h1>Payment Options</h2>
+
+                <br>
+        
+                <!-- c1 -->
+                    <h4>Credit Card Information</h4> 
+
+                    <!-- NOTE: probably would be ideal to have an option to use saved payment method or to input manually a new one -->
+                    <div class="row" style="color:black;">
+                        <!-- c2 -->
+                            <div class ="col-sm-3" style="flex: 0 0 100%;max-width:100%">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            
+                                        </div>
+                                        
+                                        <div>
+                                            <h5>Card Number</h5>
+                                            <input class="form-control form-control-lg ml-3 w-25"  name="cardnum" style= "width:80%!important" type="text" name ="orderCardNum" placeholder="Card Number" aria-label="orderCardNum">
+                                            <h5>3-Digit Verification Number</h5>
+                                            <input class="form-control form-control-lg ml-3 w-25" type="text" name ="csv" placeholder="###" aria-label="orderCardVeri">
+                                            <h5>First Name</h5>
+                                            <input class="form-control form-control-lg ml-3 w-25" style= "width:80%!important" name="cardowner"type="text" name ="orderCardFName" placeholder="First Name" aria-label="orderCardFName">
+                                            <h5>Last Name</h5>
+                                            <input class="form-control form-control-lg ml-3 w-25" style= "width:80%!important" type="text" name ="orderCardLName" placeholder="Last Name" aria-label="orderCardLName">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- End c2 -->
+                    </div>
+                    
+                <!-- End c1-->
+                
+                <br>
+
+                <nav>  
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                          <a class="page-link" href="" onclick="return show('Page2','Page3');">Previous Step</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" style="color:black;">Select Items</a></li>
+                        <li class="page-item"><a class="page-link" style="color:black;">Delivery Options</a></li>
+                        <li class="page-item active"><a class="page-link">Payment</a></li>
+                        <li class="page-item"><a class="page-link" style="color:black;">Confirm</a></li>
+                        <li class="page-item">
+                          <a class="page-link" href="" onclick="return show('Page4', 'Page3');">Next Step</a>
+                        </li>
+                    </ul> 
+                </nav>
+            
+            </div>
+            
+            
+            <!-- PAGE4: CONFIRM ORDER-->
+            <div id="Page4" style="display:none">
+            
+                <h1>Confirm Order</h2>
+
+                <br>
+        
+                <!-- c1 -->
+                    <h4>Items in Cart</h4> 
+
+                    <div class="row" style="color:black;">
+                        <!-- c2 -->
+                            <div class ="col-sm-3" style="flex: 0 0 100%;max-width:100%">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox checkbox-lg" style="padding-left:90%;">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                <label class="custom-control-label" for="customCheck1"></label>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- List Items in Cart here -->
+                                        <div>
+                                            <h5>Items in Cart...</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <!-- End c2 -->
+                    </div>
+                <!-- End c1-->
+                
+                <br>
+
+                <nav>  
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                          <a class="page-link" href="" onclick="return show('Page3','Page4');">Previous Step</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" style="color:black;">Select Items</a></li>
+                        <li class="page-item"><a class="page-link" style="color:black;">Delivery Options</a></li>
+                        <li class="page-item"><a class="page-link" style="color:black;">Payment</a></li>
+                        <li class="page-item active"><a class="page-link">Confirm</a></li>
+                        <li class="page-item disabled">
+                          <a class="page-link" href="" tabindex="-1">Next Step</a>
+                        </li>
+                    </ul> 
+                </nav>
+            </div> 
+            <div class="card-footer" style="align-content: bottom;">
+                <input class="nav-link btn btn-primary" type="submit"   value="Confirm Order">
             </div>
         </div>
     </div>
-    
-    
-    <script>
-        function show(shown,hidden){
-            document.getElementById(shown).style.display='block';
-            document.getElementById(hidden).style.display='none';
-            return false;
-        }
-    </script>
-    
-</body>
+</form>
+</div>
+</div>
+</div>
 
-{% endblock %}
+<script>
+var orgurl = window.location.protocol + "/" + window.location.host +"/order"
+window.history.pushState({path:orgurl},'',"/order/");
+var add = document.getElementById("stateselect").getAttribute('value'); 
+document.getElementById("stateselect").value = add;
+function show(shown,hidden){
+    document.getElementById(shown).style.display='block';
+    document.getElementById(hidden).style.display='none';
+    return false;
+}
+
+
+</script>

@@ -3,7 +3,24 @@
 
 {% block content %}
 <body style="background-image: url({% static 'images/background1.2.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
+ <script>
+  
+  $.ajax('http://ip-api.com/json')
+  .then(
+      function success(response) {
+          $("#zipsearch").val(response.zip);
+          getAdress(response.lat, response.lon)
+},
 
+      function fail(data, status) {
+          console.log('Request failed.  Returned status of',
+                      status);
+      }
+  );
+  </script>
+    {% if alert_flag %}
+    <script>alert("{{response}}")</script>  
+    {% endif %} 
     <div class = "location-content">
         <div style="background-color:white; color: black; margin: 3%; border-radius:1rem;"><!--border-radius:10px-->
             <br>
@@ -15,8 +32,8 @@
                 <form class="form-inline justify-content-center" method="POST">
                     {% csrf_token %}
                     <i class="fa fa-search fa-3x py-2 p-1" style="color:white;"></i>
-                    <input class="form-control form-control-lg ml-3 w-40" type="text" name ="search" placeholder="Zipcode" aria-label="Search">
-                    <input class="form-control form-control-lg ml-3 w-40" type="text" name ="searchName" placeholder="Restaurant Name" aria-label="SearchName">
+                    <input class="form-control form-control-lg ml-3 w-40" type="text" id="zipsearch" name ="search" placeholder="Zipcode" aria-label="Search" value="{{searchZip}}">
+                    <input class="form-control form-control-lg ml-3 w-40" type="text"  name ="searchName" placeholder="Restaurant Name" aria-label="SearchName" value="{{searchName}}">
                     <input style="margin-left:10px" type="submit" name="submit" value="submit" class="btn btn-primary btn-lg">
                 </form>
             </div>
@@ -63,7 +80,8 @@
                                 <!-- Supposed popup box that shows up when you click on resturant order button-->
                             </a>
                             <div class="card-footer" style="align-content: bottom;">
-                                <a class="nav-link btn btn-primary" href="/order/">Order Now!</a>
+                               
+                                <a data-toggle="modal" class="nav-link btn btn-primary" data-target="#restaurantPop" onclick='UpdatePKFunction({{ restaurant.RestaurantID }})'; >Order Now!</a>
                             </div>
                         </div>
                 {% endfor %}
@@ -146,6 +164,9 @@
             
     </div>
     <script>
+        var orgurl = window.location.protocol + "/" + window.location.host +"/locations"
+        window.history.pushState({path:orgurl},'',"/locations/");
+        
         function UpdatePKFunction(pk) {
             pk = pk
             
@@ -155,7 +176,9 @@
                     'pk': pk
                 },
                 success: function(pk) { 
+                
                 $('#restaurantPop').html(pk);
+                
                 }
             });
         };
