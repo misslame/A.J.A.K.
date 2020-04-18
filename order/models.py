@@ -2,12 +2,14 @@ from django.db import models
 from django.db import connection
 from bearbites._con import getConnection
 from bearbites._con import dictfetchall
+from customer.models import Customer
+from menu.models import MenuItem
 # Create your models here.
 
-class Delivery(models.Model):
+class Delivery(Customer):
     deliveryID = models.IntegerField()
-    restaurantID = []
-    deliveryAddressID = []
+    restaurant = models.IntegerField()
+    deliveryAddressID = models.IntegerField()
     deliveryDate = models.CharField(max_length=128)
     deliveryTime = models.CharField(max_length=128)
     deliveryInstructions = models.CharField(max_length=128)
@@ -19,7 +21,10 @@ class Delivery(models.Model):
         return self.status
 
     def get_deliveryID(self):
-        return self.delvieryID
+        return self.deliveryID
+
+    def get_restaurant(self):
+        return self.restaurant
 
     def get_deliveryDate(self):
         return self.deliveryDate
@@ -39,6 +44,12 @@ class Delivery(models.Model):
 #Setter Methods
     def set_deliveryID(self,num):
         self.deliveryID = num
+
+    def set_restaurant(self,res):
+        self.restaurant = res
+
+    def set_deliveryAddressID(self,add):
+        self.deliveryAddressID = add
 
     def set_deliveryDate(self,date):
         self.deliveryDate = date
@@ -62,13 +73,21 @@ class Delivery(models.Model):
         try:
             cnxn = getConnection()
             cursor = cnxn.cursor()
-            sql = "EXEC AddDelivery @RestaurantID={}, @AddressID={}, @Date={}, @Time={}, @Instructions={}, @Status={}"
-            cursor.execute(sql.format(int(self.restaurantID[0]),int(self.addressID[0]),self.deliveryDate,self.deliveryTime, self.deliveryInstructions,"Order Placed"))
+            sql = "EXEC AddDelivery @RestaurantID={}, @AddressID={}, @Date='{}', @Time='{}', @Instructions='{}', @Status='{}'"
+            sql = sql.format(int(self.restaurant),int(self.deliveryAddressID),self.deliveryDate,self.deliveryTime, self.deliveryInstructions,"Order Placed")
+            print(sql)
+            cursor.execute(sql)
             cnxn.commit()
             cursor.close()
+            cursor2 = cnxn.cursor()
+            query = "SELECT DeliveryID FROM Delivery WHERE DeliveryAddressID = {};".format(int(self.deliveryAddressID))
+            print(query)
+            cursor2.execute(query)
+            results = cursor2.fetchall()
+            response = results[-1][0]
+            cursor2.close()
             cnxn.close()
             del cnxn
-            response = "Sucesfully Processed Delivery Request"
         except:
             response = "Error Processing Delivery Request"
         return response
@@ -112,10 +131,10 @@ class Delivery(models.Model):
             response = "Failed to Update Delivery Status"
         return response
 
-class CartItem(models.Model):
+class CartItem(MenuItem):
     cartItemID = models.IntegerField()
-    customerID = []
-    itemID = []
+    
+   
     specialInstructions = models.CharField(max_length=128)
     quantity = models.IntegerField()
 
@@ -124,7 +143,7 @@ class CartItem(models.Model):
         return self.cartItemID
 
     def get_cartItemID(self):
-        return self.itemID
+        return self.cartItemID
 
     def get_specialInstructions(self):
         return self.specialInstructions
@@ -149,14 +168,19 @@ class CartItem(models.Model):
         try:
             cnxn = getConnection()
             cursor = cnxn.cursor()
-            sql = "EXEC AddCartItem @CustomerID={}, @ItemID={}, @SpecialInstructions={}, @Quantity={};"
-            formatted = sql.format(int(self.customerID[0]),int(self.itemID[0]),self.specialInstructions,self.quantity)
+            sql = "EXEC AddCartItem @CustomerID={}, @ItemID={}, @SpecialInstructions='{}', @Quantity={};"
+            formatted = sql.format(int(self.customerID),int(self.itemID),self.specialInstructions,int(self.quantity))
+            print(formatted)
             cursor.execute(formatted)
             cnxn.commit()
+            sql = "select CartItemID FROM CartItems WHERE CustomerID = {} AND ItemID={}".format(int(self.customerID),int(self.itemID))
+            cursor.execute(sql)
+            response = cursor.fetchall()
+            itemValue = response[-1][0]
             cursor.close()
             cnxn.close()
             del cnxn
-            response = "Sucesfully Added Item to Cart"
+            return itemValue
         except:
             response = "Error Adding Item to Cart"
         return response
@@ -167,7 +191,7 @@ class CartItem(models.Model):
             cnxn = getConnection()
             cursor = cnxn.cursor()
             sql = "EXEC RemoveCartItem @CartItemID={}, @CustomerID ={};"
-            cursor.execute(sql.format(self.cartItemID,int(self.customerID[0])))
+            cursor.execute(sql.format(self.cartItemID,int(self.customerID)))
             cnxn.commit()
             cursor.close()
             cnxn.close()
@@ -177,15 +201,24 @@ class CartItem(models.Model):
             response = "Error Removing Item from Cart"
         return response
 
-class OrderHistory(models.Model):
-    customerID = []
-    deliveryID = []
-    cartItemID = []
-    restaurantID = []
-    totalPrice = models.CharField(max_length=128)
+class OrderHistory(CartItem,Delivery):
+    
+    def createOrder(self):
+        try:
+            cnxn = getConnection()
+            cursor = cnxn.cursor()
+            sql = "insert into OrderHistory VALUES( {}, {}, {});".format(int(self.customerID),int(self.deliveryID),int(self.cartItemID))
+            print(sql)
+            cursor.execute(sql)
+            cnxn.commit()
+            cursor.close()
+            cnxn.close()
+            del cnxn
+            response = "Succesfully Placed Your Order. It's on its way"
+        except:
+            response = "Error placing order, please try again"
+        return response
 
-    def get_totalPrice(self):
-        return self.totalPrice
 
-    def set_totalPrice(self,total):
-        self.totalPrice = total
+
+    

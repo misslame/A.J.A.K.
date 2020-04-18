@@ -1,6 +1,9 @@
 {% load static %}
 <div class =  "modal-dialog modal-lg" role="document" >
     <div class = "modal-content">
+    {% if alert_flag %}
+    <script>alert("{{response}}")</script>  
+    {% endif %}  
         {% for restaurant in restaurantInfo %}
         <!-- HEADER -->
         <div class = "modal-header" style="background-image: url({% static 'images/banner.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
@@ -67,7 +70,11 @@
         
         <!-- FOOTER -->
         <div class = "modal-footer">
-            <p><input onclick= "" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>
+           
         </div>
-        
+        <script>
+var orgurl = window.location.protocol + "/" + window.location.host +"/locations"
+window.history.pushState({path:orgurl},'',"/locations/");
+
+</script>
     </div>

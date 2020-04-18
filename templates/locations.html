@@ -4,7 +4,28 @@
 
 {% block content %}
 <body style="background-image: url({% static 'images/background1.2.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
+<<<<<<< Updated upstream
     
+=======
+ <script>
+  
+  $.ajax('http://ip-api.com/json')
+  .then(
+      function success(response) {
+          $("#zipsearch").val(response.zip);
+          getAdress(response.lat, response.lon)
+},
+
+      function fail(data, status) {
+          console.log('Request failed.  Returned status of',
+                      status);
+      }
+  );
+  </script>
+    {% if alert_flag %}
+    <script>alert("{{response}}")</script>  
+    {% endif %}  
+>>>>>>> Stashed changes
     <div class = "location-content">
         <div style="background-color:white; color: black; margin: 3%; border-radius:10px;">
             
@@ -17,7 +38,12 @@
                 <form class="form-inline justify-content-center" method="POST">
                     {% csrf_token %}
                     <i class="fa fa-search fa-3x py-2 p-1" style="color:white;"></i>
+<<<<<<< Updated upstream
                     <input class="form-control form-control-lg ml-3 w-75" type="text" name ="search" placeholder="Zipcode" aria-label="Search">
+=======
+                    <input class="form-control form-control-lg ml-3 w-40" type="text" id="zipsearch" name ="search" placeholder="Zipcode" aria-label="Search" value="{{searchZip}}">
+                    <input class="form-control form-control-lg ml-3 w-40" type="text"  name ="searchName" placeholder="Restaurant Name" aria-label="SearchName" value="{{searchName}}">
+>>>>>>> Stashed changes
                     <input style="margin-left:10px" type="submit" name="submit" value="submit" class="btn btn-primary btn-lg">
                 </form>
             </div>
@@ -56,22 +82,40 @@
                                 <!-- TO DO: Check if user is logged in first-> if not ask if they want to log in. -->
                                 <p><input onclick= "" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>
                                 <!-- Supposed popup box that shows up when you click on resturant order button-->
+<<<<<<< Updated upstream
                                 
                         </a>
+=======
+                            </a>
+                            <div class="card-footer" style="align-content: bottom;">
+                               
+                                <a data-toggle="modal" class="nav-link btn btn-primary" data-target="#restaurantPop" onclick='UpdatePKFunction({{ restaurant.RestaurantID }})'; >Order Now!</a>
+                                
+
+                            </div>
+                        </div>
+>>>>>>> Stashed changes
                 {% endfor %}
                 
             </div>
             
             <div class="modal fade" role="dialog" tabindex="-1" id="restaurantPop">
                 <div class =  "modal-dialog modal-lg" role="document" >
+<<<<<<< Updated upstream
                     <div class = "modal-content">
                     </div>
+=======
+                    
+>>>>>>> Stashed changes
                 </div>    
             </div>
         </div>
             
     </div>
     <script>
+        var orgurl = window.location.protocol + "/" + window.location.host +"/locations"
+        window.history.pushState({path:orgurl},'',"/locations/");
+        
         function UpdatePKFunction(pk) {
             pk = pk
             
@@ -81,12 +125,20 @@
                     'pk': pk
                 },
                 success: function(pk) { 
+                
                 $('#restaurantPop').html(pk);
+                
                 }
             });
+<<<<<<< Updated upstream
             };
 
         
+=======
+        };
+        
+    
+>>>>>>> Stashed changes
     </script>
 </body>                
 {% endblock %}

@@ -17,6 +17,7 @@ class Account(models.Model):
     mobile = models.IntegerField()
     accountID = models.IntegerField()
 
+    
     addrressName= models.CharField(max_length=124)
     aptnum = models.CharField(max_length=24)
     street = models.CharField(max_length=128)
@@ -27,6 +28,7 @@ class Account(models.Model):
 
     def __str__(self):
         return self.email
+    
     
     def set_userAuthenticated(self, auth):
         self.userAuthenticated = auth
@@ -242,10 +244,18 @@ class Account(models.Model):
     def view_userAddresses(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        cursor.execute('EXEC LookUpUserAddress @User = "{}";'.format(self.accountID))
+        cursor.execute('EXEC LookUpUserAddress @User = {};'.format(self.accountID))
         return dictfetchall(cursor) #return query result into dict 
 
-
+    def get_AddressID(self):
+        cnxn = getConnection()     
+        cursor=cnxn.cursor()
+        sql = "EXEC FindAddress @User = {}, @Street='{}', @Apt ='{}'".format(self.accountID, self.street,self.aptnum)
+        print(sql)
+        cursor.execute(sql)
+        list = cursor.fetchall()
+        return list[0][0]
+        
 
 # Create your models here.
 
