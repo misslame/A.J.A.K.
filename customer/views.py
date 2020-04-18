@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Customer
 from bearbites.models import Account
+
 # Create your views here.
 
 checkbox_list = ['Dairy', 'Eggs', 'True Nuts', 'Wheat', 'Peanuts', 'Soy','Fish','ShellFish']
@@ -60,6 +61,26 @@ def loadPreferences(request):
         list_check = [""] * len(p_checkbox_list)
     return list_check
 
+def get_userinfo(request):
+    if 'name' in request.session:
+        userInfo = request.session["name"]
+        auth = True
+        acnt = Customer()
+        acnt.set_email(request.session['user'])
+        acnt.set_password(request.session['password'])
+        acnt.set_accountID(int(request.session['account']))
+        acnt.set_customerID(int(request.session['customer']))
+        user_info = acnt.getUserAccount()
+        request.session['auth'] = True
+        
+    else:
+        userInfo = ""
+        user_info = ""
+        auth = False
+        request.session['auth'] = False
+    dict = {'authenticated_user':userInfo,'userauthenticated':auth,'users': user_info}
+    return   dict
+
 def loadProfile(request):
     obj = Customer()
     if 'auth' in request.session:
@@ -78,8 +99,9 @@ def loadProfile(request):
         address_info = obj.getUserAddress()
         print(user_info)
         print(obj.get_accountID())
-
-        return render(request, 'profile.html', {'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info , 'is_authenticated':authenticated})
+        context = get_userinfo(request)
+        context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
+        return render(request, 'profile.html',context)
     else:
         return render(request,'login.html')
 
@@ -98,6 +120,8 @@ def editProfile(request):
         acnt.set_password(request.session['password'])
         acnt.set_accountID(int(request.session['account']))
         acnt.set_customerID(int(request.session['customer']))
+        context = get_userinfo(request)
+
         if request.method == 'POST':
             acnt.set_firstname(request.POST.get('firstname'))
             acnt.set_lastname(request.POST.get('lastname'))
@@ -109,11 +133,14 @@ def editProfile(request):
             user = acnt.authenticateCustomer()
             name = user[2]
             request.session["name"] = name
-            return render(request, 'profile.html', {'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info,'is_authenticated':authenticated })
+            context = get_userinfo(request)
+            context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
+            return render(request, 'profile.html',context )
         else:
-            user_info = acnt.getUserAccount()
+            
             address_info = acnt.getUserAddress()
-            return render(request, 'profile.html', {'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
+            context.update({'check_list': allergies,'p_check_list': preferences ,'addresses': address_info })
+            return render(request, 'profile.html', context)
     else:
         return render(request,'login.html')
 
@@ -131,6 +158,7 @@ def editAddress(request):
         acnt.set_password(request.session['password'])
         acnt.set_accountID(int(request.session['account']))
         acnt.set_customerID(int(request.session['customer']))
+        context = get_userinfo(request)
         if request.method == 'POST':
             acnt.set_addressName("Main")
             acnt.set_aptnum(request.POST.get('aptNum'))
@@ -139,13 +167,11 @@ def editAddress(request):
             acnt.set_state(request.POST.get('state'))
             acnt.set_zipcode(int(request.POST.get('zip')))
             acnt.updateUserAddress("Main")
-            user_info = acnt.getUserAccount()
             address_info = acnt.getUserAddress()
-            return render(request, 'profile.html', {'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info,'is_authenticated':authenticated })
         else:
-            user_info = acnt.getUserAccount()
             address_info = acnt.getUserAddress()
-            return render(request, 'profile.html', {'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
+        context.update({'check_list': allergies,'p_check_list': preferences ,'addresses': address_info })
+        return render(request, 'profile.html', context)
     else:
         return render(request,'login.html')
 
@@ -162,6 +188,7 @@ def customerAllergy(request):
         obj.set_password(request.session['password'])
         obj.set_accountID(int(request.session['account']))
         obj.set_customerID(int(request.session['customer']))
+        context = get_userinfo(request) 
         if request.method == 'POST': # If the form has been submitted...
             allergy_list = request.POST.getlist('a_checks[]')
             customer_list = obj.viewAllergy()
@@ -188,16 +215,16 @@ def customerAllergy(request):
             response = "Allergies are up-to-date" 
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
-            context = {'response': response, 'check_list': allergies ,'p_check_list': preferences, 'users': user_info,'addresses': address_info, 'is_authenticated':authenticated }
+            context.update({'response': response, 'check_list': allergies ,'p_check_list': preferences, 'users': user_info,'addresses': address_info, 'is_authenticated':authenticated })
             return render(request, 'profile.html', context) # Redirect after POST
         else:
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
-            user_info = obj.getUserAccount()
             address_info = obj.getUserAddress()
-            return render(request, 'profile.html', {'check_list': allergies, 'p_check_list': preferences, 'users': user_info,'addresses': address_info }) # Redirect 
+            context.update({'check_list': allergies, 'p_check_list': preferences, 'users': user_info,'addresses': address_info })
+            return render(request, 'profile.html', context) # Redirect 
     else:
-            return render(request, 'login.html')    
+        return render(request, 'login.html')    
 
 def customerPreference(request):
     if 'auth' in request.session:
@@ -211,6 +238,7 @@ def customerPreference(request):
         obj.set_password(request.session['password'])
         obj.set_accountID(int(request.session['account']))
         obj.set_customerID(int(request.session['customer']))
+        context = get_userinfo(request)
         if request.method == 'POST': # If the form has been submitted...
             preference_list = request.POST.getlist('p_checks[]')
             customer_list = obj.viewPreferences()
@@ -238,7 +266,7 @@ def customerPreference(request):
             context = {'response': response}
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
-            context = {'response': response, 'check_list': allergies ,'p_check_list': preferences, 'users': user_info,'addresses': address_info}
+            context.update({'response': response, 'check_list': allergies ,'p_check_list': preferences,'addresses': address_info})
             
             return render(request, 'profile.html', context) # Redirect after POST
         else:
@@ -246,7 +274,7 @@ def customerPreference(request):
             preferences = loadPreferences(request)
             user_info = obj.getUserAccount()
             address_info = obj.getUserAddress()
-            context = {'check_list': allergies ,'p_check_list': preferences, 'users': user_info,'addresses': address_info}
+            context.update({'check_list': allergies ,'p_check_list': preferences,'addresses': address_info})
             return render(request, 'profile.html', context)
     else:
         return render(request, 'login.html')

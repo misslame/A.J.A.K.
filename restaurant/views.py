@@ -4,52 +4,78 @@ from django.template import Context, loader
 from .models import Restaurant
 from bearbites.models import Account
 from menu.models import Menu, MenuItem
+from bearbites.views import get_userinfo
 
 
 # Create your views here.
 
 def browseLocationView(request):
-
+    context = get_userinfo(request)
     if request.method == 'POST':
         target = Restaurant()
         target.zipQuery.clear()
         search = request.POST.get('search')
-       
+        searchName = request.POST.get('searchName')
         try:
             int(search)
+            int(searchName)
         except ValueError:
-            if len(search) ==0:
-                restaurants = target.view_AllRestaurants()    
-                context = {'response': "",'restaurants':restaurants}
-                return render(request,'locations.html',context)
-            else:
-                
-                restaurants = target.searchStreetAddressOrName(search)    
-                context = {'response': "",'restaurants':restaurants}
-                return render(request,'locations.html',context)
-        
-        if len(int(search))== 5:
-            menuIt = MenuItem()
-            restaurants = target.searchZipCode(int(search))
-            RestaurantName ="Carl's JR"
-            menuItems = menuIt.viewMenu(1)
-            if 'name' in request.session:
-                userInfo = request.session["name"]
-            else:
-                userInfo = ""
-            context = {'response': "",'restaurants':restaurants,'menuitems':menuItems,'RestaurantName':RestaurantName,'username':userInfo}
-            return render(request,'locations.html',context)
-      
 
+            if len(search) ==0 and len(searchName)== 0:
+                restaurants = target.view_AllRestaurants()    
+            else:
+
+                if len(search) ==0 and len(searchName)!= 0:
+                    if len(searchName) ==5:
+                        restaurants = target.searchStreetAddressAndZip(searchName,searchName) 
+                    else:
+                        restaurants = target.searchStreetAddressOrName(searchName,00000)
+                elif len(search) !=0 and len(searchName)== 0:  
+                    restaurants = target.searchStreetAddressAndZip(search,search)  
+                elif len(search) !=0 and len(searchName)!= 0:  
+                    restaurants = target.searchStreetAddressAndZip(search,searchName)
+
+            context.update({'response': "",'restaurants':restaurants,'searchZip':search,'searchName':searchName})
+            return render(request,'locations.html',context)
+        
+        if len(search)== 5:
+            restaurants = target.searchZipCode(search)
+            context.update({'response': "",'restaurants':restaurants})
+            return render(request,'locations.html',context)
     else:
+        
         target = Restaurant()
-        menuIt = MenuItem()
         restaurants = target.view_AllRestaurants()
-        RestaurantName ="Carl's JR"
-        menuItems = menuIt.viewMenu(1)
-        if 'name' in request.session:
-            userInfo = request.session["name"]
-        else:
-            userInfo = ""
-        context = {'response': "",'restaurants':restaurants,'menuitems':menuItems,'RestaurantName':RestaurantName,'username':userInfo}
+        context.update({'response': "",'restaurants':restaurants})
         return render(request,'locations.html',context)
+
+def searchRestaurant(request):
+    if 'auth' in request.session:
+        authenticated = request.session['auth']
+    else:
+        authenticated = False
+
+    if authenticated == True: 
+        menuIt = MenuItem()
+        restaurantID = request.GET['pk']
+        print(str(restaurantID))
+        menuIt.set_restaurantID(int(restaurantID))
+        menuItems = menuIt.viewItems()
+        restaurantInfo =  menuIt.viewRestaurant()
+        context = get_userinfo(request)
+        obj = Account()
+        obj.set_accountID(int(request.session['account']))
+        address_info = obj.getUserAddress()
+        context.update({'menuitems':menuItems,'restaurantInfo':restaurantInfo,'addresses':address_info,'restaurant':restaurantID})
+        return render(request,'order.html',context)
+    else:
+        menuIt = MenuItem()
+        restaurantID = request.GET['pk']
+        print(str(restaurantID))
+        menuIt.set_restaurantID(int(restaurantID))
+        menuItems = menuIt.viewItems()
+        restaurantInfo =  menuIt.viewRestaurant()
+        context = get_userinfo(request)
+        response = "To order you must sign in!"
+        context.update({'menuitems':menuItems,'restaurantInfo':restaurantInfo,'restaurant':restaurantID,'response': response, 'alert_flag': True})
+        return render(request,'menu.html',context)

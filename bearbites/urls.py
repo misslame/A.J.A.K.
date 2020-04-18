@@ -4,16 +4,18 @@ from . import views
 from customer import views as account_views
 from restaurant import views as restaurant_views
 from menu import views as menu_views
+from order import views as order_views
 
 
 urlpatterns = [
     path('', views.indexView,name = "home"),
-    path('dashboard/',views.dashboardView,name="dashboard"),
+    path('dashboard/',views.trialDashBoardView,name="trial_dashboard"),
     path('login/',views.loginView,name="login"),
     path('logout/',views.logout,name="logout"),
     path('register/',views.registerView,name="register_url"),
     path('trial_dashboard/',views.trialDashBoardView,name="trial_dashboard"),
     path('order/',views.orderView,name="order"),
+    
     
     # Customer Profile Page:
     path('profile/DietaryPreferences/',account_views.customerPreference,name="addPreference_url"),
@@ -25,6 +27,10 @@ urlpatterns = [
     
     # Browse locations Page
     path('locations/', restaurant_views.browseLocationView,name="locations"),
+   
+    path('searchRestaurant/', restaurant_views.searchRestaurant,name="searchRestaurant"),
     path('locations/menu',menu_views.openMenuView,name="Menu"),
+    path('order/',order_views.CreateOrder,name="order"),
+    
 
 ]

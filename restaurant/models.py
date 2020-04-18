@@ -2,13 +2,13 @@ from django.db import models
 from django.db import connection
 from bearbites._con import getConnection
 from bearbites._con import dictfetchall
+
 # Create your models here.
 
-class Restaurant(models.Model):
-    accountID = []
+class Restaurant():
+    
     restaurantID = models.IntegerField()
     restaurantName = models.CharField(max_length=128)
-    addressID  = []
     orderMin = models.CharField(max_length=128)
     imageURL = models.CharField(max_length=128)
     logoURL = models.CharField(max_length=128)
@@ -20,17 +20,12 @@ class Restaurant(models.Model):
     def __str__(self):
         return self.restaurantName
 
-    def get_accountID(self):
-        return self.accountID[0]
-
     def get_restaurantID(self):
         return self.restaurantID
 
     def get_restaurantName(self):
         return self.restaurantName
 
-    def get_addressID(self):
-        return self.addressID[0]
 
     def get_orderMin(self):
         return self.get_orderMin
@@ -98,18 +93,9 @@ class Restaurant(models.Model):
 # Single Query (For Popout)
     def viewRestaurant(self):
         cnxn = getConnection()
-        cursor = cnxn.cursor() # Establish Conenction to the Database
-        sql = "SELECT * FROM Restaurant WHERE RestaurantID = {};".format(int(self.restaurantID)) # FIX: Needs to be cleaned up to a stored procedure
-        cursor.execute(sql)
-        row = cursor.fetchall() # Store Values from Query
-        print(row) #Assuming row is a 1-D Array of Table Columns
-        row_entries = []
-        for col in row: #Cast row values to strings
-            row_entries.append(str(col))
-        cursor.close()
-        cnxn.close()
-        del cnxn
-        return row_entries
+        cursor = cnxn.cursor()
+        cursor.execute('EXEC ViewRestaurantDetails @Restaurant = {};'.format(self.restaurantID))
+        return dictfetchall(cursor) #return query result into dict
     
     # Restaurant Name Query
     def searchName(self):
@@ -122,7 +108,8 @@ class Restaurant(models.Model):
     def searchZipCode(self,zip):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        cursor.execute('EXEC ViewRestaurantByZip @Zip = {};'.format(zip))
+        cursor.execute('EXEC ViewRestaurantByZip @Zip = {},  @Street="%{}%";'.format(int(zip),zip))
+        print('EXEC ViewRestaurantByZip @Zip = {},  @Street="%{}%";'.format(int(zip),zip))
         return dictfetchall(cursor) #return query result into dict
 
 # Street Address Query
@@ -133,10 +120,22 @@ class Restaurant(models.Model):
         return dictfetchall(cursor) #return query result into dict
 
 # Street Address or Restaurant Name Query
-    def searchStreetAddressOrName(self,value):
+    def searchStreetAddressOrName(self,value,zip):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        sqlcommand = 'EXEC ViewRestaurantByStreetOrName @Value ="%{}%";'.format(value)
+        sqlcommand = 'EXEC ViewRestaurantByStreetOrNameOrZip @Value ="%{}%" , @Zip={};'.format(value,zip)
+        print(sqlcommand)
+        cursor.execute(sqlcommand)
+        return dictfetchall(cursor) #return query result into dict
+
+# Street Address and Restaurant Name Query
+    def searchStreetAddressAndZip(self,zip,value):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        if zip in value:
+            sqlcommand = 'EXEC ViewRestaurantByStreetOrName @Zip={}, @Value ="%{}%";'.format(int(zip),value)
+        else:
+            sqlcommand = 'EXEC ViewRestaurantByStreetOrName @Zip={}, @Value ="%{}%";'.format(int(zip),value)
         print(sqlcommand)
         cursor.execute(sqlcommand)
         return dictfetchall(cursor) #return query result into dict
@@ -159,3 +158,5 @@ class Restaurant(models.Model):
         cursor = cnxn.cursor()
         cursor.execute('EXEC ViewRestaurants;')
         return dictfetchall(cursor) #return query result into dict
+    
+    
