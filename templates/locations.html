@@ -3,48 +3,48 @@
 
 {% block content %}
 <body style="background-image: url({% static 'images/background1.2.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
- <script>
-  
-  $.ajax('http://ip-api.com/json')
-  .then(
-      function success(response) {
-          $("#zipsearch").val(response.zip);
-          getAdress(response.lat, response.lon)
-},
 
-      function fail(data, status) {
-          console.log('Request failed.  Returned status of',
-                      status);
-      }
-  );
-  </script>
+    
     {% if alert_flag %}
-    <script>alert("{{response}}")</script>  
+        <script>alert("{{response}}")</script>  
     {% endif %} 
+    
     <div class = "location-content">
-        <div style="background-color:white; color: black; margin: 3%; border-radius:1rem;"><!--border-radius:10px-->
+        <div style="background-color:white; color: black; margin: 3%; border-radius:1rem;">
             <br>
             
-            <!-- Search Locations: -->
-            <!-- Current implementation is by zipcode: -->
-            <div id="search-box" style = "background-color: #333;padding: 30px;margin-left: 5%;margin-right: 5%; margin-top: 1%;border-radius:10px;">
-                <h1 class="text-center" style="font-family: Bearskin; flex-grow:1; color:white;">Which beary bite-tastic partners are near you?</h1>
-                <form class="form-inline justify-content-center" method="POST">
-                    {% csrf_token %}
-                    <i class="fa fa-search fa-3x py-2 p-1" style="color:white;"></i>
-                    <input class="form-control form-control-lg ml-3 w-40" type="text" id="zipsearch" name ="search" placeholder="Zipcode" aria-label="Search" value="{{searchZip}}">
-                    <input class="form-control form-control-lg ml-3 w-40" type="text"  name ="searchName" placeholder="Restaurant Name" aria-label="SearchName" value="{{searchName}}">
-                    <input style="margin-left:10px" type="submit" name="submit" value="submit" class="btn btn-primary btn-lg">
-                </form>
+            <!--**************************************************
+                -Search Locations-
+                CURRENT IMPLEMENTATION:
+                *
+                *
+            ******************************************************-->
+            <div style="text-align: center;">
+                <div id="search-box" style="display: inline-block; width:55vw;background-color: #333;padding: 15px; border-radius:10px;">
+                
+                    <!--Search Heading-->
+                    <h2 class="text-center" style="font-family: Bearskin; flex-grow:1; color:white;">Which beary bite-tastic partners are near you?</h2>
+                    
+                    <!--Search Bars:-->
+                    <form class="mx-2 my-auto d-inline w-80" method="POST">
+                        {% csrf_token %}
+                        <div class="input-group" style="padding-left:25px; padding-right:25px;">
+                            <input type="text"  class="form-control border border-right-0" id="zipsearch" style="max-width:35%;" name ="search" placeholder="Zipcode" aria-label="Search" value="{{searchZip}}">
+                            <input type="text" class="form-control border border-right-0" name ="searchName" placeholder="Restaurant Name" aria-label="SearchName" value="{{searchName}}">
+                            <span class="input-group-append">
+                                <button class="btn btn-outline-secondary border border-left-0" type="submit" name="search" style="background-color:#1F95E9;">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                    
+                </div>
             </div>
             
-            <br>
+            <br><h1 class="text-center" style="font-family: Bearskin; flex-grow:1;"> Locations: </h1>
             
-            <h1 class="text-center" style="font-family: Bearskin; flex-grow:1;"> Locations: </h1>
-            
-            
-            
-            <!-- To Do: show restaurant upon clicking it. -->
+
             <div class = "card-deck" style = "margin:2%; padding-bottom:5rem;"> <!--padding-bottom:100px-->
                 <!--Restaurant List-->
               
@@ -182,7 +182,18 @@
                 }
             });
         };
-    
+        
+        
+        $.ajax('http://ip-api.com/json').then(
+            function success(response) {
+                $("#zipsearch").val(response.zip);
+                getAdress(response.lat, response.lon)
+            },
+
+            function fail(data, status) {
+                console.log('Request failed.  Returned status of', status);
+            }
+        );
     </script>
 </body>                
 {% endblock %}
