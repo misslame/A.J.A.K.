@@ -1,56 +1,108 @@
 {% extends 'base.html' %} 
 {% load static %}
 {% block content %}
-<body style="height: 100%;width: 100%;color: #222;">
-    <!-- slider -->
-    <div id="slides" class="carousel slide" data-ride="carousel">
-        <ul class="carousel-indicators">
-            <li data-target="#slides" data-slide-to="0" class="active"></li>
-            <li data-target="#slides" data-slide-to="1"></li>
-            <li data-target="#slides" data-slide-to="2"></li>
-        </ul>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="{% static 'images/background1.png' %}">
-                <div class="carousel-caption">
-                    <h1 class="display-2">Bear Bites</h1>
-                    <h3>Satisfying your inner hungry bear</h3>
-                    <button type = "button" class="btn btn-outline-light btn-lg" onclick="window.location.href='register';">Sign Up</button>
-                    <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='login';">Login</button>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="{% static 'images/background2.png' %}">
-                <div class="carousel-caption">
-                    <h1 class="display-2">Bear Bites</h1>
-                    <h3>Satisfy your inner hungry bear</h3>
-                    <button type = "button" class="btn btn-outline-light btn-lg" onclick="window.location.href='register';">Sign Up</button>
-                    <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='login';">Login</button>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="{% static 'images/background3.png' %}">
-                <div class="carousel-caption">
-                    <h1 class="display-2">Bear Bites</h1>
-                    <h3>Satisfying your inner hungry bear</h3>
-                    <button type = "button" class="btn btn-outline-light btn-lg" onclick="window.location.href='register';">Sign Up</button>
-                    <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='login';">Login</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<body style = "color: #222; background-color: #F8F9FA; background-size: cover;background-position: center center;background-attachment: fixed;">
+    <div class="home-content"> 
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8" style="background-color:white">
+                <div id="home-ui">
+                
+                    {% if userauthenticated == False %}
+                        <!-- slider -->
+                        <div id="slides" class="carousel slide" data-ride="carousel">
+                            <ul class="carousel-indicators">
+                                <li data-target="#slides" data-slide-to="0" class="active"></li>
+                                <li data-target="#slides" data-slide-to="1"></li>
+                                <li data-target="#slides" data-slide-to="2"></li>
+                            </ul>
+                            <div class="carousel-inner" >
+                                <div class="carousel-item active">
+                                    <img src="{% static 'images/background1.png' %}">
+                                    <div class="carousel-caption" >
+                                        <h1 class="display-2">Bear Bites</h1>
+                                        <h3 style="font-family:Mono;">Satisfying your inner hungry bear</h3>
+                                        <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='register';">Sign Up</button>
+                                        <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='login';"> Login </button>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{% static 'images/background2.png' %}" >
+                                    <div class="carousel-caption">
+                                        <h1 class="display-2">Bear Bites</h1>
+                                        <h3 style="font-family:Mono;">Satisfy your inner hungry bear</h3>
+                                        <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='register';">Sign Up</button>
+                                        <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='login';">Login</button>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{% static 'images/background3.png' %}" >
+                                    <div class="carousel-caption">
+                                        <h1 class="display-2">Bear Bites</h1>
+                                        <h3 style="font-family:Mono;">Satisfying your inner hungry bear</h3>
+                                        <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='register';">Sign Up</button>
+                                        <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='login';">Login</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-    <!-- welcome -->
-    <div class="container-fluid padding">
-        <div class="row welcome text-center">
-            <div class = "col-12">
-                <h1 class= "display-4">For All Your Takeout Needs.</h1>
-            </div>
-            <hr>
-            <div class="col-12">
-                <p class ="lead"> Something about website</p>
+                        <!-- welcome -->
+                        <div class="container-fluid padding">
+                            <div class="row welcome text-center">
+                                <div class = "col-12">
+                                    <br>
+                                    <h1 class= "display-4">For All Your Takeout Needs.</h1>
+                                </div>
+                                <hr>
+                                <div class="col-12" style="font-family:Mono;">
+                                    <p class ="lead">Bearbites believes in providing the best take out experience centered around <b>You!</b></p>
+                                    <p>Sign up or login for the best experience. An account with Bear Bites means you will have the best ranked restaurants 
+                                    and limitlessly recommended restaurants at the tip of your touch on your mouse! </p>           
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <!-- slider -->
+                        <div id="slides" class="carousel slide" data-ride="carousel">
+                            <ul class="carousel-indicators">
+                                <li data-target="#slides" data-slide-to="0" class="active"></li>
+                            </ul>
+                            <div class="carousel-inner" >
+                                <div class="carousel-item active">
+                                
+                                    <!-- Image of a restaurant from the user's last order --> 
+                                    <img src="{% static 'images/background1.png' %}">
+                                    <div class="carousel-caption" >
+                                        <h1 class="display-2">Hello, {{ authenticated_user }}!</h1>
+                                        <h3 style="font-family:Mono;">Your last order was on: date</h3>
+                                        <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='order';">Order Again</button>
+                                        <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='locations';">View Others</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- welcome -->
+                        <div class="container-fluid padding">
+                            <div class="row welcome text-center">
+                                <div class = "col-12">
+                                    <br>
+                                    <h1 class= "display-4">Check out these HOT restaurants!</h1>
+                                </div>
+                                <hr>
+                                <div class="col-12" style="font-family:Mono;">
+                                    <p class ="lead">
+                                        
+                                    
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
+    </div>              
 </body>
 {% endblock %}
