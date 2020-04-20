@@ -13,24 +13,25 @@
         <div style="background-color:white; color: black; margin: 3%; border-radius:1rem;">
             <br>
             
+            
             <!--**************************************************
                 -Search Locations-
                 CURRENT IMPLEMENTATION:
-                *
-                *
+                * Search by zip
+                * Search by restaurant name
             ******************************************************-->
             <div style="text-align: center;">
                 <div id="search-box" style="display: inline-block; width:55vw;background-color: #333;padding: 15px; border-radius:10px;">
                 
                     <!--Search Heading-->
-                    <h2 class="text-center" style="font-family: Bearskin; flex-grow:1; color:white;">Which beary bite-tastic partners are near you?</h2>
-                    
+                    <h2 class="text-center" style="font-family: Bearskin; flex-grow:1; color:white;">What beary bite-tastic partners are near you?</h2>
+                    <h4 class="text-center" style="font-family: Mono; flex-grow:1; color: white;"> Search by restaurant name or the type of food that you're feeling today!</h4>
                     <!--Search Bars:-->
                     <form class="mx-2 my-auto d-inline w-80" method="POST">
                         {% csrf_token %}
                         <div class="input-group" style="padding-left:25px; padding-right:25px;">
                             <input type="text"  class="form-control border border-right-0" id="zipsearch" style="max-width:35%;" name ="search" placeholder="Zipcode" aria-label="Search" value="{{searchZip}}">
-                            <input type="text" class="form-control border border-right-0" name ="searchName" placeholder="Restaurant Name" aria-label="SearchName" value="{{searchName}}">
+                            <input type="text" class="form-control border border-right-0" name ="searchName" placeholder="Spicy, Vegan, Sushi..." aria-label="SearchName" value="{{searchName}}">
                             <span class="input-group-append">
                                 <button class="btn btn-outline-secondary border border-left-0" type="submit" name="search" style="background-color:#1F95E9;">
                                     <i class="fa fa-search"></i>
@@ -41,125 +42,62 @@
                     
                 </div>
             </div>
-            
-            <br><h1 class="text-center" style="font-family: Bearskin; flex-grow:1;"> Locations: </h1>
-            
-
-            <div class = "card-deck" style = "margin:2%; padding-bottom:5rem;"> <!--padding-bottom:100px-->
-                <!--Restaurant List-->
-              
-                <!-- To Do: Only show restaurants that are Open during current hours -->
-                {% for restaurant in restaurants %}
-                        <br>
-                        <div class="col-sm-6 card text-decoration-none" style="width:10rem;width:30rem; height: 35rem; margin: auto; text-align: center; background-color:#333; border-radius:1rem; opacity: 0.9; padding:1rem;border-color:white; border-width:0.5rem;">
-                        <!--style=" max-width: 300px;border-radius:10px; padding:25px"-->
-                            <a data-toggle="modal" id='menurestaurant' data-target="#restaurantPop" onclick='UpdatePKFunction({{ restaurant.RestaurantID }})' >
-                                <!-- image of restaurant -->
-                                <!--style="height:200px"-->
-                                <div class="card-header" style="height:12rem;width:12rem; overflow: hidden;">
-                                    <img src="{{restaurant.LogoUrl}}" style="width:20rem;"> <!--width:350px-->
-                                </div> 
-                                
-                                <div class="card-body">
-                                    <!-- restaurant name -->
-                                    <h2 style="color:#0094FF;">{{restaurant.RestaurantName}}</h2>
-                                    <!--style:"font-size:18px"-->
-                                    <p class="title" style = "color:white; font-weight:bold; font-size: medium;font-family: sans seriff;">{{restaurant.address}}</p>
-                                    
-                                    <!-- availability -->
-                                    <!--style:"font-size:18px"-->
-                                    <p class="title" style = "color:white; font-weight:bold; font-size: medium;font-family: sans seriff;">Available for Delivery!</p>
-                                </div>
-                                <!-- restaurant item type -->
-                                
-                                <!-- button for ordering from -->
-                                <!-- TO DO: Check if user is logged in first-> if not ask if they want to log in. -->
-                                <!--style:"font-size:30px"
-                                <div class="card-footer"><input onclick= "to_order()"  type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></div>-->
-
-                                <!-- Supposed popup box that shows up when you click on resturant order button-->
-                            </a>
-                            <div class="card-footer" style="align-content: bottom;">
-                               
-                                <a data-toggle="modal" class="nav-link btn btn-primary" data-target="#restaurantPop" onclick='UpdatePKFunction({{ restaurant.RestaurantID }})'; >Order Now!</a>
-                            </div>
-                        </div>
-                {% endfor %}
+            <br> 
+            <div class="row" style="padding-left:2em;">
+                <div class="favoritesContainer" style="width:30vw; text-align:right; position: relative; color: white;">
+                    <a href=""><img src="{% static 'images/placeholder.png' %}"  style="width:10vw;"></a>
+                    
+                    <div class="centered" style="font-size:2.0vw; position:absolute; top:50%; left:50%; transform: translate(135%,-50%);">Favorites</div>
+                </div>
+                
+                <div class="recommendedContainer" style="width:30vw; text-align:center; position: relative; color: white;">
+                    <a href=""><img src="{% static 'images/placeholder.png' %}"  style="width:10vw;"></a>
+                    
+                    <div class="centered" style=" font-size:2.0vw;position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);">Recommended</div>
+                </div>
+                
+                <div class="topRatedContainer" style="width:30vw; text-align:left; position: relative; color: white;">
+                    <a href=""><img src="{% static 'images/placeholder.png' %}"  style="width:10vw;" ></a>
+                    
+                    <div class="centered" style=" font-size:2.0vw;position:absolute; top:50%; left:50%; transform: translate(-215%,-50%);">Top Rated</div>
+                </div>   
             </div>
-
-            <div class="modal fade" role="dialog" tabindex="-1" id="restaurantPop">
-                <div class =  "modal-dialog modal-lg" role="document" >
-                    <div class = "modal-content">
-                        
-                        <!-- HEADER -->
-                        <div class = "modal-header" style="background-image: url({% static 'images/banner.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
-                            <h2 style="color: #0094FF; border: 0.5rem solid black; padding:1rem; background:white;">Restaurant Name</h2> <i class="fa fa-times-circle fa-2x" aria-hidden="true" data-dismiss="modal"></i> 
-                        </div>
-                        
-                        <div class = "modal-body" style="font-size:2.4rem;">
-                            <div class="container">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#menu">Menu</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#about">About</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#reviews">Reviews</a>
-                                    </li>
-                                </ul>
-
-                                <!-- Tab panes -->
-                                <div class="tab-content">
-                                    <div id="menu" class="container tab-pane active"><br>
-                                        <h3>Menu Tab</h3>
+            
+            <br><h2 class="text-center" style="font-family: Bearskin; flex-grow:1;"> Locations: </h2>
+            
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
+                    <div class="row row-cols-5">
+                        {% for restaurant in restaurants %}
+                            <div class="col">
+                                <a style="text-decoration:none;" href="" onclick="UpdatePKFunction({{ restaurant.RestaurantID }})" >
+                                    <div class="card mb-4 border-dark" style="text-align:center; height:35vh;background-color:#CCCCCC;" >
+                                        <div style="height:20vh;">
+                                            <div class="card-img-top" style="max-height:17vh; overflow: hidden; background-color:white; border:0.5px solid white;">
+                                                <img src="{{restaurant.LogoUrl}}" style="width:32vh; transform:translate(-5%,-5%);" alt="Card image cap"> <!--width:350px-->
+                                            </div> 
+                                        </div>
                                         
-                                        <!-- For typesOfItems in restaurantItemTypes-->
-                                            <h4>Item Type (example:Entree)</h4> 
-
-                                            <div class="row">
-                                                <!-- For item in typeOfItems -->
-                                                    <div class ="col-sm-6">
-                                                        <div class="card">
-                                                            <br>
-                                                            <div class="card-body">
-                                                                <h5>Item Name</h5>
-                                                                <h6>Item Price</h6>
-                                                                <p> Item Description Here</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                <!-- End For item in typeOfItems-->
+                                        <div style="height:20vh;">
+                                            <div class="card-body" style="transform:translate(0,-25%);">  
+                                                <div style="height:12vh;">
+                                                    <h5 class="card-title" style="text-decoration:bold;">{{restaurant.RestaurantName}}</h5>
+                                                    <p class="card-text" style="text-align:center; font-size:1.06vw; color:black; font-family:Mono;">{{restaurant.address}}</p>
+                                                </div>
+                                                <div>
+                                                    <a href="" onclick="UpdatePKFunction({{ restaurant.RestaurantID }})" style="font-family:Mono;" class="btn btn-primary btn-sm">Order From Now</a>
+                                                </div>
                                             </div>
-                                        <!-- End For typesOfItems in restaurantItemTypes-->
-                                        
-                                    </div>
-                                    
-                                    <div id="about" class="container tab-pane fade"><br>
-                                        <h3>About Tab</h3>
-                                        <div style="height: 15rem;">
-                                                <img src="{{restaurant.LogoUrl}}" style="width:100%;">
-                                        </div> 
-                                    
-                                    </div>
-                                    
-                                    <div id="reviews" class="container tab-pane fade"><br>
-                                        <h3>Review Tab</h3>
-                                        
-                                    </div>
-                                </div>
+                                        </div>
+                                    </div>    
+                                </a>
                             </div>
-                        </div>
-                        
-                        <!-- FOOTER -->
-                        <div class = "modal-footer">
-                            <a class="nav-link btn btn-primary" href="/order/">Order Now!</a>
-                            <!--<p><input onclick= "" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>-->
-                        </div>
+                        {% endfor %}
                     </div>
-                </div>    
+                </div>
             </div>
+            
         </div>
             
     </div>
