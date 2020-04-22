@@ -85,7 +85,7 @@ def orderConfirmation(request):
                     picnic_basket[restaurantName] = picnic_basket[restaurantName].append(itemDetails)
         context = get_userinfo(request)
         context.update({'order':picnic_basket})
-        return render (request,'locations.html', context)
+        return render (request,'confirm.html', context)
     menuIt = MenuItem()
     restaurantID = request.GET['pk']
     menuIt.set_restaurantID(int(restaurantID))
