@@ -29,7 +29,7 @@ def CreateOrder(request):
         order.set_deliveryAddressID(addressID)
         order.set_restaurant(int(request.POST.get('restaurantID')))
         order.set_deliveryID(int(order.processDelivery()))
-        
+
         items_list = request.POST.getlist('cart_items[]')
         for item in items_list:
             order.set_itemID(item)
@@ -57,5 +57,23 @@ def CreateOrder(request):
     context.update({'menuitems':menuItems,'restaurantInfo':restaurantInfo,'addresses':address_info,'restaurant':restaurantID})
     return render(request,'order.html',context)
 
-        
+def orderConfirmation(request):
+    if request.method == 'POST':
+        review = OrderHistory()
+        review.set_customerID(int(request.session.get('customer')))
+        last = review.getLastOrder()
+        review.set_deliveryID(last)
+        delivery_info = review.checkDeliveryInfo()
+        review.set_deliveryAddressID(delivery_info["DeliveryAddressID"])
+        allDeliveries = review.findConcurrentDeliveries()
+        delivery_address = review.get_AddressDetails()
+        picnic_basket ={}
+        for delivery in allDeliveries:
+            review.set_deliveryID(int(delivery))
+            basket = review.getCartItems()
+            for item in basket:
+                review.set_cartItemID(int(item))
+                review.set_itemID(int(review.findInMenu()))
+                review.foodForensics() #Trace an itemID to its restaurant name, item name, and item details
 
+        ## Need to Process Cart Items first and get Restaurant ID from CartItems
