@@ -73,7 +73,27 @@ def orderConfirmation(request):
             basket = review.getCartItems()
             for item in basket:
                 review.set_cartItemID(int(item))
+                cartDetails = review.getCartDetails()
                 review.set_itemID(int(review.findInMenu()))
-                review.foodForensics() #Trace an itemID to its restaurant name, item name, and item details
-
-        ## Need to Process Cart Items first and get Restaurant ID from CartItems
+                itemDetails = review.foodForensics() #Trace an itemID to its restaurant name, item name, and item details
+                restaurantName = itemDetails["restaurantName"]
+                del itemDetails["restaurantName"]
+                itemDetails.update(cartDetails)
+                if restaurantName not in picnic_basket:
+                    picnic_basket[restaurantName] = [itemDetails]
+                else:
+                    picnic_basket[restaurantName] = picnic_basket[restaurantName].append(itemDetails)
+        context = get_userinfo(request)
+        context.update({'order':picnic_basket})
+        return render (request,'locations.html', context)
+    menuIt = MenuItem()
+    restaurantID = request.GET['pk']
+    menuIt.set_restaurantID(int(restaurantID))
+    menuItems = menuIt.viewItems()
+    restaurantInfo =  menuIt.viewRestaurant()
+    context = get_userinfo(request)
+    obj = Account()
+    obj.set_accountID(int(request.session['account']))
+    address_info = obj.getUserAddress()
+    context.update({'menuitems':menuItems,'restaurantInfo':restaurantInfo,'addresses':address_info,'restaurant':restaurantID})
+    return render(request,'order.html',context)

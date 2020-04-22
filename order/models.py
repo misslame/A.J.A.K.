@@ -236,6 +236,14 @@ class CartItem(MenuItem):
         cursor.execute(sql)
         return(cursor.fetchall()[0][0]) # Returns an Int
 
+# Getting Order Details
+    def getCartDetails(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "SELECT Quantity, SpecialInstructions FROM CartItem WHERE CartItemID = {};".format(int(self.cartItemID))
+        cursor.execute(sql)
+        return dictfetchall(cursor)
+
 class OrderHistory(CartItem,Delivery):
 
     def createOrder(self):
