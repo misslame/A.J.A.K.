@@ -43,10 +43,10 @@ def CreateOrder(request):
         target = Restaurant()
         restaurants = target.view_AllRestaurants()
         context.update({'response': response,'restaurants':restaurants, 'alert_flag': True})
-        return render(request, 'locations.html',context)
+        return render(request, 'locations.html',context) # Changed JDR
     menuIt = MenuItem()
     restaurantID = request.GET['pk']
-    print(str(restaurantID))
+    # print(str(restaurantID))
     menuIt.set_restaurantID(int(restaurantID))
     menuItems = menuIt.viewItems()
     restaurantInfo =  menuIt.viewRestaurant()
@@ -55,13 +55,14 @@ def CreateOrder(request):
     obj.set_accountID(int(request.session['account']))
     address_info = obj.getUserAddress()
     context.update({'menuitems':menuItems,'restaurantInfo':restaurantInfo,'addresses':address_info,'restaurant':restaurantID})
-    return render(request,'order.html',context)
+    return render(request,'order.html',context) # Changed JDR
 
 def orderConfirmation(request):
     if request.method == 'POST':
         review = OrderHistory()
         review.set_customerID(int(request.session.get('customer')))
         last = review.getLastOrder()
+        # print("last order is" + str(last))
         review.set_deliveryID(last)
         delivery_info = review.checkDeliveryInfo()
         review.set_deliveryAddressID(delivery_info[0]["DeliveryAddressID"])
@@ -79,10 +80,16 @@ def orderConfirmation(request):
                 restaurantName = itemDetails[0]["restaurantName"]
                 del itemDetails[0]["restaurantName"]
                 itemDetails[0].update(cartDetails)
+                # print("\n\n\n")
+                # print(itemDetails[0])
+                # print("\n\n\n")
                 if restaurantName not in picnic_basket:
-                    picnic_basket[restaurantName] = [itemDetails[0]]
-                else:
-                    picnic_basket[restaurantName] = picnic_basket[restaurantName].append(itemDetails[0])
+                    # print("{} is not in the dictionary".format(restaurantName))
+                    picnic_basket[restaurantName] = list()
+                # print(picnic_basket[restaurantName])
+                # print(type(picnic_basket[restaurantName]))
+                picnic_basket[restaurantName] = [*picnic_basket[restaurantName],itemDetails[0]]
+        # print(picnic_basket)
         context = get_userinfo(request)
         context.update({'order':picnic_basket})
         return render (request,'locations.html', context)
