@@ -142,5 +142,5 @@ class MenuItem(Menu):
         sql = "SELECT ItemName,Price,Discount,ItemURL FROM Items WHERE ItemID = {};".format(int(self.itemID))
         cursor.execute(sql)
         response = dictfetchall(cursor)
-        response["restaurantName"] = restaurantName
+        response[0]["restaurantName"] = restaurantName
         return response

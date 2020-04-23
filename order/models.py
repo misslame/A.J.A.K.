@@ -99,7 +99,7 @@ class Delivery(Customer):
         cnxn = getConnection()
         cursor = cnxn.cursor()
         sql = "SELECT * FROM Delivery WHERE DeliveryID = {};".format(int(self.deliveryID))
-        cursor.executre(sql)
+        cursor.execute(sql)
         return(dictfetchall(cursor))
 
 #Get Recent Deliveries
@@ -109,16 +109,16 @@ class Delivery(Customer):
         sql = "SELECT DeliveryTime,DeliveryDate From Delivery WHERE DeliveryID = {};".format(int(self.deliveryID))
         cursor.execute(sql)
         datetime = dictfetchall(cursor)
-        sql = "SELECT DeliveryID WHERE DeliveryDate = '{}' AND DeliveryTime = '{}' AND DeliveryAddressID = {};"
-        sql = sql.format(str(datetime["DeliveryDate"]),str(datetime["DeliveryTime"]),int(self.deliveryAddressID))
+        sql = "SELECT DeliveryID FROM Delivery WHERE DeliveryDate LIKE '{}' AND DeliveryTime LIKE '{}' AND DeliveryAddressID = {};".format(str(datetime[0]["DeliveryDate"]),str(datetime[0]["DeliveryTime"]),int(self.deliveryAddressID))
+        print(sql)
         cursor.execute(sql)
         deliveries = cursor.fetchall()
         return([id for t in deliveries for id in t]) # Return a List of Delivery IDs
 
     def get_AddressDetails(self):
-        cnxn = getConenction()
+        cnxn = getConnection()
         cursor = cnxn.cursor()
-        sql = "SELECT StreetAddress,AptNum,City,StateAbbv,Zip WHERE DeliveryAddressID = {};".format(int(self.deliveryAddressID))
+        sql = "SELECT StreetAddress,AptNum,City,StateAbbv,Zip FROM Addresses WHERE AddressID = {};".format(int(self.deliveryAddressID))
         cursor.execute(sql)
         return(dictfetchall(cursor))
 # Add Tip
@@ -232,7 +232,7 @@ class CartItem(MenuItem):
     def findInMenu(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        sql = "SELECT ItemID FROM CartItem WHERE CartItemID = {};".format(int(self.cartItemID))
+        sql = "SELECT ItemID FROM CartItems WHERE CartItemID = {};".format(int(self.cartItemID))
         cursor.execute(sql)
         return(cursor.fetchall()[0][0]) # Returns an Int
 
@@ -240,7 +240,7 @@ class CartItem(MenuItem):
     def getCartDetails(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        sql = "SELECT Quantity, SpecialInstructions FROM CartItem WHERE CartItemID = {};".format(int(self.cartItemID))
+        sql = "SELECT Quantity, SpecialInstructions FROM CartItems WHERE CartItemID = {};".format(int(self.cartItemID))
         cursor.execute(sql)
         return dictfetchall(cursor)
 
@@ -272,7 +272,7 @@ class OrderHistory(CartItem,Delivery):
         return (recentDelivery) # Returns an int
 
     def getCartItems(self):
-        cnxn = getConenction()
+        cnxn = getConnection()
         cursor = cnxn.cursor()
         sql = "SELECT CartItemID FROM OrderHistory WHERE DeliveryID = {};".format(int(self.deliveryID))
         cursor.execute(sql)

@@ -64,7 +64,7 @@ def orderConfirmation(request):
         last = review.getLastOrder()
         review.set_deliveryID(last)
         delivery_info = review.checkDeliveryInfo()
-        review.set_deliveryAddressID(delivery_info["DeliveryAddressID"])
+        review.set_deliveryAddressID(delivery_info[0]["DeliveryAddressID"])
         allDeliveries = review.findConcurrentDeliveries()
         delivery_address = review.get_AddressDetails()
         picnic_basket ={}
@@ -76,16 +76,16 @@ def orderConfirmation(request):
                 cartDetails = review.getCartDetails()
                 review.set_itemID(int(review.findInMenu()))
                 itemDetails = review.foodForensics() #Trace an itemID to its restaurant name, item name, and item details
-                restaurantName = itemDetails["restaurantName"]
-                del itemDetails["restaurantName"]
-                itemDetails.update(cartDetails)
+                restaurantName = itemDetails[0]["restaurantName"]
+                del itemDetails[0]["restaurantName"]
+                itemDetails[0].update(cartDetails)
                 if restaurantName not in picnic_basket:
-                    picnic_basket[restaurantName] = [itemDetails]
+                    picnic_basket[restaurantName] = [itemDetails[0]]
                 else:
-                    picnic_basket[restaurantName] = picnic_basket[restaurantName].append(itemDetails)
+                    picnic_basket[restaurantName] = picnic_basket[restaurantName].append(itemDetails[0])
         context = get_userinfo(request)
         context.update({'order':picnic_basket})
-        return render (request,'confirm.html', context)
+        return render (request,'locations.html', context)
     menuIt = MenuItem()
     restaurantID = request.GET['pk']
     menuIt.set_restaurantID(int(restaurantID))
