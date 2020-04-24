@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Customer
 from bearbites.models import Account
-
+from order.views import lastOrder
 # Create your views here.
 
 checkbox_list = ['Dairy', 'Eggs', 'True Nuts', 'Wheat', 'Peanuts', 'Soy','Fish','ShellFish']
@@ -15,7 +15,7 @@ def loadAllergies(request):
     num_allergies = len(allergy_list)
     list_check = []
     total_allergies = 0
-    if num_allergies > 0:    
+    if num_allergies > 0:
         for check in checkbox_list:
             if total_allergies <= num_allergies:
                 found = 0
@@ -72,7 +72,7 @@ def get_userinfo(request):
         acnt.set_customerID(int(request.session['customer']))
         user_info = acnt.getUserAccount()
         request.session['auth'] = True
-        
+
     else:
         userInfo = ""
         user_info = ""
@@ -88,7 +88,7 @@ def loadProfile(request):
     else:
         authenticated = False
 
-    if authenticated == True:  
+    if authenticated == True:
         allergies = loadAllergies(request)
         preferences = loadPreferences(request)
         obj.set_email(request.session['user'])
@@ -100,6 +100,7 @@ def loadProfile(request):
         print(user_info)
         print(obj.get_accountID())
         context = get_userinfo(request)
+        context.update(lastOrder(request))
         context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
         return render(request, 'profile.html',context)
     else:
@@ -112,7 +113,7 @@ def editProfile(request):
     else:
         authenticated = False
 
-    if authenticated == True:  
+    if authenticated == True:
         allergies = loadAllergies(request)
         preferences = loadPreferences(request)
         acnt = Customer()
@@ -137,7 +138,7 @@ def editProfile(request):
             context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
             return render(request, 'profile.html',context )
         else:
-            
+
             address_info = acnt.getUserAddress()
             context.update({'check_list': allergies,'p_check_list': preferences ,'addresses': address_info })
             return render(request, 'profile.html', context)
@@ -150,7 +151,7 @@ def editAddress(request):
         authenticated = request.session['auth']
     else:
         authenticated = False
-    
+
     if authenticated == True:
         allergies = loadAllergies(request)
         preferences = loadPreferences(request)
@@ -176,23 +177,23 @@ def editAddress(request):
         return render(request,'login.html')
 
 def customerAllergy(request):
-    
+
     if 'auth' in request.session:
         authenticated = request.session['auth']
     else:
         authenticated = False
 
-    if authenticated == True:  
+    if authenticated == True:
         obj = Customer()
         obj.set_email(request.session['user'])
         obj.set_password(request.session['password'])
         obj.set_accountID(int(request.session['account']))
         obj.set_customerID(int(request.session['customer']))
-        context = get_userinfo(request) 
+        context = get_userinfo(request)
         if request.method == 'POST': # If the form has been submitted...
             allergy_list = request.POST.getlist('a_checks[]')
             customer_list = obj.viewAllergy()
-            for allergy in allergy_list: #Find which prefrences have already been added and ignore 
+            for allergy in allergy_list: #Find which prefrences have already been added and ignore
                 found = 0
                 for user_a in  customer_list:
                     if allergy in user_a:
@@ -212,7 +213,7 @@ def customerAllergy(request):
                     obj.removeAllergy()
             user_info = obj.getUserAccount()
             address_info = obj.getUserAddress()
-            response = "Allergies are up-to-date" 
+            response = "Allergies are up-to-date"
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
             context.update({'response': response, 'check_list': allergies ,'p_check_list': preferences, 'users': user_info,'addresses': address_info, 'is_authenticated':authenticated })
@@ -222,9 +223,9 @@ def customerAllergy(request):
             preferences = loadPreferences(request)
             address_info = obj.getUserAddress()
             context.update({'check_list': allergies, 'p_check_list': preferences, 'users': user_info,'addresses': address_info })
-            return render(request, 'profile.html', context) # Redirect 
+            return render(request, 'profile.html', context) # Redirect
     else:
-        return render(request, 'login.html')    
+        return render(request, 'login.html')
 
 def customerPreference(request):
     if 'auth' in request.session:
@@ -232,7 +233,7 @@ def customerPreference(request):
     else:
         authenticated = False
 
-    if authenticated == True:  
+    if authenticated == True:
         obj = Customer()
         obj.set_email(request.session['user'])
         obj.set_password(request.session['password'])
@@ -249,7 +250,7 @@ def customerPreference(request):
                         found = 1
                         break
                 if found == 0:
-                    obj.set_preference(preference) 
+                    obj.set_preference(preference)
                     obj.addPreference()
             for user_p in  customer_list:
                 removed_p = 0
@@ -262,12 +263,12 @@ def customerPreference(request):
                     obj.removePreference()
             user_info = obj.getUserAccount()
             address_info = obj.getUserAddress()
-            response = "Preferences are up-to-date" 
+            response = "Preferences are up-to-date"
             context = {'response': response}
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
             context.update({'response': response, 'check_list': allergies ,'p_check_list': preferences,'addresses': address_info})
-            
+
             return render(request, 'profile.html', context) # Redirect after POST
         else:
             allergies = loadAllergies(request)

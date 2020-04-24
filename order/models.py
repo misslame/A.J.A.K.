@@ -278,3 +278,12 @@ class OrderHistory(CartItem,Delivery):
         cursor.execute(sql)
         items = cursor.fetchall()
         return ([item for t in items for item in t])
+
+    def getOrderRestaurants(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = ("Select RestaurantName FROM Restaurant INNER JOIN Delivery ON Restaurant.RestaurantID=Delivery.RestaurantID "
+               "WHERE Delivery.DeliveryTime LIKE '{}' AND Delivery.DeliveryDate LIKE '{}' AND Delivery.DeliveryAddressID = {};").format(self.deliveryTime, self.deliveryDate, self.deliveryAddressID)
+        cursor.execute(sql)
+        restaurants = cursor.fetchall()
+        return ([name for t in restaurants for name in t])
