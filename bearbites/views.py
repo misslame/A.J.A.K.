@@ -152,6 +152,7 @@ def loginView(request):
             request.session["name"] = name
             print(request.session["name"])
             context = get_userinfo(request)
+            context.update(lastOrder(request))
             context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info ,'state':state})
             return render(request,'profile.html',context)
         else:

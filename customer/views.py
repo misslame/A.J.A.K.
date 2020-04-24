@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from .models import Customer
 from bearbites.models import Account
-from order.views import lastOrder
 # Create your views here.
 
 checkbox_list = ['Dairy', 'Eggs', 'True Nuts', 'Wheat', 'Peanuts', 'Soy','Fish','ShellFish']
@@ -100,7 +99,6 @@ def loadProfile(request):
         print(user_info)
         print(obj.get_accountID())
         context = get_userinfo(request)
-        context.update(lastOrder(request))
         context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
         return render(request, 'profile.html',context)
     else:
