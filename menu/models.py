@@ -14,6 +14,19 @@ class Menu(Restaurant):
     def set_menuID(self,num):
         self.menuID = num
 
+        #Get an Item's price
+    def getItemRestaurant(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "Select Restaurant.RestaurantID FROM ((Items inner join  Menu on Items.MenuID = Menu.MenuID ) inner join Restaurant on Menu.RestaurantID = Restaurant.RestaurantID ) WHERE ItemID={}".format(self.itemID)
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        response = results[-1][0]
+        cursor.close()
+        cnxn.close()
+        del cnxn
+        return response
+
     
 
 class MenuItem(Menu):
@@ -129,3 +142,30 @@ class MenuItem(Menu):
         sql = "EXEC ViewRestaurantsItems @Restaurant= {}".format(self.restaurantID)
         cursor.execute(sql)
         return dictfetchall(cursor)
+    
+#Get an Item's price
+    def getItemPrice(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "Select Price FROM Items WHERE ItemID= {}".format(self.itemID)
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        response = results[-1][0]
+        cursor.close()
+        cnxn.close()
+        del cnxn
+        return response
+
+#Get an Item's price
+    def getItemRestaurant(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "Select Restaurant.RestaurantID FROM ((Items inner join  Menu on Items.MenuID = Menu.MenuID ) inner join Restaurant on Menu.RestaurantID = Restaurant.RestaurantID ) WHERE ItemID={}".format(self.itemID)
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        response = results[-1][0]
+        cursor.close()
+        cnxn.close()
+        del cnxn
+        return response
+    

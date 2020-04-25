@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .models import Customer
 from bearbites.models import Account
+from order.models import OrderHistory
+
 
 # Create your views here.
 
@@ -80,6 +82,28 @@ def get_userinfo(request):
         request.session['auth'] = False
     dict = {'authenticated_user':userInfo,'userauthenticated':auth,'users': user_info}
     return   dict
+def lastOrder(request):
+    previous = OrderHistory()
+    previous.set_customerID(int(request.session.get('customer')))
+    last = previous.getLastOrder() # Returns Last Order's Delivert ID
+    previous.set_deliveryID(last)
+    delivery_info = previous.checkDeliveryInfo() # Returns dictfetchall of Delivery row
+    previous.set_deliveryAddressID(delivery_info[0]["DeliveryAddressID"])
+    orderDate = delivery_info[0]["DeliveryDate"]
+    orderTime = delivery_info[0]["DeliveryTime"]
+    previous.set_deliveryDate(orderDate)
+    previous.set_deliveryTime(orderTime)
+    recent_restaurants = previous.getOrderRestaurants() #Returns 1D list of Restaurant names
+    delivery_address = previous.get_AddressDetails()
+    last_order = {
+        "orderDate": orderDate,
+        "orderTime": orderTime,
+        "recent_restaurants": recent_restaurants,
+        "delivery_address": delivery_address
+    }
+    return last_order
+
+
 
 def loadProfile(request):
     obj = Customer()
@@ -101,9 +125,11 @@ def loadProfile(request):
         print(obj.get_accountID())
         context = get_userinfo(request)
         context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
+        context.update(lastOrder(request))
         return render(request, 'profile.html',context)
     else:
         return render(request,'login.html')
+
 
 
 def editProfile(request):
