@@ -16,39 +16,56 @@
                 <a class="nav-link" href="/locations">Browse Locations</a>
             </li>
             
-                {% if userauthenticated == True %}
-                    <li class= "nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown">{{ authenticated_user }}</a>
+            {% if userauthenticated == True %}
+                <li class= "nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">{{ authenticated_user }}</a>
+                
+                    <div class="dropdown-menu" style= "text-align: center; width: 300px !important; height: auto; padding:15px;"aria-labelledby="navbarDropdownMenuLink-4">
+                        <b style="font-size:2.0vw;">Hello, {{ authenticated_user }}!</b>
+                        <br><br>
+                        <button type="button" style="font-size: 30px;" class="btn btn-primary btn-lock btn-block" onclick="window.location.href='/profile'">My Account</button>
+                        <button type="button" style="font-size: 30px;" class="btn btn-primary btn-lock btn-block" onclick="window.location.href='/logout'">Logout</button>
+                    </div>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="getSize()"><img src="{% static 'brand/basket.png' %}" style="max-height: 40px;"></a>
                     
-                        <div class="dropdown-menu" style= "text-align: center; width: 300px !important; height: auto; padding:15px;"aria-labelledby="navbarDropdownMenuLink-4">
-                            <b style="font-size:2.0vw;">Hello, {{ authenticated_user }}!</b>
-                            <br><br>
-                            <button type="button" style="font-size: 30px;" class="btn btn-primary btn-lock btn-block" onclick="window.location.href='/profile'">My Account</button>
-                            <button type="button" style="font-size: 30px;" class="btn btn-primary btn-lock btn-block" onclick="window.location.href='/logout'">Logout</button>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"  style="padding:15px; width: 25vw;" >
+                        <div style="text-align: center;">
+                            <b style="font-size:2.0vw;" id="basketMsg">Your picnic basket is empty!</b>
                         </div>
-                    </li>
+                        <br>
+                        <img src="{% static 'images/hanging.png' %}" style="max-height:10vh; position:absolute;">
+                        <br>
+                        <button type="button" style="font-size: 2.0vw;" class="btn btn-primary btn-lock btn-block" onclick="window.location.href='/order'">Check Out Now!</button>
+                    </div>
                     
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{% static 'brand/basket.png' %}" style="max-height: 40px;"></a>
-                        
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"  style="padding:15px; width: 25vw;" >
-                            <div style="text-align: center;">
-                                <b style="font-size:2.0vw;">Your picnic basket is empty!</b>
-                            </div>
-                            <br>
-                            <img src="{% static 'images/hanging.png' %}" style="max-height:10vh; position:absolute;">
-                            <br>
-                            <button type="button" style="font-size: 2.0vw;" class="btn btn-primary btn-lock btn-block" onclick="window.location.href='/order'">Check Out Now!</button>
-                        </div>
-                    </li> 
-                {% else %}
-                    <li class= "nav-item">
-                        <a class="nav-link" id="login" href="/login" data-js-vars="{{ username }}"> Login</a>
-                    </li>
-                {% endif %}
+                    <script>
+                        function getSize(){
+                            var basketSize = Cookies.getJSON('cart').length;
+                            var element = document.getElementById("basketMsg");
+                            if(basketSize > 0){
+                                if(basketSize == 7){
+                                    element.innerHTML = "WOW! You have 7 items in your basket! Yay for lucky numbers!";
+                                }else{
+                                    element.innerHTML = "You have " +  basketSize + " items in your picnic basket!";
+                                }
+                            }else{
+                                element.innerHTML = "Your picnic basket is empty!";   
+                            }
+                        }
+                    </script>
+                    
+                </li> 
+            {% else %}
+                <li class= "nav-item">
+                    <a class="nav-link" id="login" href="/login" data-js-vars="{{ username }}"> Login</a>
+                </li>
+            {% endif %}
             
         </ul>
-        
     </div>  
+    
 </div>
 </nav>

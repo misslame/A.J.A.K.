@@ -82,15 +82,15 @@
                                             
                                             <div style="height:20vh;">
                                                 <div class="card-body" style="transform:translate(0,-25%);">  
-                                                    <div style="height:12vh;">
+                                                    <div style="height:13vh;">
                                                         <h5 class="card-title" style="text-decoration:bold;">{{restaurant.RestaurantName}}</h5>
-                                                        <p class="card-text" style="text-align:center; font-size:1.06vw; color:black; font-family:Mono;">{{restaurant.address}}</p>
+                                                        <p class="card-text" style="text-align:center; font-size:1vw; color:black; font-family:Mono;">{{restaurant.address}}</p>
                                                     </div>
                                                     <div>
                                                         <!--
                                                         <a href="" onclick="UpdatePKFunction({{ restaurant.RestaurantID }})" style="font-family:Mono;" class="btn btn-primary btn-sm">Order From Now</a>
                                                         -->
-                                                        <a href="" onclick="return show('restaurantPage','defaultPage');" style="font-family:Mono;" class="btn btn-primary btn-sm">Order From Now</a>
+                                                        <a href="" onclick="return show('restaurantPage','defaultPage');" style="font-family:Mono;" class="btn btn-primary btn-sm">Order From</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -189,13 +189,13 @@
                                 
                                 <div class="modal-body" style="font-size:1.4vw;">
                                     <span class="float-right font-weight-bold" style="font-family:Mono;">$00</span>
-                                    <h5> Item Name </h5>
+                                    <h5 id="itemName"> Item Name </h5>
                                     <p style="font-family:Mono;">Item Description</p>
                                     
                                     <!-- Special Instructions Text box -->
                                     <div class="form-group" style="max-width:50%;">
                                         <h6> Special Instructions:</h6>
-                                        <textarea class="form-control" rows="5" name="specialInstructions" id="comment" style="font-family:Mono;"></textarea>
+                                        <textarea class="form-control" rows="5" name="specialInstructions" id="itemInstruct" style="font-family:Mono;"></textarea>
                                     </div>
                                     
                                     <!-- Counter input for quantity of items. -->
@@ -204,7 +204,7 @@
                                             <span class="input-group-btn">
                                                 <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus" aria-hidden="true"></i></button>
                                             </span>
-                                            <input type="text" class="form-control text-center" value="1">
+                                            <input id="itemQuantity"type="text" class="form-control text-center" value="1">
                                             <span class="input-group-btn">
                                                 <button class="btn btn-default" data-dir="up"><i class="fa fa-plus" aria-hidden="true"></i></button>
                                             </span>
@@ -213,8 +213,8 @@
                                 </div>
 
                                 <div class="modal-footer float-right">
-                                    <button type = "button" class="btn btn-primary btn-lg">Cancel</button>
-                                    <button type = "button" class="btn btn-primary btn-lg">Confirm</button>
+                                    <button type = "button" class="btn btn-primary btn-lg" data-dismiss="modal">Cancel</button>
+                                    <button type = "button" class="btn btn-primary btn-lg" onclick="getItemInfo(ITEMID)">Confirm</button>
                                 </div>
                             </div>
                         </div>
@@ -282,6 +282,45 @@
             }
             btn.closest('.number-spinner').find('input').val(newVal);
         });
+        
+        
+        
+        //change to include itemID as a parameter
+        function getItemInfo(itemId){
+            
+            // Get input values
+            var itemQuantity = document.getElementById("itemQuantity").value;
+            var itemInstructions = document.getElementById("itemInstruct").value;
+            
+            // Send input values to be made in to a cookie
+            setCookie(itemId,itemName,itemQuantity,itemInstructions);
+            
+            // Hide the modal with the item information
+            $('#modal').modal('hide');
+        }
+        
+        // Change to include itemID as a parameter
+        function setCookie(itemId,itemQuantity,itemInstructions){
+            
+            /****************************************************
+                Update Cookie for handling the cart
+            ****************************************************/
+            
+            // Get cart of items as an object.
+            var picnicBasket = Cookies.getJSON('cart');
+            
+            if (picnicBasket == undefined) { // If cart is empty
+                picnicBasket = [];
+            }
+            
+            console.log(typeof picnicBasket); // error-check: Console Ouput MUST be object
+            
+            // Insert a new item onto the cart
+            var newItem = {id:itemId,quantity:itemQuantity,instructions:itemInstructions};
+            picnicBasket.push(newItem);
+            Cookies.set('cart',picnicBasket); // Add cookie
+            
+        }
         
         
     </script>
