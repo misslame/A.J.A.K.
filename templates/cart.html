@@ -1,0 +1,259 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<body style = "background-image: url({% static 'images/background1.2.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
+<div class="container-fluid" style="width:90%;margin-top:5%;border-color:black;background-color: whitesmoke; border-width:1rem;margin-left: 5%;align-content: center;">
+    <div class="row flex-nowrap wrapper" style="margin-top:5%; margin-left:5%; align-content:center;">
+        <!--page 1: review items in cart-->
+        <div id="Page1"> 
+            <div class="container" style="width:100%; border:black solid; margin-top:5%; padding-bottom: 3%;">
+                <h2 style="align-content: center;margin-top:5%;">Review Items</h2>
+            </div>
+            <div class="container" style="margin-top:5%; border:black solid; padding-top:2%;">
+                <!-- FOR LOOP FOR LISTING RESTAURANTS-->
+                <h3>Restaurant Name: <!--RESTAURANT NAME HERE--></h3>
+                    <table class = "table table-bordered table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th style="width:80%;">Item</th>
+                                <th style="widows: 5%;">Quantity</th>
+                                <th style="width:15%;">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id="menu">
+                            <!-- FOR LOOP FOR LISTING ITEMS IN MENU-->
+                            <tr>
+                                <td>
+                                    <p>Item Name<!--ITEM NAME--></p>
+                                    <p>
+                                        Special Instructions:
+                                        <p><!--SPECIAL INSTRUCTIONS--></p>
+                                    </p>
+                                </td>
+                                <td>
+                                    <form action="" method="POST">
+                                        <!-- QUANTITY INTO PLACEHOLDER
+                                        <input type="text" name="#" value ="{{order.quantity}}" style="width:80%;" placeholder="current quantity"></input>
+                                        <input style="font-size:.7rem;" class="btn btn-primary btn-lock btn-block" type="submit" value="Update"> -->
+                                        
+                                        <select class="form-control" id="sel1">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                            <option>6</option>
+                                            <option>7</option>
+                                            <option>8</option>
+                                            <option>9</option>
+                                            <option>10</option>
+                                        </select>
+                                    </form>
+                                </td>
+                                <td>
+                                    $<!--ITEM PRICE * QUANTITY-->
+                                </td>
+                            </tr>
+                            <!-- END FOR LOOP FOR LISTING ITEMS IN MENU -->
+                        </tbody>                        
+                    </table>
+                <!-- END FOR LOOP FOR RESTAURANT -->
+                <div style="text-align: right;margin-right:2%;">
+                    <h4>Total: $ <!--TOTAL PRICE OF ORDER HERE--></h4>
+                </div>
+            </div>
+            <!--navigation bar for order page-->
+            <nav>  
+                <ul class="pagination justify-content-center" style="margin-top:5%; margin-bottom: 7%;">
+                    <li class="page-item disabled">
+                    <a class="page-link" href="" tabindex="-1">Previous Step</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link">Review Cart</a></li>
+                    <li class="page-item"><a class="page-link" style="color:black;">Delivery Options</a></li>
+                    <li class="page-item"><a class="page-link" style="color:black;">Payment Options</a></li>
+                    <li class="page-item"><a class="page-link" style="color:black;">Confirm Order</a></li>
+                    <li class="page-item">
+                    <a class="page-link" href="" onclick="return show('Page2', 'Page1');">Next Step</a>
+                    </li>
+                </ul> 
+            </nav>
+            <!--end navigation bar-->
+        </div> 
+        <!--end page 1-->
+        
+        <!--page 2: delivery options-->
+        <div id="Page2" style="display:none;">
+            <div class="container" style="width:100%; border:black solid; margin-top:5%; padding-bottom: 3%;">
+                <h2 style="align-content: center;margin-top:5%;">Delivery Options</h2>
+            </div>
+            <nav>  
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" href="" onclick="return show('Page1','Page2');">Previous Step</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" style="color:black;">Review Cart</a></li>
+                    <li class="page-item active"><a class="page-link">Delivery Options</a></li>
+                    <li class="page-item"><a class="page-link" style="color:black;">Payment Options</a></li>
+                    <li class="page-item"><a class="page-link" style="color:black;">Confirm Order</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="" onclick="return show('Page3', 'Page2');">Next Step</a>
+                    </li>
+                </ul> 
+            </nav>
+        </div> 
+        <!--end page 2-->
+
+        <!--page 3: payment options-->
+        <div id="Page3" style="display:none;"> 
+            <div class="container" style="width:100%; border:black solid; margin-top:5%; padding-bottom: 3%;">
+                    <h2 style="align-content: center;margin-top:5%;">Payment Options</h2>
+            </div>
+            <br>
+            <div class="container" style="width:100%; padding-bottom:3%;">
+                <h4>Please input card information:</h4>
+                <form action="" method="POST">
+                    <label>Name On Card:</label>
+                    <input style="font-family: sans-seriff;" type="text" name="cardname" class="form-control" value ="{{form_fields.0}}" placeholder="Name on card...">
+                    <br>
+                    <label>Card Number:</label>
+                    <input style="font-family: sans-seriff;" type="text" name="cardnumber" class="form-control" value ="{{form.fields.1}}" placeholder="Card number...">
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>Zip Code:</label>
+                            <input style="font-family: sans-seriff;" type="text" name="zip" class="form-control" value ="{{form_fields.2}}" placeholder="Zip Code...">
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Expiration Date:</label>
+                            <input style="font-family: sans-seriff;" type="text" name="expirationdate" class="form-control" value ="{{form_fields.3}}" placeholder="MM/YY">
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>CVV:</label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <!-- Modal for CVV explanation
+                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">?</button>
+                                    <div id="myModal" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+                                            
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">What is CVV?</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>CVV is short for Card Verification Value.  It is a three or four digit number on a credit card that adds an extra level of security when making purchases online or over the phone.</p>
+                                                    <img src="../bearbites/static/images/cvv-code-credit-card.jpg" class="img-responsive" style="width:20rem;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>-->
+
+                                    <div class="container">
+                                        <a href="#" data-toggle="tooltip" title="CVV is short for Card Verification Value.  It is a three or four digit number on a credit card that adds an extra level of security when making purchases online or over the phone.">?</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <input style="font-family: sans-seriff;" type="text" name="cvv" class="form-control" value ="{{form_fields.4}}" placeholder="CVV...">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="container" style="width:100%; border:black solid; padding-top:5%; padding-bottom: 3%;">
+                    <table class = "table table-bordered table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th style="width:45%;">Item</th>
+                                    <th style="width:35%;">Restaurant</th>
+                                    <th style="widows: 5%;">Quantity</th>
+                                    <th style="width:15%;">Price</th>
+                                </tr>
+                            </thead>
+                        <tbody id="menu">
+                            <!-- FOR LOOP FOR LISTING ITEMS IN CART-->
+                            <tr>
+                                <td>
+                                    <p><!--ITEM NAME--></p>
+                                </td>
+                                <td>
+                                    <p><!--RESTAURANT NAME--></p>
+                                </td>
+                                <td>
+                                    <!--QUANTITY HERE-->
+                                </td>
+                                <td>
+                                    $<!--ITEM PRICE * QUANTITY-->
+                                </td>
+                            </tr>
+                            <!-- END FOR LOOP FOR LISTING ITEMS IN MENU -->
+                        </tbody>                        
+                    </table>
+                    <div style="text-align:right; margin-right:2%;">
+                        <h5>Cart: $ <!--CART COST--></h5>
+                        <h5>Tax: $ <!--TAX COST--></h5>
+                        <h5>Tip: $ <!--TIP IF DESIRED--></h5>
+                        <h5>Total: $ <!--CART + TAX + TIP--></h5>
+                    </div>   
+            </div>
+            <br>
+            <nav>  
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" href="" onclick="return show('Page2','Page3');">Previous Step</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" style="color:black;">Review Cart</a></li>
+                    <li class="page-item"><a class="page-link" style="color:black;">Delivery Options</a></li>
+                    <li class="page-item active"><a class="page-link">Payment Options</a></li>
+                    <li class="page-item"><a class="page-link" style="color:black;">Confirm Order</a></li>                       
+                    <li class="page-item">
+                        <a class="page-link" href="" onclick="return show('Page4', 'Page3');">Next Step</a>
+                    </li>
+                </ul> 
+            </nav>
+        </div> 
+        <!--end page 3-->
+
+        <!--page 4: confirm order-->
+        <div id="Page4" style="display:none;"> 
+            <div class="container" style="width:100%; border:black solid; margin-top:5%; padding-bottom: 3%;">
+                <h2 style="align-content: center;margin-top:5%;">Confirm Order</h2>
+            </div>
+            <nav>  
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" href="" onclick="return show('Page3','Page4');">Previous Step</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" style="color:black;">Review Cart</a></li>
+                    <li class="page-item"><a class="page-link" style="color:black;">Delivery Options</a></li>
+                    <li class="page-item"><a class="page-link" style="color:black;">Payment Options</a></li>
+                    <li class="page-item active"><a class="page-link">Confirm Order</a></li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="" tabindex="-1">Next Step</a>
+                    </li>
+                </ul> 
+            </nav>
+        </div> 
+        <!--end page 4-->
+    </div>
+</div>
+
+<script>
+        var orgurl = window.location.protocol + "/" + window.location.host +"/cart"
+        window.history.pushState({path:orgurl},'',"/cart/");
+        var add = document.getElementById("stateselect").getAttribute('value'); 
+        document.getElementById("stateselect").value = add;
+        function show(shown,hidden){
+            document.getElementById(shown).style.display='block';
+            document.getElementById(hidden).style.display='none';
+            return false;
+        }
+
+        $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();   
+        });
+</script>   
+
+</body>
+{% endblock %}
