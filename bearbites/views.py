@@ -4,15 +4,17 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from .models import Account
-from customer.views import loadAllergies, loadPreferences, get_userinfo
-from order.views import lastOrder
+from customer.views import loadAllergies, loadPreferences, get_userinfo,lastOrder
 from customer.models import Customer
 from django.template import Context, loader
-
+from order.views import CreateOrder
+from order.models import OrderHistory
 
 
 def indexView(request):
     context = get_userinfo(request)
+    if 'name' in request.session:
+        context.update(lastOrder(request))
     return render(request, 'index.html',context)
 
 
@@ -20,15 +22,17 @@ def dashboardView(request):
     return render(request,'index.html')
 
 def trialDashBoardView(request):
-    context = get_userinfo(request)
-    context.update(lastOrder(request))
-    print("\n\n")
-    print(context)
-    print("\n\n")
-    return render(request, 'trial_dashboard.html',context)
+    if 'name' in request.session:
+        context = get_userinfo(request)
+        context.update(lastOrder(request))
+        return render(request, 'trial_dashboard.html',context)
+    return redirect('/login')
 
 def orderView(request):
-    return render(request, 'order.html')
+    if 'name' in request.session:
+        return render(request, 'order.html')
+    return redirect('/login')
+
 
 
 def registerView(request):

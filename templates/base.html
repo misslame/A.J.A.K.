@@ -19,6 +19,9 @@
     
     <!-- Personal CSS Style sheet-->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    
+    <!-- Cookie library -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 </head>
 
 <!-- navigation -->
@@ -26,4 +29,5 @@
 {% block content %}
     replace me
 {% endblock %}
+{% include 'footer.html' %}
 </html>

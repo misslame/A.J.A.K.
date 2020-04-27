@@ -29,7 +29,7 @@ urlpatterns = [
     path('locations/', restaurant_views.browseLocationView,name="locations"),
    
     path('searchRestaurant/', restaurant_views.searchRestaurant,name="searchRestaurant"),
-    path('locations/menu',menu_views.openMenuView,name="Menu"),
+
     path('order/',order_views.CreateOrder,name="order"),
     
 

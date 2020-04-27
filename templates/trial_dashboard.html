@@ -7,12 +7,10 @@
         <div class = "container">
             <div class = "jumbotron"; background:white;>
                 <h1>Welcome, <p style="margin:0 0 0 0;display: inline-block;" >{{authenticated_user}}</p>!</h1>
-                <p>You last ordered on: {{orderDate}} at {{orderTime}} from {% for restaurant in recent_restaurants %} {% if recent_restaurants|length > 1 %}{% if restaurant == recent_restaurants|last %} and {% endif %}{% endif %}{{restaurant}}{% if recent_restaurants|length > 2 %}{% if restaurant != recent_restaurants|last %},{% endif %}{% endif %}{% endfor %}
-
-                </p>
+                Last order on: {{orderDate}} at {{orderTime}} from {% for restaurant in recent_restaurants %} {% if recent_restaurants|length > 1 %}{% if restaurant == recent_restaurants|last %} and {% endif %}{% endif %}{{restaurant}}{% if recent_restaurants|length > 2 %}{% if restaurant != recent_restaurants|last %},{% endif %}{% endif %}{% endfor %}<br>
                 {% for address in delivery_address %}
-                  <p>Delivered to: {{address.StreetAddress}} {{address.AptNum}}, {{address.City}}, {{address.StateAbbv}} {{address.Zip}}</p>
-                {% endfor %}
+                                                          Delivered to {{address.StreetAddress}} {{address.AptNum}}, {{address.City}}, {{address.StateAbbv}} {{address.Zip}}
+                                                        {% endfor %}
                 <!--<button type = "button" class = "btn btn-default">Re-order Last Order</button>-->
             </div>
         </div>
