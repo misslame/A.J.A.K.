@@ -1,0 +1,13 @@
+*/migrations/* linguist-generated
+*.pyc linguist-generated
+
+*/__init__.py linguist-generated
+*/admin.py linguist-generated
+*/apps.py linguist-generated
+
+*/web_project/asgi.py linguist-generated
+*/web_project/manage.py linguist-generated
+*/web_project/wsgi.piy linguist-generated
+
+manage.py linguist-generated
+pyvenv.cfg linguist-generated

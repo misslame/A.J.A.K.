@@ -27,7 +27,7 @@
         <div class = "container">
             <div class = "jumbotron">
                 <h1>{{favorite}}</h1>
-                
+
             </div>
         </div>
         {% endfor%}-->
@@ -150,9 +150,9 @@
                 });
             });
         });
-        var username = document.getElementById("login").getAttribute('data-js-vars');  
+        var username = document.getElementById("login").getAttribute('data-js-vars');
             if (username != "") {
-             // do something 
+             // do something
                  document.getElementById("home").innerHTML = "Dashboard";
                  document.getElementById("home").setAttribute("href", "/dashboard");
                  document.getElementById("login").innerHTML = username;

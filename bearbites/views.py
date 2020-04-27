@@ -16,7 +16,7 @@ def indexView(request):
     if 'name' in request.session:
         context.update(lastOrder(request))
     return render(request, 'index.html',context)
-    
+
 
 def dashboardView(request):
     return render(request,'index.html')
@@ -32,7 +32,7 @@ def orderView(request):
     if 'name' in request.session:
         return render(request, 'order.html')
     return redirect('/login')
-  
+
 
 
 def registerView(request):
@@ -67,10 +67,10 @@ def registerView(request):
                 valid += 1
                 checkFields.append(" ")
             else:
-                checkFields.append("An account with this email exsists already")   
+                checkFields.append("An account with this email exsists already")
         else:
             checkFields.append("Invalid Email Address please enter a valid email")
-        rules = [  #check that password has an upper and lower case letter as well as an number and 
+        rules = [  #check that password has an upper and lower case letter as well as an number and
         lambda pas: any(x.isupper() for x in pas) or 'upper',
         lambda pas: any(x.islower() for x in pas) or 'lower',
         lambda pas: any(x.isdigit() for x in pas) or 'digit',
@@ -89,7 +89,7 @@ def registerView(request):
         else:
             checkFields.append("Please accept terms and conditions!")
         if valid == 4:
-            
+
             obj.set_firstname(request.POST.get('firstname'))
             obj.set_lastname(request.POST.get('lastname'))
             obj.set_mobile(int(request.POST.get('phonenumber')))
@@ -112,7 +112,7 @@ def registerView(request):
             obj.addAddress()
             response = obj.addCustomer()
             context = {'response': response, 'alert_flag': True}
-            
+
             return render(request,'register.html', context)
         else:
             response = "There was an error creating the account. Please see the fields below."
@@ -125,7 +125,7 @@ def registerView(request):
 
 
 def loginView(request):
-    
+
     if request.method == 'POST': # If the form has been submitted...
         obj = Customer()
         email = request.POST.get('email')
@@ -136,7 +136,7 @@ def loginView(request):
             obj.set_email(email)
             obj.set_password(password)
             row = obj.getUserAccount()
-        
+
         print (row)
         if len(row) >0:
             user = obj.authenticateCustomer()
@@ -151,11 +151,12 @@ def loginView(request):
             preferences = loadPreferences(request)
             user_info = obj.getUserAccount()
             address_info = obj.getUserAddress()
-            state =[ sub['state'] for sub in address_info ] 
+            state =[ sub['state'] for sub in address_info ]
             name = user[2]
             request.session["name"] = name
             print(request.session["name"])
             context = get_userinfo(request)
+            context.update(lastOrder(request))
             context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info ,'state':state})
             return render(request,'profile.html',context)
         else:

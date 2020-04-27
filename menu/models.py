@@ -6,7 +6,7 @@ from restaurant.models import Restaurant
 # Create your models here.
 class Menu(Restaurant):
     menuID = models.IntegerField()
-    
+
 
     def get_menuID(self):
         return menuID
@@ -14,23 +14,10 @@ class Menu(Restaurant):
     def set_menuID(self,num):
         self.menuID = num
 
-        #Get an Item's price
-    def getItemRestaurant(self):
-        cnxn = getConnection()
-        cursor = cnxn.cursor()
-        sql = "Select Restaurant.RestaurantID FROM ((Items inner join  Menu on Items.MenuID = Menu.MenuID ) inner join Restaurant on Menu.RestaurantID = Restaurant.RestaurantID ) WHERE ItemID={}".format(self.itemID)
-        cursor.execute(sql)
-        results = cursor.fetchall()
-        response = results[-1][0]
-        cursor.close()
-        cnxn.close()
-        del cnxn
-        return response
-
-    
+# For Some Reason, GetItemPrice was in Menu instead of MenuItem
 
 class MenuItem(Menu):
-    
+
     itemID = models.IntegerField()
     itemName = models.CharField(max_length=128)
     itemType = models.CharField(max_length=128)
@@ -126,7 +113,7 @@ class MenuItem(Menu):
         sql = "SELECT ItemName,ItemDesc,Price FROM Items WHERE MenuID = {} AND itemType = {};".format(self.menuID,self.itemType)
         cursor.execute(sql)
         return dictfetchall(cursor)
-        
+
 #Query All Menu Items
     def viewMenu(self,menu):
         cnxn = getConnection()
@@ -142,7 +129,22 @@ class MenuItem(Menu):
         sql = "EXEC ViewRestaurantsItems @Restaurant= {}".format(self.restaurantID)
         cursor.execute(sql)
         return dictfetchall(cursor)
-    
+
+    def foodForensics(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "SELECT MenuID FROM Items WHERE ItemID = {};".format(int(self.itemID))
+        cursor.execute(sql)
+        menu = cursor.fetchall()[0][0]
+        sql = "SELECT Restaurant.RestaurantName FROM Restaurant INNER JOIN Menu ON Restaurant.RestaurantID = Menu.RestaurantID WHERE MenuID = {};".format(int(menu))
+        cursor.execute(sql)
+        restaurantName = cursor.fetchall()[0][0]
+        sql = "SELECT ItemName,Price,Discount,ItemURL FROM Items WHERE ItemID = {};".format(int(self.itemID))
+        cursor.execute(sql)
+        response = dictfetchall(cursor)
+        response[0]["restaurantName"] = restaurantName
+        return response
+
 #Get an Item's price
     def getItemPrice(self):
         cnxn = getConnection()
@@ -168,4 +170,3 @@ class MenuItem(Menu):
         cnxn.close()
         del cnxn
         return response
-    
