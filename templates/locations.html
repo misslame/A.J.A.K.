@@ -4,17 +4,17 @@
 {% block content %}
 <body style="background-image: url({% static 'images/background1.2.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
 
-    
+
     {% if alert_flag %}
-        <script>alert("{{response}}")</script>  
-    {% endif %} 
-    
+        <script>alert("{{response}}")</script>
+    {% endif %}
+
     <div class = "location-content">
         <div style="background-color:white; color: black; margin: 3%; border-radius:1rem;">
             <div id="defaultPage">
                 <br>
-                
-                
+
+
                 <!--**************************************************
                     -Search Locations-
                     CURRENT IMPLEMENTATION:
@@ -23,7 +23,7 @@
                 ******************************************************-->
                 <div style="text-align: center;">
                     <div id="search-box" style="display: inline-block; width:55vw;background-color: #333;padding: 15px; border-radius:10px;">
-                    
+
                         <!--Search Heading-->
                         <h2 class="text-center" style="font-family: Bearskin; flex-grow:1; color:white;">What beary bite-tastic partners are near you?</h2>
                         <h4 class="text-center" style="font-family: Mono; flex-grow:1; color: white;"> Search by restaurant name or the type of food that you're feeling today!</h4>
@@ -40,32 +40,32 @@
                                 </span>
                             </div>
                         </form>
-                        
+
                     </div>
                 </div>
-                <br> 
+                <br>
                 <div class="row" style="padding-left:2em;">
                     <div class="favoritesContainer" style="width:30vw; text-align:right; position: relative; color: white;">
                         <a href=""><img src="{% static 'images/placeholder.png' %}"  style="width:10vw;"></a>
-                        
+
                         <div class="centered" style="font-size:2.0vw; position:absolute; top:50%; left:50%; transform: translate(135%,-50%);">Favorites</div>
                     </div>
-                    
+
                     <div class="recommendedContainer" style="width:30vw; text-align:center; position: relative; color: white;">
                         <a href=""><img src="{% static 'images/placeholder.png' %}"  style="width:10vw;"></a>
-                        
+
                         <div class="centered" style=" font-size:2.0vw;position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);">Recommended</div>
                     </div>
-                    
+
                     <div class="topRatedContainer" style="width:30vw; text-align:left; position: relative; color: white;">
                         <a href=""><img src="{% static 'images/placeholder.png' %}"  style="width:10vw;" ></a>
-                        
+
                         <div class="centered" style=" font-size:2.0vw;position:absolute; top:50%; left:50%; transform: translate(-215%,-50%);">Top Rated</div>
-                    </div>   
+                    </div>
                 </div>
-                
+
                 <br><h2 class="text-center" style="font-family: Bearskin; flex-grow:1;"> Locations: </h2>
-                
+
                 <div class="row">
                     <div class="col-lg-1"></div>
                     <div class="col-lg-10">
@@ -77,11 +77,11 @@
                                             <div style="height:20vh;">
                                                 <div class="card-img-top" style="max-height:17vh; overflow: hidden; background-color:white; border:0.5px solid white;">
                                                     <img src="{{restaurant.LogoUrl}}" style="width:32vh; transform:translate(-5%,-5%);" alt="Card image cap"> <!--width:350px-->
-                                                </div> 
+                                                </div>
                                             </div>
-                                            
+
                                             <div style="height:20vh;">
-                                                <div class="card-body" style="transform:translate(0,-25%);">  
+                                                <div class="card-body" style="transform:translate(0,-25%);">
                                                     <div style="height:13vh;">
                                                         <h5 class="card-title" style="text-decoration:bold;">{{restaurant.RestaurantName}}</h5>
                                                         <p class="card-text" style="text-align:center; font-size:1vw; color:black; font-family:Mono;">{{restaurant.address}}</p>
@@ -94,7 +94,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>    
+                                        </div>
                                     </a>
                                 </div>
                             {% endfor %}
@@ -105,21 +105,21 @@
                     End Main Page with search bar
                 *******************************************-->
             </div>
-            
-            
+
+
             <!-- Show's only if restaurant clicked -->
             <div id="restaurantPage"  style="display:none;">
                 <div class="container">
-                
+
                     <br>
-                
+
                     <!--Restaurant Banner-->
                     <div style="background-image: url({{restaurant.LogoUrl}}); background-size: cover;background-position: center center;background-attachment: fixed; height:20vh;">
                         <h2 style="color: #0094FF; border: 3px solid black; padding:1rem; background:white;">Restaurant Name</h2>
                     </div>
-                
+
                     <br><br>
-                    
+
                     <!-- Tab: Menu/About/Reviews -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
@@ -137,9 +137,9 @@
                     <div class="tab-content">
                         <div id="menu" class="container tab-pane active"><br>
                             <h3>Menu Tab</h3>
-                            
+
                             <!-- For typesOfItems in restaurantItemTypes-->
-                                <h4>Item Type (example:Entree)</h4> 
+                                <h4>Item Type (example:Entree)</h4>
 
                                 <div class="row row-cols-2">
                                     <!-- For item in typeOfItems -->
@@ -153,51 +153,51 @@
                                                 </div>
                                             </a>
                                         </div>
-                                    <!-- End For item in typeOfItems-->    
+                                    <!-- End For item in typeOfItems-->
                                 </div>
                             <!-- End For typesOfItems in restaurantItemTypes-->
-                            
+
                         </div>
-                        
+
                         <div id="about" class="container tab-pane fade"><br>
                             <h3>About Tab</h3>
-                            
+
                         </div>
-                        
+
                         <div id="reviews" class="container tab-pane fade"><br>
                             <h3>Review Tab</h3>
-                            
+
                         </div>
                     </div> <!-- End tab content -->
-                    
+
                     <!-- RETURN BACK TO SEARCH RESULTS -->
                     <div style="text-align:right; width:80vw;">
                         <button type = "button" class="btn btn-primary btn-lg" onclick="return show('defaultPage','restaurantPage');">Go Back</button>
                         <button type = "button" class="btn btn-primary btn-lg" onclick="CHECKOUT">Check Out <img src="{% static 'brand/basket.png' %}" style="max-height: 20px;"></button>
                         <br><br>
                     </div>
-                    
+
                     <!-- Modal popup to confirm if user wants to add item selected to cart -->
                     <div class="modal fade" role="dialog" tabindex="99999" id="addToCart">
                         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                             <div class="modal-content">
-                                
+
                                 <!-- Item name with banner -->
                                 <div class="modal-header" style="background-image: url( {itemImage} );" >
                                     <h4 class="modal-title">Add ItemName to cart?</h4>
                                 </div>
-                                
+
                                 <div class="modal-body" style="font-size:1.4vw;">
                                     <span class="float-right font-weight-bold" style="font-family:Mono;">$00</span>
                                     <h5 id="itemName"> Item Name </h5>
                                     <p style="font-family:Mono;">Item Description</p>
-                                    
+
                                     <!-- Special Instructions Text box -->
                                     <div class="form-group" style="max-width:50%;">
                                         <h6> Special Instructions:</h6>
                                         <textarea class="form-control" rows="5" name="specialInstructions" id="itemInstruct" style="font-family:Mono;"></textarea>
                                     </div>
-                                    
+
                                     <!-- Counter input for quantity of items. -->
                                     <div class="float-right" style="width:10vw; font-family:Mono;">
                                         <div class="input-group number-spinner">
@@ -219,34 +219,35 @@
                             </div>
                         </div>
                     </div> <!-- End Modal popup for confirmation -->
-                                        
-                </div>
-            </div> 
 
-            
+                </div>
+            </div>
+
+
         </div>
+    </div>
     </div>
     <script>
         var orgurl = window.location.protocol + "/" + window.location.host +"/locations"
         window.history.pushState({path:orgurl},'',"/locations/");
-        
-        function UpdatePKFunction(pk) {
+
+        function showrestaurantmenu(pk) {
             pk = pk
-            
-            $.ajax({ 
+
+            $.ajax({
                 url: '/searchRestaurant',
-                data: { 
+                data: {
                     'pk': pk
                 },
-                success: function(pk) { 
-                
-                $('#restaurantPop').html(pk);
-                
+                success: function(pk) {
+
+                $('#restaurantPage').html(pk);
+
                 }
             });
         };
-        
-        
+
+
         $.ajax('http://ip-api.com/json').then(
             function success(response) {
                 $("#zipsearch").val(response.zip);
@@ -257,20 +258,20 @@
                 console.log('Request failed.  Returned status of', status);
             }
         );
-        
+
         // Function for switching between pages
         function show(shown,hidden){
             document.getElementById(shown).style.display='block';
             document.getElementById(hidden).style.display='none';
             return false;
         }
-        
-        
-        // Quantity input box for modal pop up dialog. 
-        $(document).on('click', '.number-spinner button', function () {    
+
+
+        // Quantity input box for modal pop up dialog.
+        $(document).on('click', '.number-spinner button', function () {
             var btn = $(this),
             oldValue = btn.closest('.number-spinner').find('input').val().trim(),newVal = 0;
-            
+
             if (btn.attr('data-dir') == 'up') {
                 newVal = parseInt(oldValue) + 1;
             } else {
@@ -282,47 +283,50 @@
             }
             btn.closest('.number-spinner').find('input').val(newVal);
         });
-        
-        
-        
+
+
+
         //change to include itemID as a parameter
-        function getItemInfo(itemId){
-            
+        function getItemInfo(){
+
             // Get input values
+            var itemId = document.getElementById("selectedItemID").value;
+            var itemName = document.getElementById("selectedItemName").innerText;
             var itemQuantity = document.getElementById("itemQuantity").value;
             var itemInstructions = document.getElementById("itemInstruct").value;
-            
+            var itemPrice = document.getElementById("selectedItemPrice").innerText;
+            var restaurant = document.getElementById("restaurantID").value;
             // Send input values to be made in to a cookie
-            setCookie(itemId,itemName,itemQuantity,itemInstructions);
-            
+            setCookie(itemId,itemName,itemQuantity,itemPrice,itemInstructions,restaurant);
+            window.alert(itemName+' was added to your cart!');
             // Hide the modal with the item information
-            $('#modal').modal('hide');
+            $('#addToCart').modal('hide');
         }
-        
+
         // Change to include itemID as a parameter
-        function setCookie(itemId,itemQuantity,itemInstructions){
-            
+        function setCookie(itemId,itemName,itemQuantity,itemPrice,itemInstructions,restaurant){
+
             /****************************************************
                 Update Cookie for handling the cart
             ****************************************************/
-            
+
             // Get cart of items as an object.
             var picnicBasket = Cookies.getJSON('cart');
-            
+
             if (picnicBasket == undefined) { // If cart is empty
                 picnicBasket = [];
             }
-            
+
             console.log(typeof picnicBasket); // error-check: Console Ouput MUST be object
-            
+
             // Insert a new item onto the cart
-            var newItem = {id:itemId,quantity:itemQuantity,instructions:itemInstructions};
+            var newItem = {id:itemId,name:itemName,quantity:itemQuantity,price:itemPrice,instructions:itemInstructions,restaurantID:restaurant};
             picnicBasket.push(newItem);
             Cookies.set('cart',picnicBasket); // Add cookie
-            
+
         }
-        
-        
+
+
     </script>
-</body>                
+</body>
 {% endblock %}

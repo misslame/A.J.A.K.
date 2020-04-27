@@ -7,8 +7,10 @@
         <div class = "container">
             <div class = "jumbotron"; background:white;>
                 <h1>Welcome, <p style="margin:0 0 0 0;display: inline-block;" >{{authenticated_user}}</p>!</h1>
-                <p>You last ordered: {{orderHistory}}</p>
-                <p>Delivered to: {{address.street}} {{address.apt}} {{address.city}} {{address.state}} {{address.zip}}</p>
+                Last order on: {{orderDate}} at {{orderTime}} from {% for restaurant in recent_restaurants %} {% if recent_restaurants|length > 1 %}{% if restaurant == recent_restaurants|last %} and {% endif %}{% endif %}{{restaurant}}{% if recent_restaurants|length > 2 %}{% if restaurant != recent_restaurants|last %},{% endif %}{% endif %}{% endfor %}<br>
+                {% for address in delivery_address %}
+                                                          Delivered to {{address.StreetAddress}} {{address.AptNum}}, {{address.City}}, {{address.StateAbbv}} {{address.Zip}}
+                                                        {% endfor %}
                 <!--<button type = "button" class = "btn btn-default">Re-order Last Order</button>-->
             </div>
         </div>
@@ -25,7 +27,7 @@
         <div class = "container">
             <div class = "jumbotron">
                 <h1>{{favorite}}</h1>
-                
+
             </div>
         </div>
         {% endfor%}-->
@@ -148,9 +150,9 @@
                 });
             });
         });
-        var username = document.getElementById("login").getAttribute('data-js-vars');  
+        var username = document.getElementById("login").getAttribute('data-js-vars');
             if (username != "") {
-             // do something 
+             // do something
                  document.getElementById("home").innerHTML = "Dashboard";
                  document.getElementById("home").setAttribute("href", "/dashboard");
                  document.getElementById("login").innerHTML = username;

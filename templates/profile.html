@@ -6,10 +6,10 @@
         <div class="row flex-nowrap wrapper">
             <div class="col-md-2 col-1 pl-0 pr-0 collapse width border-right sidebar vh-100">
                 <div class="list-group border-0 card text-center text-md-left" id="sidebar">
-                    <ul class="sidebar"> 
+                    <ul class="sidebar">
                         <li class="tablink" onclick="openPage('Profile', this)" id="defaultOpen">Profile</li>
                         <li class="tablink" onclick="openPage('Addresses', this)">Address</li>
-                        <li class="dropdown-btn">Diet 
+                        <li class="dropdown-btn">Diet
                             <i class="fa fa-caret-down"></i>
                         </li>
                         <div class="dropdown-container">
@@ -20,7 +20,7 @@
                         <li class="tablink" onclick="openPage('OrderHistory', this)">Order History</li>
                         <li class="tablink" onclick="openPage('OrderHistory', this)">Review History</li>
                     </ul>
-                    
+
                     <script>
                         var dropdown = document.getElementsByClassName("dropdown-btn");
                         var i;
@@ -36,9 +36,9 @@
                                 }
                             });
                         }
-                    
+
                     </script>
-                    
+
                 </div>
             </div>
             <main class="col px-5 pl-md-2 pt-2 main">
@@ -53,7 +53,7 @@
                             <!-- PROFILE INFORMATION -->
                             <div id="Profile" class="tabcontent">
                                 <div class="container">
-                                
+
                                     {% for user in users %}
                                         <div style="border: 5px solid black;padding:25px;">
                                             <div class="row">
@@ -61,16 +61,18 @@
                                                     <img style="width:200px;" src="{% static 'images/profileholder.png' %}" alt="Bearstomer" class="img-rounded img-responsive" />
                                                 </div>
                                                 <div class="col-sm-7">
-                                                
-                                                    
+
+
                                                         <h1 style="color:#0094FF;"> Hello, <p style="margin:0 0 0 0;display: inline-block;" >{{user.FirstName}}</p>!</h1>
-                                                        Last order on:<br>
-                                                        Delivered to 'Home'
-                                                        
+                                                        Last order on:  {{orderDate}} at {{orderTime}} from {% for restaurant in recent_restaurants %} {% if recent_restaurants|length > 1 %}{% if restaurant == recent_restaurants|last %} and {% endif %}{% endif %}{{restaurant}}{% if recent_restaurants|length > 2 %}{% if restaurant != recent_restaurants|last %},{% endif %}{% endif %}{% endfor %}<br>
+                                                        {% for address in delivery_address %}
+                                                          Delivered to {{address.StreetAddress}} {{address.AptNum}}, {{address.City}}, {{address.StateAbbv}} {{address.Zip}}
+                                                        {% endfor %}
+
                                                         <input style="font-size:30px;" type="submit" name="submit" value="View Orders" class="btn btn-primary btn-lock btn-block">
                                                         <input style="font-size:30px;" type="submit" name="submit" value="New Order" class="btn btn-primary btn-lock btn-block">
-                                                    
-                                                    
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -80,7 +82,7 @@
                                             <b>Name:</b><p style="margin:0 0 0 0;display: inline-block;" id="First">{{user.FirstName}}</p> <p style="margin:0 0 0 0;display:inline-block;" id="Last">{{user.LastName}}</p><br>
                                             <b>Phone Number:</b>  {{user.Phone}}<br>
                                             <b>Email Address:</b> {{user.Email}}<br>
-                                            
+
                                         </div>
                                         <input style="font-size:30px;" onclick="openPage('EditProfile', this)" type="submit" name="submit" value="Edit Contact Information" class="btn btn-primary btn-lock btn-block">
                                         <br>
@@ -91,8 +93,8 @@
 
                                 </div>
                             </div>
-                            
-                            
+
+
                             <!-- PROFILE INFORMATION EDIT -->
                             <div id="EditProfile" class="tabcontent">
                                 <div class="container">
@@ -115,7 +117,7 @@
                                                 <b>Name:</b><input type="text" name="firstname" value ="{{user.FirstName}}"></input> <input type="text" name="lastname" value ="{{user.LastName}}"></input><br>
                                                 <b>Phone Number:</b>  <input type="text" name="phonenumber" value ="{{user.Phone}}"></input><br>
                                                 <b>Email Address:</b> <input type="text" name="email" value ="{{user.Email}}"></input><br>
-                                                
+
                                             </div>
                                         {% endfor %}
                                         <br>
@@ -123,7 +125,7 @@
                                     </form>
                                 </div>
                             </div>
-                            
+
                             <!-- CHANGE PASSWORD -->
                             <div id="ChangePassword" class="tabcontent">
                                 <form action="" method="POST">
@@ -145,7 +147,7 @@
                                             <b>Name:</b><p style="margin:0 0 0 0;display: inline-block;" id="First">{{user.FirstName}}</p> <p style="margin:0 0 0 0;display:inline-block;" id="Last">{{user.LastName}}</p><br>
                                             <b>Phone Number:</b>  {{user.Phone}}<br>
                                             <b>Email Address:</b> {{user.Email}}<br>
-                                            
+
                                         </div>
                                     {% endfor %}
                                     <br>
@@ -155,14 +157,14 @@
                                     <input style="font-size:30px;" class="btn btn-primary btn-lock btn-block" type="submit" value="Update">
                                 </form>
                             </div>
-                                    
+
 
 
                             <!-- ADDRESS INFORMATION -->
                             <div id="Addresses" class="tabcontent">
                                 <div class="container">
                                     <h1>Addresses</h1>
-                                    
+
                                     {% for address in addresses %}
                                     <p>Street:{{address.street}}</p>
                                     <p>Apt Number:{{address.apt}}</p>
@@ -170,37 +172,37 @@
                                     <p>State: {{address.state}}</p>
                                     <p>Zip: {{address.zip}}</p>
                                     {% endfor %}
-                                    
+
                                     <div class="row">
                                         <button class = "btn" onclick="openPage('EditAddresses', this);">Edit</button>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- ADDRESS INFORMATION EDIT -->
                             <div id="EditAddresses" class="tabcontent">
                                 <div class="container">
                                     <form action="" method="POST">
                                         {% csrf_token %}
-                                        
+
                                         <h1>Edit Addresses</h1>
-                                        
+
                                         {% for address in addresses %}
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">Street: </label>
                                             <input type="text" name="street" value ="{{address.street}}"></input>
                                         </div>
-                                        
+
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">Aprt Number: </label>
                                             <input type="text" name="apt" value="{{address.apt}}"></input>
                                         </div>
-                                        
+
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">City: </label>
                                             <input type="text" name="city" value="{{address.city}}"></input>
                                         </div>
-                                        
+
                                         <!-- STATE DROPDOWN -->
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">State: </label>
@@ -258,43 +260,43 @@
                                                 <option value="WY">Wyoming</option>
                                             </select>
                                         </div>
-                                        
+
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">Zip Code: </label>
                                             <input type="text" name="zip" value="{{address.zip}}"></input>
                                         </div>
-                                        
+
                                         {% endfor %}
-                                        
+
                                         <div class="row">
                                             <input type="submit" value="Update">
                                         </div>
                                     </form>
                                 </div>
                             </div>
-                            
-                            
+
+
                             <!-- DIET PREFERENCE INFORMATION EDIT -->
-                            <div id="DietaryPreferences" class="tabcontent">      
+                            <div id="DietaryPreferences" class="tabcontent">
                                 <div class ="container">
                                     <form action="" method="POST">
                                         {% csrf_token %}
                                         <h1>Dietary Preferences</h1>
                                         <p>Check all preferences that apply.</p>
-                                        
+
                                         <h1>Classification</h1>
                                         <div class="row">
                                                 <div class="col-sm">Diabetic<p><input type="checkbox" name="p_checks[]" value="Diabetic" {{p_check_list.0}}></p></div>
                                                 <div class="col-sm">Gluten-Free<p><input type="checkbox" name="p_checks[]" value="Gluten-Free" {{p_check_list.1}}></p></div>
                                                 <div class="col-sm">Vegetarian<p><input type="checkbox" name="p_checks[]" value="Vegetarian" {{p_check_list.2}}></p></div>
                                             </div>
-                                            <div class="row"> 
+                                            <div class="row">
                                                 <div class="col-sm">Vegan<p><input type="checkbox" name="p_checks[]" value="Vegan" {{p_check_list.3}}></p></div>
                                                 <div class="col-sm">Pescetarian<p><input type="checkbox" name="p_checks[]" value="Pescetarian" {{p_check_list.4}}></p></div>
                                                 <div class="col-sm">Kosher<p><input type="checkbox" name="p_checks[]" value="Kosher" {{p_check_list.5}}></p></div>
-                                                
+
                                         </div>
-                                        
+
                                         <h1>Diet</h1>
                                         <div class="row">
                                                 <div class="col-sm">Paleo<p><input type="checkbox" name="p_checks[]" value="Paleo Diet" {{p_check_list.6}}></p></div>
@@ -307,7 +309,7 @@
                                                 <div class="col-sm">Low Fat<p><input type="checkbox" name="p_checks[]" value="Low Fat" {{p_check_list.11}}></p></div>
                                         </div>
                                         <br></br>
-                                        
+
                                         <h1>Type</h1>
                                         <div class="row">
                                                 <div class="col-sm">Fast Food<p><input type="checkbox" name="p_checks[]" value="Fast Food" {{p_check_list.12}}></p></div>
@@ -320,20 +322,20 @@
                                                 <div class="col-sm"></div>
                                             </div>
                                         <br></br>
-                                        
+
                                         <h1>Health</h1>
                                         <div class="row">
                                                 <div class="col-sm">Sugar-Free<p><input type="checkbox" name="p_checks[]" value="Sugar-Free" {{p_check_list.17}}></p></div>
                                                 <div class="col-sm">Low-Sodium<p><input type="checkbox" name="p_checks[]" value="Low-Sodium" {{p_check_list.18}}></p></div>
                                                 <div class="col-sm">Low-Cholesterol<p><input type="checkbox" name="p_checks[]" value="Low-Cholesterol" {{p_check_list.19}}></p></div>
                                             </div>
-                                            <div class="row">  
+                                            <div class="row">
                                                 <div class="col-sm">Organic<p><input type="checkbox" name="p_checks[]" value="Organic" {{p_check_list.20}}></p></div>
                                                 <div class="col-sm">Non-GMO<p><input type="checkbox" name="p_checks[]" value="Non-GMO" {{p_check_list.21}}></p></div>
                                                 <div class="col-sm"></div>
                                         </div>
                                         <br></br>
-                                                
+
                                         <h1>Region</h1>
                                         <div class="row">
                                                 <div class="col-sm">Asian<p><input type="checkbox" name="p_checks[]" value="Asian" {{p_check_list.22}}></p></div>
@@ -349,12 +351,12 @@
                                             </div>
                                         <input type="submit" value="Update">
                                     </form>
-                                </div>    
+                                </div>
                             </div>
-                            
-                            
-                            
-                            <!-- DIET RESTRICTION INFORMATION --> 
+
+
+
+                            <!-- DIET RESTRICTION INFORMATION -->
                             <div id="DietaryRestrictions" class="tabcontent">
                                 <div class ="container">
                                     <form action="" method="POST">
@@ -395,7 +397,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- FAVORITES INFORMATION EDIT -->
                             <div id="EditFavorites" class="tabcontent">
                                 <div class="container">
@@ -404,13 +406,13 @@
                                         <div class="row">
                                             <p>Resturants: </p>
                                         </div>
-                                        
+
                                         <div class="row">
                                             <ul style="list-style-type:none;">
                                                 <li><button id="deleteFavorite">View</button> {{favorites}} resturantName</li>
                                             </ul>
                                         </div>
-                                        
+
                                         <div class="row">
                                             <input type="submit" value="Back">
                                         </div>
@@ -431,7 +433,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- ORDER HISTORY INFORMATION EDIT -->
                             <div id="EditOrderHistory" class="tabcontent">
                                 <div class="container">
@@ -442,7 +444,7 @@
                                                 <li><button id="editOrder">Edit</button> {{orderHistory}} orderName</li>
                                             </ul>
                                         </div>
-                                        
+
                                         <div class="row">
                                             <input type="submit" value="Back">
                                         </div>
@@ -468,7 +470,7 @@
                         }else{
                             window.history.pushState({path:orgurl},'',"/profile/");
                         }
-                        
+
                         var i, tabcontent, tablinks;
                         tabcontent = document.getElementsByClassName("tabcontent");
 
@@ -478,18 +480,18 @@
                         var pickedElem = document.getElementById(pageName);
                         $(pickedElem).show();
                         if(pageName != "EditAddresses"){
-                            var add = document.getElementById("stateselect").getAttribute('value'); 
+                            var add = document.getElementById("stateselect").getAttribute('value');
                             document.getElementById("stateselect").value = add;
                         }
                     }
-                    
+
                     // Get the element with id="defaultOpen" and click on it
                     document.getElementById("defaultOpen").click();
-                   
-                </script>     
-                   
+
+                </script>
+
             </main>
         </div>
-    </div>    
+    </div>
 </body>
 {% endblock %}

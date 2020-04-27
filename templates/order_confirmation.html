@@ -1,0 +1,95 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<body style = "background-image: url({% static 'images/background1.2.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
+<div class="container-fluid" style="width:90%;margin-top:5%;border-color:black;background-color: whitesmoke; border-width:1rem;margin-left: 5%;align-content: center;">
+    <div class="row flex-nowrap wrapper" style="margin-top:5%; margin-left:5%; align-content:center;">
+  <!--PAGE 4: Confirm Order-->
+  <div id="Page4" > 
+    <div class="container" style="width:100%; border:black solid; margin-top:5%; padding-bottom: 3%;">
+        <h2 style="align-content: center;margin-top:5%;">Your Order Confirmation </h2>
+        <br>
+       
+        <script>alert("{{response}}")</script>  
+   
+        <div class="container" style="width:100%; border:black solid; padding-top:5%; padding-bottom: 3%;">
+            <table class = "table table-bordered table-striped" style="width:100%; font-family: sans-seriff; ">
+                    <thead>
+                        <tr>
+                            <th style="width:35%;">Item</th>
+                            <th style="widows: 5%;">Quantity</th>
+                            <th style="width:15%;">Price</th>
+                        </tr>
+                    </thead>
+                <tbody id="menu">
+                    <!-- FOR LOOP FOR LISTING ITEMS IN CART-->
+                    {% for item in cart %}
+                    <tr>
+                        <td>
+                            <p><!--ITEM NAME-->{{item.name}}</p>
+                        </td>
+                        <td>
+                            <!--QUANTITY HERE-->{{item.quantity}}
+                        </td>
+                        <td>
+                            $<!--ITEM PRICE * QUANTITY-->{{item.price }}
+                        </td>
+                    </tr>
+                    <!-- END FOR LOOP FOR LISTING ITEMS IN MENU -->
+                    {% endfor %}
+                </tbody>                        
+            </table>
+            <div style="text-align:right; margin-right:2%; font-family: sans-seriff;">
+                <h6 style="display:inline;">Tax: $ <!--TAX COST--></h6><h6 id="taxvalue" style="display:inline;">{{tip}}</h6>
+            </div>  
+            <div style="text-align:right; margin-right:2%; font-family: sans-seriff;">
+                <h6 style="display:inline;">Cart: $ <!--CART COST--></h6><h6 id="totalcart" style="display:inline;">{{ subtotal }}</h6>
+            </div>  
+            <div style="text-align:right; margin-right:2%; font-family: sans-seriff;">
+                <h6 style="display:inline;">Tip: $ <!--TIP IF DESIRED--></h6><h6 id ="tipvalue" style="display:inline;">{{ tip }}</h6>
+            </div>  
+            <div style="text-align:right; margin-right:2%; font-family: sans-seriff;">
+                <h5 style="font-weight: bold; display:inline;" >Total $ <!--CART + TAX + TIP--></h5><h5 style="font-weight: bold; display:inline;" id="totalvalue">{{total }}</h5>
+            </div>  
+         
+            <br>
+            <br>
+        </div>
+        <br>
+
+        <!--NEED TO PRINT OUT DELIVERY ADDRESS AND PROFILE VALUES HERE-->
+        <h4>Deliver To:</h4>
+        <div style="font-family: sans-seriff;">
+            <label id="deliverName">{{CardOwner }}<!--NAME OF USER--></label><br>
+            <label id="deliverStreet">{{street }}</label><br>
+            {% if apt != "None" %}
+            <label id="deliverApartment">{{apt }}</label>
+            {% endif %}
+            <label id="deliverCity"> {{city }}<!--DELIVERY CITY--></label>
+            <label id="deliverState">{{ state }} <!--DELIVERY STATE--></label>
+            <label id="deliverZip">{{zip }}</label><br>
+        </div>
+        <br>
+        <br>
+        <h4>Billing Information:</h4>
+        <div style="font-family: sans-seriff;">
+            <label id="cardName">Card Holder:  <!--NAME OF CARDHOLDER--></label><label id="cardName">{{CardOwner}}<!--NAME OF CARDHOLDER--></label><br>
+            <div>
+                <label id="cardNumber" style="display:inline">Card Ending with </label><label id="cardNumber" style="display:inline">{{ card }}</label>
+            </div>
+            <br>
+        </div>
+
+    </div>
+    <br>
+
+  
+</div> 
+</div>
+<script>  
+var picnicBasket = Cookies.getJSON('cart');
+var empty = [];
+Cookies.set('cart',empty); // Add cookie
+</script>  
+</body>
+{% endblock %}
