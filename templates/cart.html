@@ -81,11 +81,128 @@
         </div> 
         <!--end page 1-->
         
-        <!--page 2: delivery options-->
+        <!--PAGE 2: Delivery Options-->
         <div id="Page2" style="display:none;">
             <div class="container" style="width:100%; border:black solid; margin-top:5%; padding-bottom: 3%;">
                 <h2 style="align-content: center;margin-top:5%;">Delivery Options</h2>
             </div>
+
+            <div class="container" style="width:100%; border:black solid; margin-top:5%; padding-bottom: 3%;">
+                <br>
+                <!-- Select Delivery Address dropdown -->
+                <div class="form-group form-inline">
+                    <label style="color: black; font-family: sans-seriff; font-weight: bold;">Select Delivery Address:</label>
+                    <select class="form-control" id="selectAddress" value="{{address}}"  name="address"  style="font-family: sans-seriff;" value="{{address}}">
+                        <option value="address1">New Address</option>
+                        <option value="address2">Address 1</option>
+                        <option value="address3">Address 2</option>
+                    </select>
+                </div>
+                <br>
+
+                <!-- STATEMENT TO CHANGE LABEL TEXT ACCORDING TO SELECTED ITEM IN THE ABOVE DROPDOWN ^ -->
+                <label style="font-family: sans-seriff; font-weight: bold;">Name of Selected Delivery Address</label>
+                <br>
+
+                <label style="font-family: sans-seriff; font-weight: bold;">Street Address:</label>
+                <input style="font-family: sans-seriff;" class="form-control" placeholder="1234 StreetName St.">
+                <br>
+
+                <label style="font-family: sans-seriff; font-weight: bold;">Apartment Number (If applicable):</label>
+                <input style="font-family: sans-seriff;" class="form-control" placeholder="Apt. Number">
+                <br>
+
+                <label style="font-family: sans-seriff; font-weight: bold;">City:</label>
+                <input style="font-family: sans-seriff;" class="form-control" placeholder="City">
+                <br>
+
+                <!-- State Dropdown-->
+                <div class="form-group">
+                    <label style="color: black; font-family: sans-seriff; font-weight: bold;">State:</label>
+                    <select class="form-control" id="stateselect" value="{{address.state}}" name="state" style="font-family: sans-seriff;" value="{{address.state}}">
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                        <option value="AZ">Arizona</option>
+                        <option value="AR">Arkansas</option>
+                        <option value="CA">California</option>
+                        <option value="CO">Colorado</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="DC">District Of Columbia</option>
+                        <option value="FL">Florida</option>
+                        <option value="GA">Georgia</option>
+                        <option value="HI">Hawaii</option>
+                        <option value="ID">Idaho</option>
+                        <option value="IL">Illinois</option>
+                        <option value="IN">Indiana</option>
+                        <option value="IA">Iowa</option>
+                        <option value="KS">Kansas</option>
+                        <option value="KY">Kentucky</option>
+                        <option value="LA">Louisiana</option>
+                        <option value="ME">Maine</option>
+                        <option value="MD">Maryland</option>
+                        <option value="MA">Massachusetts</option>
+                        <option value="MI">Michigan</option>
+                        <option value="MN">Minnesota</option>
+                        <option value="MS">Mississippi</option>
+                        <option value="MO">Missouri</option>
+                        <option value="MT">Montana</option>
+                        <option value="NE">Nebraska</option>
+                        <option value="NV">Nevada</option>
+                        <option value="NH">New Hampshire</option>
+                        <option value="NJ">New Jersey</option>
+                        <option value="NM">New Mexico</option>
+                        <option value="NY">New York</option>
+                        <option value="NC">North Carolina</option>
+                        <option value="ND">North Dakota</option>
+                        <option value="OH">Ohio</option>
+                        <option value="OK">Oklahoma</option>
+                        <option value="OR">Oregon</option>
+                        <option value="PA">Pennsylvania</option>
+                        <option value="RI">Rhode Island</option>
+                        <option value="SC">South Carolina</option>
+                        <option value="SD">South Dakota</option>
+                        <option value="TN">Tennessee</option>
+                        <option value="TX">Texas</option>
+                        <option value="UT">Utah</option>
+                        <option value="VT">Vermont</option>
+                        <option value="VA">Virginia</option>
+                        <option value="WA">Washington</option>
+                        <option value="WV">West Virginia</option>
+                        <option value="WI">Wisconsin</option>
+                        <option value="WY">Wyoming</option>
+                    </select>
+                </div>
+
+                <!-- don't remember if address will be associated with country and phone # according to our database-->
+                <label style="font-family: sans-seriff; font-weight: bold;">Zip Code:</label>
+                <input style="font-family: sans-serif;" class="form-control" placeholder="12345">
+                <br>
+
+                <label style="font-family: sans-seriff; font-weight: bold;">Phone Number:</label>
+                <input style="font-family: sans-serif;" class="form-control" placeholder="XXX-XXX-XXXX">
+                <br>
+
+                <div class="text-center">
+                    <label style="color: black; font-family: sans-seriff; font-weight: bold;">Tip: $</label>
+                    <input type="text" name="tip" placeholder="0000.00"></input>
+                </div>
+                <br>
+                <br>
+
+                <div class="form-group" style="max-width:50%;">
+                    <h4>Delivery Instructions</h4>
+                    <textarea class="form-control" name="DeliveryInstructions" placeholder="Comment Here..." rows="5" id="comment"></textarea>
+                </div>
+
+                <!-- Button to give user an option to save a new delivery address/information -->
+                <div class="text-center">
+                    <label style="color:black; font-family: sans-seriff; font-weight: bold;">Save as New Address (Optional) </label>
+                    <input style="font-size:.7rem; max-width: 10%;" class="btn btn-primary btn-lock" type="submit" value="save">
+                </div>
+            </div>
+            <br>
+
             <nav>  
                 <ul class="pagination justify-content-center">
                     <li class="page-item">
@@ -215,11 +332,74 @@
         </div> 
         <!--end page 3-->
 
-        <!--page 4: confirm order-->
+        <!--PAGE 4: Confirm Order-->
         <div id="Page4" style="display:none;"> 
             <div class="container" style="width:100%; border:black solid; margin-top:5%; padding-bottom: 3%;">
                 <h2 style="align-content: center;margin-top:5%;">Confirm Order</h2>
+                <br>
+
+                <div class="container" style="width:100%; border:black solid; padding-top:5%; padding-bottom: 3%;">
+                    <table class = "table table-bordered table-striped" style="width:100%; font-family: sans-seriff; ">
+                            <thead>
+                                <tr>
+                                    <th style="width:45%;">Restaurant</th>
+                                    <th style="width:35%;">Item</th>
+                                    <th style="widows: 5%;">Quantity</th>
+                                    <th style="width:15%;">Price</th>
+                                </tr>
+                            </thead>
+                        <tbody id="menu">
+                            <!-- FOR LOOP FOR LISTING ITEMS IN CART-->
+                            <tr>
+                                <td>
+                                    <p><!--RESTAURANT NAME--></p>
+                                </td>
+                                <td>
+                                    <p><!--ITEM NAME--></p>
+                                </td>
+                                <td>
+                                    <!--QUANTITY HERE-->
+                                </td>
+                                <td>
+                                    $<!--ITEM PRICE * QUANTITY-->
+                                </td>
+                            </tr>
+                            <!-- END FOR LOOP FOR LISTING ITEMS IN MENU -->
+                        </tbody>                        
+                    </table>
+                    <div style="text-align:right; margin-right:2%; font-family: sans-seriff;">
+                        <h6>Cart: $ <!--CART COST--></h6>
+                        <h6>Tax: $ <!--TAX COST--></h6>
+                        <h6>Tip: $ <!--TIP IF DESIRED--></h6>
+                        <h5 style="font-weight: bold;">Total: $ <!--CART + TAX + TIP--></h5>
+                    </div>   
+                    <br>
+                    <br>
+                </div>
+                <br>
+
+                <!--NEED TO PRINT OUT DELIVERY ADDRESS AND PROFILE VALUES HERE-->
+                <h4>Deliver To:</h4>
+                <div style="font-family: sans-seriff;">
+                    <label id="deliverName">FirstName LastName<!--NAME OF USER--></label><br>
+                    <label id="deliverStreet">1234 StreetName St.<!--DELIVERY STREET--></label><br>
+                    <label id="deliverApartment">Apt. Number<!--DELIVERY APARTMENT NUMBER (ONLY IF NOT NULL)--></label><br>
+                    <label id="deliverCity">City, <!--DELIVERY CITY--></label>
+                    <label id="deliverState">State <!--DELIVERY STATE--></label>
+                    <label id="deliverZip">12345<!--DELIVERY ZIPCODE--></label><br>
+                    <label id="deliverPhone">xxx-xxx-xxxx<!--DELIVERY PHONE NUMBER--></label>
+                </div>
+                <br>
+                <br>
+                <h4>Billing Information:</h4>
+                <div style="font-family: sans-seriff;">
+                    <label id="cardName">FirstName LastName<!--NAME OF CARDHOLDER--></label><br>
+                    <label id="cardNumber">Card Ending with xxxx<!--IDEALLY FILL OUT ONLY LAST 4 DIGITS OF CARD #--></label><br>
+                </div>
+
             </div>
+            <br>
+
             <nav>  
                 <ul class="pagination justify-content-center">
                     <li class="page-item">
