@@ -6,7 +6,7 @@ from bearbites._con import dictfetchall
 # Create your models here.
 
 class Restaurant():
-    
+
     restaurantID = models.IntegerField()
     restaurantName = models.CharField(max_length=128)
     orderMin = models.CharField(max_length=128)
@@ -51,8 +51,8 @@ class Restaurant():
 
     def set_logoURL(self,url):
         self.logoURL = url
-    
-    
+
+
 
 ## Database Queries
 
@@ -94,9 +94,9 @@ class Restaurant():
     def viewRestaurant(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()
-        cursor.execute('EXEC ViewRestaurantDetails @Restaurant = {};'.format(self.restaurantID))
+        cursor.execute('EXEC ViewRestaurantDetails @Restaurant = {};'.format(int(self.restaurantID)))
         return dictfetchall(cursor) #return query result into dict
-    
+
     # Restaurant Name Query
     def searchName(self):
         cnxn = getConnection()
@@ -158,5 +158,3 @@ class Restaurant():
         cursor = cnxn.cursor()
         cursor.execute('EXEC ViewRestaurants;')
         return dictfetchall(cursor) #return query result into dict
-    
-    
