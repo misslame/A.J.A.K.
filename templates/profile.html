@@ -544,23 +544,70 @@
                                 <div class ="container">
                                     <form action="" method="POST">
                                     {% csrf_token %}
-                                        <h1>Dietary Restrictions</h1>
-                                        <p>Check all restrictions that apply.</p>
-                                        <h1>Type</h1>
-                                        <div class="row">
-                                                <div class="col-sm">Dairy<p><input type="checkbox" name="a_checks[]" value="Dairy" {{check_list.0}}></p></div>
-                                                <div class="col-sm">Eggs<p><input type="checkbox" name="a_checks[]" value="Eggs" {{check_list.1}}></p></div>
-                                                <div class="col-sm">Tree Nuts<p><input type="checkbox" name="a_checks[]" value="Tree Nuts" {{check_list.2}}></p></div>
-                                                <div class="col-sm">Wheat<p><input type="checkbox" name="a_checks[]" value="Wheat" {{check_list.3}}></p></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm">Peanuts<p><input type="checkbox" name="a_checks[]" value="Peanuts" {{check_list.4}}></p></div>
-                                                <div class="col-sm">Soy<p><input type="checkbox" name="a_checks[]" value="Soy" {{check_list.5}}></p></div>
-                                                <div class="col-sm">Fish<p><input type="checkbox" name="a_checks[]" value="Fish" {{check_list.6}}></p></div>
-                                                <div class="col-sm">Shellfish<p><input type="checkbox" name="a_checks[]" value="Shellfish" {{check_list.7}}></p></div>
+                                        <div style="border: 5px solid black; padding: 25px;">
+                                            <h1>Diet Restrictions</h1>
                                         </div>
-                                        <br></br>
-                                        <input type="submit" value="Update">
+                                        
+                                        <p>Check all restrictions that apply.</p>
+                                        
+                                        <div class="col" style ="border: 5px solid black; padding: 25px; font-family:Mono; font-size:1.0vw;">
+                                            <u>Common Allergies</u>
+                                            <div class = "row">
+                                                <div class="col" style="border: 2px solid black;">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Dairy" id="Dairy" name="example1" {{check_list.0}}>
+                                                        <label class="custom-control-label" for="Dairy" style="color:black;font-family:Mono;">Dairy</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col" style="border: 2px solid black;">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Tree Nuts" id="Tree Nuts" name="example1" {{check_list.2}}>
+                                                        <label class="custom-control-label" for="Tree Nuts" style="color:black;font-family:Mono;">Tree Nuts</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col" style="border: 2px solid black;">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Eggs" id="Eggs" name="example1" {{check_list.1}}>
+                                                        <label class="custom-control-label" for="Eggs" style="color:black;font-family:Mono;">Eggs</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col" style="border: 2px solid black;">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Wheat" id="Wheat" name="example1" {{check_list.3}}>
+                                                        <label class="custom-control-label" for="Wheat" style="color:black;font-family:Mono;">Wheat</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class = "row">
+                                                <div class="col" style="border: 2px solid black;">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Peanuts" id="Peanuts" name="example1" {{check_list.4}}>
+                                                        <label class="custom-control-label" for="Peanuts" style="color:black;font-family:Mono;">Peanuts</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col" style="border: 2px solid black;">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Soy" id="Soy" name="example1" {{check_list.5}}>
+                                                        <label class="custom-control-label" for="Soy" style="color:black;font-family:Mono;">Soy</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col" style="border: 2px solid black;">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Fish" id="Fish" name="example1" {{check_list.6}}>
+                                                        <label class="custom-control-label" for="Fish" style="color:black;font-family:Mono;">Fish</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col" style="border: 2px solid black;">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Shellfish" id="Shellfish" name="example1" {{check_list.7}}>
+                                                        <label class="custom-control-label" for="Shellfish" style="color:black;font-family:Mono;">Shellfish</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary btn-lock btn-block" type="submit" value="Update">
                                         <p>{{response}}</p>
                                     </form>
                                 </div>
@@ -570,70 +617,93 @@
                             <!-- FAVORITES INFORMATION -->
                             <div id="Favorites" class="tabcontent">
                                 <div class="container">
-                                    <h1>Favorite Resturants</h1>
-                                    <p>Resturants:</p>
-                                    <ul>
-                                        <li>{{favorites}}</li>
-                                    </ul>
-                                    <div class="row">
-                                        <button class = "btn" onclick="openPage('EditFavorites', this)">Edit</button>
+                                    <div style="border: 5px solid black; padding: 10px;">
+                                        <h1>Favorite Restaurants</h1>
                                     </div>
-                                </div>
-                            </div>
-                            
-                            <!-- FAVORITES INFORMATION EDIT -->
-                            <div id="EditFavorites" class="tabcontent">
-                                <div class="container">
-                                    <form>
-                                        <h1>Edit Favorites:</h1>
-                                        <div class="row">
-                                            <p>Resturants: </p>
+                                    <p style="font-family:Mono; font-size: 1.5vw;">Your favorite restaurants based on your highest rated orders.</p>
+                                    
+                                    <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-light" style="max-width: 90vw; max-height: 100vh;">
+                                        
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-12 mt-3">
+                                                
+                                                   <!-- For every restaurant in favorites -->
+                                                    <div class="card">
+                                                        <div class="card-horizontal">
+                                                            <div class="img-square-wrapper">
+                                                                <!--<img class="" src=" "> -->
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class = "row">
+                                                                    <div class="col">
+                                                                        <h4 class="card-title">Restaurant Name</h4>
+                                                                    </div>
+                                                                    <div class="col float-right">
+                                                                        <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary"  value="Order Again">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End for every restaurant in favorites -->
+                                                    
+                                                </div>
+                                            </div>
                                         </div>
                                         
-                                        <div class="row">
-                                            <ul style="list-style-type:none;">
-                                                <li><button id="deleteFavorite">View</button> {{favorites}} resturantName</li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <div class="row">
-                                            <input type="submit" value="Back">
-                                        </div>
-                                    </form>
+                                    </div>
+                                    
                                 </div>
                             </div>
 
                             <!-- ORDER HISTORY INFORMATION -->
                             <div id="OrderHistory" class="tabcontent">
                                 <div class="container">
-                                    <h1>Order History</h1>
-                                    <p>Orders:</p>
-                                    <ul>
-                                        <li>{{orderHistory}}</li>
-                                    </ul>
-                                    <div class="row">
-                                        <button class = "btn" onclick="openPage('EditOrderHistory', this)">Edit</button>
+                                    <div style="border: 5px solid black; padding: 10px;">
+                                        <h1>Order History</h1>
+                                    </div>
+                                    
+                                    <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-light" style="max-width: 90vw; max-height: 100vh;">
+                                        
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-12 mt-3">
+                                                
+                                                   <!-- For Order History -->
+                                                    <div class="card">
+                                                        <div class="card-horizontal">
+                                                            <div class="img-square-wrapper">
+                                                                <!--<img class="" src=" "> -->
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class = "row">
+                                                                    <div class="col">
+                                                                        <h4 class="card-title">Order Num: <b style="font-family:Mono;">#######</b></h4>
+                                                                        <p class="card-text" style="font-family:Mono;font-size:1.3vw;">
+                                                                            Date:
+                                                                            Total Spent:
+                                                                            Restaurants Ordered From:
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="col float-right">
+                                                                        <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary"  value="Order Again">
+                                                                        <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary"  value="Review">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End order history-->
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <!-- ORDER HISTORY INFORMATION EDIT -->
-                            <div id="EditOrderHistory" class="tabcontent">
-                                <div class="container">
-                                    <form>
-                                        <h1>Edit Orders:</h1>
-                                        <div class="row">
-                                            <ul style="list-style-type:none;">
-                                                <li><button id="editOrder">Edit</button> {{orderHistory}} orderName</li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <div class="row">
-                                            <input type="submit" value="Back">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
