@@ -6,9 +6,8 @@
 
 
     {% if alert_flag %}
-        <script>alert("{{response}}")</script>
+    <script>alert("{{response}}")</script>
     {% endif %}
-
     <div class = "location-content">
         <div style="background-color:white; color: black; margin: 3%; border-radius:1rem;">
             <div id="defaultPage">
@@ -72,7 +71,7 @@
                         <div class="row row-cols-5">
                             {% for restaurant in restaurants %}
                                 <div class="col">
-                                    <a style="text-decoration:none;" href="" onclick="return show('restaurantPage','defaultPage');" >
+                                    <a style="text-decoration:none;" data-toggle="modal" data-target="#restaurantPage" onclick='showrestaurantmenu({{ restaurant.RestaurantID }})'>
                                         <div class="card mb-4 border-dark" style="text-align:center; height:35vh;background-color:#CCCCCC;" >
                                             <div style="height:20vh;">
                                                 <div class="card-img-top" style="max-height:17vh; overflow: hidden; background-color:white; border:0.5px solid white;">
@@ -87,10 +86,8 @@
                                                         <p class="card-text" style="text-align:center; font-size:1vw; color:black; font-family:Mono;">{{restaurant.address}}</p>
                                                     </div>
                                                     <div>
-                                                        <!--
-                                                        <a href="" onclick="UpdatePKFunction({{ restaurant.RestaurantID }})" style="font-family:Mono;" class="btn btn-primary btn-sm">Order From Now</a>
-                                                        -->
-                                                        <a href="" onclick="return show('restaurantPage','defaultPage');" style="font-family:Mono;" class="btn btn-primary btn-sm">Order From</a>
+
+                                                        <a   style="font-family:Mono;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#restaurantPage" onclick='showrestaurantmenu({{ restaurant.RestaurantID }})';>Order From</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -108,121 +105,102 @@
 
 
             <!-- Show's only if restaurant clicked -->
-            <div id="restaurantPage"  style="display:none;">
-                <div class="container">
+             <!-- The Modal -->
+    <div class="modal" id="restaurantPage" style="z-index: 500000;" >
+    <div class="modal-dialog">
+      <div class="modal-content">
 
-                    <br>
 
-                    <!--Restaurant Banner-->
-                    <div style="background-image: url({{restaurant.LogoUrl}}); background-size: cover;background-position: center center;background-attachment: fixed; height:20vh;">
-                        <h2 style="color: #0094FF; border: 3px solid black; padding:1rem; background:white;">Restaurant Name</h2>
-                    </div>
 
-                    <br><br>
 
-                    <!-- Tab: Menu/About/Reviews -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#menu">Menu</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#about">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#reviews">Reviews</a>
-                        </li>
-                    </ul>
 
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div id="menu" class="container tab-pane active"><br>
-                            <h3>Menu Tab</h3>
 
-                            <!-- For typesOfItems in restaurantItemTypes-->
-                                <h4>Item Type (example:Entree)</h4>
 
-                                <div class="row row-cols-2">
-                                    <!-- For item in typeOfItems -->
-                                        <div class="col">
-                                            <a class="card mb-4" data-toggle="modal" data-target="#addToCart" href="" style="text-decoration:none; color:black;">
-                                                <br>
-                                                <div class="card-body">
-                                                    <span class="float-right font-weight-bold" style="font-family:Mono;">$00</span>
-                                                    <h5 class="card-title"> Item Name </h5>
-                                                    <p class="card-text" style="font-family:Mono;">Item Description</p>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    <!-- End For item in typeOfItems-->
-                                </div>
-                            <!-- End For typesOfItems in restaurantItemTypes-->
 
+                                <!-- Supposed popup box that shows up when you click on resturant order button-->
+                            </a>
+                            <div class="card-footer" style="align-content: bottom;">
+                {% for restaurant in restaurantInfo%}
+                                <a data-toggle="modal" class="nav-link btn btn-primary" data-target="#restaurantPop" onclick='UpdatePKFunction({{ restaurant.RestaurantID }})'; >Order Now!</a>
+                            </div>
+                        </div>
+                {% endfor %}
+            </div>
+
+            <div class="modal fade" role="dialog" tabindex="-1" id="restaurantPop">
+                <div class =  "modal-dialog modal-lg" role="document" >
+                    <div class = "modal-content">
+
+                        <!-- HEADER -->
+                        <div class = "modal-header" style="background-image: url({% static 'images/banner.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
+                            <h2 style="color: #0094FF; border: 0.5rem solid black; padding:1rem; background:white;">Restaurant Name</h2> <i class="fa fa-times-circle fa-2x" aria-hidden="true" data-dismiss="modal"></i>
                         </div>
 
-                        <div id="about" class="container tab-pane fade"><br>
-                            <h3>About Tab</h3>
+                        <div class = "modal-body" style="font-size:2.4rem;">
+                            <div class="container">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#menu">Menu</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#about">About</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#reviews">Reviews</a>
+                                    </li>
+                                </ul>
 
-                        </div>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div id="menu" class="container tab-pane active"><br>
+                                        <h3>Menu Tab</h3>
 
-                        <div id="reviews" class="container tab-pane fade"><br>
-                            <h3>Review Tab</h3>
+                                        <!-- For typesOfItems in restaurantItemTypes-->
+                                            <h4>Item Type (example:Entree)</h4>
 
-                        </div>
-                    </div> <!-- End tab content -->
+                                            <div class="row">
+                                                <!-- For item in typeOfItems -->
+                                                    <div class ="col-sm-6">
+                                                        <div class="card">
+                                                            <br>
+                                                            <div class="card-body">
+                                                                <h5>Item Name</h5>
+                                                                <h6>Item Price</h6>
+                                                                <p> Item Description Here</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <!-- End For item in typeOfItems-->
+                                            </div>
+                                        <!-- End For typesOfItems in restaurantItemTypes-->
 
-                    <!-- RETURN BACK TO SEARCH RESULTS -->
-                    <div style="text-align:right; width:80vw;">
-                        <button type = "button" class="btn btn-primary btn-lg" onclick="return show('defaultPage','restaurantPage');">Go Back</button>
-                        <button type = "button" class="btn btn-primary btn-lg" onclick="CHECKOUT">Check Out <img src="{% static 'brand/basket.png' %}" style="max-height: 20px;"></button>
-                        <br><br>
-                    </div>
-
-                    <!-- Modal popup to confirm if user wants to add item selected to cart -->
-                    <div class="modal fade" role="dialog" tabindex="99999" id="addToCart">
-                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                            <div class="modal-content">
-
-                                <!-- Item name with banner -->
-                                <div class="modal-header" style="background-image: url( {itemImage} );" >
-                                    <h4 class="modal-title">Add ItemName to cart?</h4>
-                                </div>
-
-                                <div class="modal-body" style="font-size:1.4vw;">
-                                    <span class="float-right font-weight-bold" style="font-family:Mono;">$00</span>
-                                    <h5 id="itemName"> Item Name </h5>
-                                    <p style="font-family:Mono;">Item Description</p>
-
-                                    <!-- Special Instructions Text box -->
-                                    <div class="form-group" style="max-width:50%;">
-                                        <h6> Special Instructions:</h6>
-                                        <textarea class="form-control" rows="5" name="specialInstructions" id="itemInstruct" style="font-family:Mono;"></textarea>
                                     </div>
 
-                                    <!-- Counter input for quantity of items. -->
-                                    <div class="float-right" style="width:10vw; font-family:Mono;">
-                                        <div class="input-group number-spinner">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus" aria-hidden="true"></i></button>
-                                            </span>
-                                            <input id="itemQuantity"type="text" class="form-control text-center" value="1">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default" data-dir="up"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                            </span>
+                                    <div id="about" class="container tab-pane fade"><br>
+                                        <h3>About Tab</h3>
+                                        <div style="height: 15rem;">
+                                                <img src="{{restaurant.LogoUrl}}" style="width:100%;">
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div class="modal-footer float-right">
-                                    <button type = "button" class="btn btn-primary btn-lg" data-dismiss="modal">Cancel</button>
-                                    <button type = "button" class="btn btn-primary btn-lg" onclick="getItemInfo(ITEMID)">Confirm</button>
+                                    </div>
+
+                                    <div id="reviews" class="container tab-pane fade"><br>
+                                        <h3>Review Tab</h3>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div> <!-- End Modal popup for confirmation -->
 
+                        <!-- FOOTER -->
+                        <div class = "modal-footer">
+                            <a class="nav-link btn btn-primary" href="/order/">Order Now!</a>
+                            <!--<p><input onclick= "" style="font-size:30px;" type="submit" name="submit" value="Order Now!" class="btn btn-primary btn-lock btn-block"></button></p>-->
+                        </div>
+                    </div>
                 </div>
             </div>
-
+        </div>
 
         </div>
     </div>
@@ -246,7 +224,6 @@
                 }
             });
         };
-
 
         $.ajax('http://ip-api.com/json').then(
             function success(response) {
