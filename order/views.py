@@ -133,27 +133,6 @@ def CreateOrder(request):
     context.update({'addresses':address_info, 'cart':cart,'total':formatted_total,'tax':formatted_tax,'subtotal':formatted_subtotal})
     return render(request,'cart.html',context)
 
-def lastOrder(request):
-    previous = OrderHistory()
-    previous.set_customerID(int(request.session.get('customer')))
-    last = previous.getLastOrder() # Returns Last Order's Delivert ID
-    previous.set_deliveryID(last)
-    delivery_info = previous.checkDeliveryInfo() # Returns dictfetchall of Delivery row
-    previous.set_deliveryAddressID(delivery_info[0]["DeliveryAddressID"])
-    orderDate = delivery_info[0]["DeliveryDate"]
-    orderTime = delivery_info[0]["DeliveryTime"]
-    previous.set_deliveryDate(orderDate)
-    previous.set_deliveryTime(orderTime)
-    recent_restaurants = previous.getOrderRestaurants() #Returns 1D list of Restaurant names
-    delivery_address = previous.get_AddressDetails()
-    last_order = {
-        "orderDate": orderDate,
-        "orderTime": orderTime,
-        "recent_restaurants": recent_restaurants,
-        "delivery_address": delivery_address
-    }
-    return last_order
-
 def orderHistory(request):
     review = OrderHistory()
     review.set_customerID(int(request.session.get('customer')))
