@@ -41,10 +41,20 @@ def CreateOrder(request):
 
         cardowner = request.POST.get('cardowner')
         order.set_zipcode(int(zipcode))
+        addressName = request.POST.get('AddressName')
+        order.set_AddressName()
         now = dt.now()
         order.set_deliveryTime(now.strftime("%H:%M:%S"))
         order.set_deliveryDate(now.strftime("%m/%d/%Y"))
         order.set_customerID(int(request.session['customer']))
+        order.set_accountID(int(request.session['account']))
+        saveAddress= request.POST.get('saveAddress')
+        newAddress = request.POST.get('selectaddress')
+        if 'Yes' not in saveAddress and 'New Address' in newAddress:
+            order.saveAddress()
+        elif 'No' in saveAddress and 'New Address' in newAddress: 
+            order.set_accountID(1)
+            order.saveAddress()
         order.set_accountID(int(request.session['account']))
         addressID = int(order.get_AddressID())
         order.set_deliveryAddressID(addressID)

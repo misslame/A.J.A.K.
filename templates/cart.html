@@ -100,7 +100,7 @@
                 <!-- Select Delivery Address dropdown -->
                 <div class="form-group form-inline">
                     <label style="color: black; font-family: sans-seriff; font-weight: bold;">Select Delivery Address:</label>
-                    <select class="form-control" id="selectAddress"   name="address"  style="font-family: sans-seriff;" onchange="check()" value="{{address}}">
+                    <select class="form-control" id="selectAddress"   name="selectaddress"  style="font-family: sans-seriff;" onchange="check()" value="{{address}}">
                        
                         <option value="main">Main Address</option>
                         <option value="new">New Address</option>
@@ -108,10 +108,16 @@
                     </select>
                 </div>
                 {% for address in addresses %}
+                <br >
+                <div id="AddressName" style="display: none">
+                <label style="font-family: sans-seriff; font-weight: bold;">Save Address As:</label>
+                <input style="font-family: sans-seriff;" class="form-control" id="addName" name="addName" value ="" placeholder="Home, Parent House">
+                </div>
                 <br>
-            
+                <br>
+               
                 <!-- STATEMENT TO CHANGE LABEL TEXT ACCORDING TO SELECTED ITEM IN THE ABOVE DROPDOWN ^ -->
-                <label style="font-family: sans-seriff; font-weight: bold;">{{address.street}}</label>
+                
                 <br>
 
                 <label style="font-family: sans-seriff; font-weight: bold;">Street Address:</label>
@@ -205,8 +211,20 @@
                 <!-- Button to give user an option to save a new delivery address/information -->
                 <div class="text-center">
                     <label style="color:black; font-family: sans-seriff; font-weight: bold;">Save as New Address (Optional) </label>
-                    <input style="font-size:.7rem; max-width: 10%;" class="btn btn-primary btn-lock" type="submit" value="save">
+                    
+                    <button type="button" style="font-size:.7rem; max-width: 10%;" class="btn btn-primary btn-lock"  onclick="saveAddress();">Save Address</button>
+                    <script>function saveAddress() {
+        
+        alert("Please enter a Name to save the address as");
+        $("#saveAddress").val("Yes");
+        var y = document.getElementById("AddressName");
+        y.style.display= "inline";
+                                
+    } 
+    </script>
+                    <input type="hidden" id="saveAddress" name="saveAddress" value="No" />
                 </div>
+               
             </div>
             <br>
 
@@ -512,17 +530,26 @@
         });
     });
     function check(){
-        var e = document.getElementById("address");
-        if (e.val == "new"){
-            $("#street").value("");
-            $("#apt").value("");
-            $("#city").value("");
-            
-            $("#zip").value("");
-        }
+        var elem = document.getElementById("selectAddress");
         
-            
+        var addSelected = elem.options[elem.selectedIndex].text;
+        if (addSelected == "New Address"){
+            $("#street").val("");
+            $("#apt").val("");
+            $("#city").val("");
+            $("#zip").val("");
+        }
+                 
     }
+    function saveAddress() {
+        
+        alert("Please enter a Name to save the address as");
+        $("#saveAddress").val("Yes");
+        var y = document.getElementById("AddressName");
+        y.style.display= "inline";
+                                
+    } 
+    
 
          // Change to include itemID as a parameter
          function updateFromCart(itemId){
@@ -562,11 +589,14 @@
             
             if (picnicBasket != undefined) { // If cart is empty
                 var continue_delete = false;
+                var size = picnicBasket.length-1;
+                
                 for ( let i = 0; i < picnicBasket.length; i++){
-                    var size = picnicBasket.length-1;
+                    
                     if( i == size){
                         picnicBasket.pop();
                         alert("Item has been removed from cart");
+                        Cookies.set('cart',picnicBasket); // Edit cookie
                         location.reload();
                         return false;
                     }
@@ -575,11 +605,11 @@
                         picnicBasket[i] = picnicBasket[i+1];
                         continue_delete = true;
                     }
-                    else if (continue_delete == true || i < size ){
+                    else if (continue_delete == true && i < size ){
                         picnicBasket[i] = picnicBasket[i+1];
                     }
                 }
-                Cookies.set('cart',picnicBasket); // Add cookie
+                
             } 
             
         }    
