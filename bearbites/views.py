@@ -14,7 +14,9 @@ from order.models import OrderHistory
 def indexView(request):
     context = get_userinfo(request)
     if 'name' in request.session:
-        context.update(lastOrder(request))
+        lstOrder = lastOrder(request)
+        if lstOrder != 0:
+            context.update(lstOrder)
     return render(request, 'index.html',context)
 
 
