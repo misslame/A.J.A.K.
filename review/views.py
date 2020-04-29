@@ -5,7 +5,7 @@ from .models import Review
 from bearbites.views import get_userinfo
 
 # Create your views here.
-def addReviewView(request):
+def addReview(request):
     context = get_userinfo(request)
     if request.method == 'POST':
         feedback = Review()
