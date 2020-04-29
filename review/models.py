@@ -4,10 +4,11 @@ from bearbites._con import getConnection
 from bearbites._con import dictfetchall
 from order.models import Delivery
 # Create your models here.
+
 class Review (Delivery):
     reviewID = models.IntegerField()
     reviewType = models.CharField(max_length=128)
-    reviewRating = models.IntegerField()
+    reviewRating = models.CharField(max_length=128)
     reviewComment = models.CharField()
 
 # Getter Methods
@@ -38,3 +39,22 @@ class Review (Delivery):
 
     def set_reviewComment(self,feedback):
         self.reviewComment = feedback
+
+## Database Queries
+
+# Write a Review
+    def leaveReview(self):
+        try:
+            cnxn = getConnection()
+            cursor = cnxn.cursor()
+            sql = ("INSERT INTO REVIEWS(DeliveryID, CustomerID, ReviewType, ReviewRating, ReviewComment)"
+                    "VALUES {}, {}, '{}', '{}', '{}';").format(int(self.deliveryID),int(self.customerID),self.reviewType, self.reviewRating, self.reviewComment)
+            cursor.execute(sql)
+            cnxn.commit()
+            cursor.close()
+            cnxn.close()
+            del cnxn
+            response = "Review Placed"
+        except:
+            response = "Error Leaving Review"
+        return response
