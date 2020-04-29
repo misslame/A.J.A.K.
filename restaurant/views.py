@@ -64,16 +64,18 @@ def searchRestaurant(request):
         restaurantInfo =  menuIt.viewRestaurant()
         context = get_userinfo(request)
         obj = Account()
+        print(menuItems)
         obj.set_accountID(int(request.session['account']))
         address_info = obj.getUserAddress()
         context.update({'menuitems':menuItems,'restaurantInfo':restaurantInfo,'addresses':address_info,'restaurant':restaurantID})
-        return render(request,'order.html',context)
+        return render(request,'menu.html',context)
     else:
         menuIt = MenuItem()
         restaurantID = request.GET['pk']
         print(str(restaurantID))
         menuIt.set_restaurantID(int(restaurantID))
         menuItems = menuIt.viewItems()
+        print(menuItems)
         restaurantInfo =  menuIt.viewRestaurant()
         context = get_userinfo(request)
         response = "To order you must sign in!"

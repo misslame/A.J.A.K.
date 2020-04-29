@@ -14,7 +14,6 @@ urlpatterns = [
     path('logout/',views.logout,name="logout"),
     path('register/',views.registerView,name="register_url"),
     path('trial_dashboard/',views.trialDashBoardView,name="trial_dashboard"),
-    path('order/',views.orderView,name="order"),
     
     
     # Customer Profile Page:
@@ -29,7 +28,7 @@ urlpatterns = [
     path('locations/', restaurant_views.browseLocationView,name="locations"),
    
     path('searchRestaurant/', restaurant_views.searchRestaurant,name="searchRestaurant"),
-    path('locations/menu',menu_views.openMenuView,name="Menu"),
+
     path('order/',order_views.CreateOrder,name="order"),
     
 

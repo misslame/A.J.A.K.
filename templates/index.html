@@ -1,13 +1,13 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% load static %}
 {% block content %}
 <body style = "color: #222; background-color: #F8F9FA; background-size: cover;background-position: center center;background-attachment: fixed;">
-    <div class="home-content"> 
+    <div id="main" class="home-content">
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8" style="background-color:white">
                 <div id="home-ui">
-                
+
                     {% if userauthenticated == False %}
                         <!-- slider -->
                         <div id="slides" class="carousel slide" data-ride="carousel">
@@ -57,8 +57,8 @@
                                 <hr>
                                 <div class="col-12" style="font-family:Mono;">
                                     <p class ="lead">Bearbites believes in providing the best take out experience centered around <b>You!</b></p>
-                                    <p>Sign up or login for the best experience. An account with Bear Bites means you will have the best ranked restaurants 
-                                    and limitlessly recommended restaurants at the tip of your touch on your mouse! </p>           
+                                    <p>Sign up or login for the best experience. An account with Bear Bites means you will have the best ranked restaurants
+                                    and limitlessly recommended restaurants at the tip of your touch on your mouse! </p>
                                 </div>
                             </div>
                         </div>
@@ -70,12 +70,12 @@
                             </ul>
                             <div class="carousel-inner" >
                                 <div class="carousel-item active">
-                                
-                                    <!-- Image of a restaurant from the user's last order --> 
+
+                                    <!-- Image of a restaurant from the user's last order -->
                                     <img src="{% static 'images/background1.png' %}">
                                     <div class="carousel-caption" >
                                         <h1 class="display-2">Hello, {{ authenticated_user }}!</h1>
-                                        <h3 style="font-family:Mono;">Your last order was on: date</h3>
+                                        <h3 style="font-family:Mono;">Your last order was on:  {{orderDate}} at {{orderTime}} </h3>
                                         <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='order';">Order Again</button>
                                         <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='locations';">View Others</button>
                                     </div>
@@ -93,8 +93,8 @@
                                 <hr>
                                 <div class="col-12" style="font-family:Mono;">
                                     <p class ="lead">
-                                        
-                                    
+
+
                                     </p>
                                 </div>
                             </div>
@@ -103,6 +103,6 @@
                 </div>
             </div>
         </div>
-    </div>              
+    </div>
 </body>
 {% endblock %}

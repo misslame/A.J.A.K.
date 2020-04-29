@@ -67,7 +67,13 @@ class Delivery(Customer):
         self.status = progress
 
 ## Database Queries
-
+#Get Delivery Details
+    def checkDeliveryInfo(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "SELECT * FROM Delivery WHERE DeliveryID = {};".format(int(self.deliveryID))
+        cursor.execute(sql)
+        return(dictfetchall(cursor))
 # Delivery Propogation
     def processDelivery(self):
         try:
@@ -92,8 +98,55 @@ class Delivery(Customer):
             response = "Error Processing Delivery Request"
         return response
 
-# We don't need a delete method, as cancelled orders will be shown in history as "Cancelled"
+    # We don't need a delete method, as cancelled orders will be shown in history as "Cancelled"
 
+    #Get Recent Deliveries
+    def findConcurrentDeliveries(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "SELECT DeliveryTime,DeliveryDate From Delivery WHERE DeliveryID = {};".format(int(self.deliveryID))
+        cursor.execute(sql)
+        datetime = dictfetchall(cursor)
+        sql = "SELECT DeliveryID FROM Delivery WHERE DeliveryDate LIKE '{}' AND DeliveryTime LIKE '{}' AND DeliveryAddressID = {};".format(str(datetime[0]["DeliveryDate"]),str(datetime[0]["DeliveryTime"]),int(self.deliveryAddressID))
+        print(sql)
+        cursor.execute(sql)
+        deliveries = cursor.fetchall()
+        return([id for t in deliveries for id in t]) # Return a List of Delivery IDs
+
+    def get_AddressDetails(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "SELECT StreetAddress,AptNum,City,StateAbbv,Zip FROM Addresses WHERE AddressID = {};".format(int(self.deliveryAddressID))
+        cursor.execute(sql)
+        return(dictfetchall(cursor))
+
+#Get Delivery Details
+    def checkDeliveryInfo(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "SELECT * FROM Delivery WHERE DeliveryID = {};".format(int(self.deliveryID))
+        cursor.execute(sql)
+        return(dictfetchall(cursor))
+
+#Get Recent Deliveries
+    def findConcurrentDeliveries(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "SELECT DeliveryTime,DeliveryDate From Delivery WHERE DeliveryID = {};".format(int(self.deliveryID))
+        cursor.execute(sql)
+        datetime = dictfetchall(cursor)
+        sql = "SELECT DeliveryID FROM Delivery WHERE DeliveryDate LIKE '{}' AND DeliveryTime LIKE '{}' AND DeliveryAddressID = {};".format(str(datetime[0]["DeliveryDate"]),str(datetime[0]["DeliveryTime"]),int(self.deliveryAddressID))
+        print(sql)
+        cursor.execute(sql)
+        deliveries = cursor.fetchall()
+        return([id for t in deliveries for id in t]) # Return a List of Delivery IDs
+
+    def get_AddressDetails(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "SELECT StreetAddress,AptNum,City,StateAbbv,Zip FROM Addresses WHERE AddressID = {};".format(int(self.deliveryAddressID))
+        cursor.execute(sql)
+        return(dictfetchall(cursor))
 # Add Tip
     def addTip(self):
         cnxn = getConnection()
@@ -133,8 +186,8 @@ class Delivery(Customer):
 
 class CartItem(MenuItem):
     cartItemID = models.IntegerField()
-    
-   
+
+
     specialInstructions = models.CharField(max_length=128)
     quantity = models.IntegerField()
 
@@ -201,8 +254,24 @@ class CartItem(MenuItem):
             response = "Error Removing Item from Cart"
         return response
 
+# Getting MenuItem Information
+    def findInMenu(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "SELECT ItemID FROM CartItems WHERE CartItemID = {};".format(int(self.cartItemID))
+        cursor.execute(sql)
+        return(cursor.fetchall()[0][0]) # Returns an Int
+
+# Getting Order Details
+    def getCartDetails(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "SELECT Quantity, SpecialInstructions FROM CartItems WHERE CartItemID = {};".format(int(self.cartItemID))
+        cursor.execute(sql)
+        return dictfetchall(cursor)
+
 class OrderHistory(CartItem,Delivery):
-    
+
     def createOrder(self):
         try:
             cnxn = getConnection()
@@ -219,6 +288,45 @@ class OrderHistory(CartItem,Delivery):
             response = "Error placing order, please try again"
         return response
 
+    def getLastOrder(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "SELECT DeliveryID FROM OrderHistory WHERE CustomerID = {};".format(int(self.customerID))
+        cursor.execute(sql)
+        deliveries = cursor.fetchall()
+        recentDelivery = deliveries[-1][0]
+        return (recentDelivery) # Returns an int
 
+    def getCartItems(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "SELECT CartItemID FROM OrderHistory WHERE DeliveryID = {};".format(int(self.deliveryID))
+        cursor.execute(sql)
+        items = cursor.fetchall()
+        return ([item for t in items for item in t])
 
-    
+    def getLastOrder(self):
+            cnxn = getConnection()
+            cursor = cnxn.cursor()
+            sql = "SELECT DeliveryID FROM OrderHistory WHERE CustomerID = {};".format(int(self.customerID))
+            cursor.execute(sql)
+            deliveries = cursor.fetchall()
+            recentDelivery = deliveries[-1][0]
+            return (recentDelivery) # Returns an int
+
+    def getCartItems(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = "SELECT CartItemID FROM OrderHistory WHERE DeliveryID = {};".format(int(self.deliveryID))
+        cursor.execute(sql)
+        items = cursor.fetchall()
+        return ([item for t in items for item in t])
+
+    def getOrderRestaurants(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = ("Select RestaurantName FROM Restaurant INNER JOIN Delivery ON Restaurant.RestaurantID=Delivery.RestaurantID "
+               "WHERE Delivery.DeliveryTime LIKE '{}' AND Delivery.DeliveryDate LIKE '{}' AND Delivery.DeliveryAddressID = {};").format(self.deliveryTime, self.deliveryDate, self.deliveryAddressID)
+        cursor.execute(sql)
+        restaurants = cursor.fetchall()
+        return ([name for t in restaurants for name in t])
