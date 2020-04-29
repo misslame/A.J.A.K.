@@ -14,7 +14,9 @@ from order.models import OrderHistory
 def indexView(request):
     context = get_userinfo(request)
     if 'name' in request.session:
-        context.update(lastOrder(request))
+        lstOrder = lastOrder(request)
+        if lstOrder != 0:
+            context.update(lstOrder)
     return render(request, 'index.html',context)
 
 
@@ -156,7 +158,9 @@ def loginView(request):
             request.session["name"] = name
             print(request.session["name"])
             context = get_userinfo(request)
-            context.update(lastOrder(request))
+            lstOrder = lastOrder(request)
+            if lstOrder !=0:
+                context.update(lstOrder)
             context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info ,'state':state})
             return render(request,'profile.html',context)
         else:
