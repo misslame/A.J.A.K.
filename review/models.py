@@ -9,7 +9,7 @@ class Review (Delivery):
     reviewID = models.IntegerField()
     reviewType = models.CharField(max_length=128)
     reviewRating = models.CharField(max_length=128)
-    reviewComment = models.CharField()
+    reviewComment = models.CharField(max_length=128)
 
 # Getter Methods
     def __str__(self):

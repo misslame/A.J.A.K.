@@ -23,7 +23,7 @@ urlpatterns = [
     path('profile/EditProfile/',account_views.editProfile,name="profile"),
     path('profile/EditAddresses/',account_views.editAddress,name="profile"),
     path('profile/Addresses/',account_views.loadProfile,name="profile"),
-    path('profile/review/',review_views.addReview, name="profile")
+    path('profile/review/',review_views.addReview, name="profile"),
     # Browse locations Page
     path('locations/', restaurant_views.browseLocationView,name="locations"),
 

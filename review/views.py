@@ -18,5 +18,6 @@ def addReview(request):
             comments = ""
         feedback.set_reviewComment(comments)
         response = feedback.leaveReview()
+        print(response)
         context.update({'response':response})
         return render(request,'profile.html',context)
