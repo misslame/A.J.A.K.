@@ -47,7 +47,7 @@ class Review (Delivery):
         try:
             cnxn = getConnection()
             cursor = cnxn.cursor()
-            sql = ("INSERT INTO REVIEWS(DeliveryID, CustomerID, ReviewType, ReviewRating, ReviewComment)"
+            sql = ("INSERT INTO Reviews(DeliveryID, CustomerID, ReviewType, ReviewRating, ReviewComment)"
                     "VALUES {}, {}, '{}', '{}', '{}';").format(int(self.deliveryID),int(self.customerID),self.reviewType, self.reviewRating, self.reviewComment)
             cursor.execute(sql)
             cnxn.commit()
