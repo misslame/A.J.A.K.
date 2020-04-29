@@ -128,26 +128,7 @@ class Delivery(Customer):
         cursor.execute(sql)
         return(dictfetchall(cursor))
 
-#Get Recent Deliveries
-    def findConcurrentDeliveries(self):
-        cnxn = getConnection()
-        cursor = cnxn.cursor()
-        sql = "SELECT DeliveryTime,DeliveryDate From Delivery WHERE DeliveryID = {};".format(int(self.deliveryID))
-        cursor.execute(sql)
-        datetime = dictfetchall(cursor)
-        sql = "SELECT DeliveryID FROM Delivery WHERE DeliveryDate LIKE '{}' AND DeliveryTime LIKE '{}' AND DeliveryAddressID = {};".format(str(datetime[0]["DeliveryDate"]),str(datetime[0]["DeliveryTime"]),int(self.deliveryAddressID))
-        print(sql)
-        cursor.execute(sql)
-        deliveries = cursor.fetchall()
-        return([id for t in deliveries for id in t]) # Return a List of Delivery IDs
-
-    def get_AddressDetails(self):
-        cnxn = getConnection()
-        cursor = cnxn.cursor()
-        sql = "SELECT StreetAddress,AptNum,City,StateAbbv,Zip FROM Addresses WHERE AddressID = {};".format(int(self.deliveryAddressID))
-        cursor.execute(sql)
-        return(dictfetchall(cursor))
-# Add Tip
+#AddTip
     def addTip(self):
         cnxn = getConnection()
         cursor = cnxn.cursor()
@@ -311,8 +292,12 @@ class OrderHistory(CartItem,Delivery):
             sql = "SELECT DeliveryID FROM OrderHistory WHERE CustomerID = {};".format(int(self.customerID))
             cursor.execute(sql)
             deliveries = cursor.fetchall()
-            recentDelivery = deliveries[-1][0]
-            return (recentDelivery) # Returns an int
+            
+            if len(deliveries) >0:
+                
+                recentDelivery = deliveries[-1][0]
+                return (recentDelivery) # Returns an int
+            return 0
 
     def getCartItems(self):
         cnxn = getConnection()
