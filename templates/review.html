@@ -1,0 +1,166 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<body style = "background-image: url({% static 'images/background1.1.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
+    <div class="review-content">
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <div style="background-color:white;padding: 30px;margin-top: 50px;border-radius:10px;">
+                    <div style="border: 5px solid black; padding: 10px;">
+                        <h1>Write/Edit your review!</h1>
+                    </div>
+                    <br>
+                    <p style="font-family:Mono; font-size: 1.5vw;padding-top:8px;">We love hearing from you!</p>
+                    
+                    <div style="border: 5px solid black; font-family: Mono; font-size: 1.5vw; padding:10px;">
+                        <div class ="row" style="padding-left:10px;">
+                            <b style="padding-right: 10px;">Restaurant Name</b> 
+                            <div id="reviewStars" style="background-color:#D8D8D8; padding-left:10px; padding-right:10px;">
+                                <a class="fa fa-star" id="rstar1" onclick="setRating(1,'r');" style="text-decoration:none;color:black;"></a>
+                                <a class="fa fa-star" id="rstar2" onclick="setRating(2,'r');" style="text-decoration:none;color:black;"></a>
+                                <a class="fa fa-star" id="rstar3" onclick="setRating(3,'r');" style="text-decoration:none;color:black;"></a>
+                                <a class="fa fa-star" id="rstar4" onclick="setRating(4,'r');" style="text-decoration:none;color:black;"></a>
+                                <a class="fa fa-star" id="rstar5" onclick="setRating(5,'r');" style="text-decoration:none;color:black;"></a>
+                            </div>
+                        </div>
+                        
+                        <!-- GRAB REVIEW STAR AMOUNT FROM HERE -->
+                        <div id="hiddenStarReview" style="display:none;">
+                            <i id="restaurantReview">x</i>
+                        </div>
+                        
+                        <!-- Comment Box -->
+                        <div class="form-group">
+                            <label for="restaurantComment">Comments:</label>
+                            <textarea class="form-control" rows="5" id="restaurantComment"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div style="border: 5px solid black; font-family: Mono; font-size: 1.5vw; padding: 10px;">
+                        <div class="row" style="padding-left:10px;">
+                            <b style="padding-right: 10px;">Delivery Driver</b>
+                            <div id="reviewStars" style="background-color:#D8D8D8; padding-left:10px; padding-right:10px;">
+                                        <a class="fa fa-star" id="dstar1" onclick="setRating(1,'d');" style="text-decoration:none;color:black;"></a>
+                                        <a class="fa fa-star" id="dstar2" onclick="setRating(2,'d');" style="text-decoration:none;color:black;"></a>
+                                        <a class="fa fa-star" id="dstar3" onclick="setRating(3,'d');" style="text-decoration:none;color:black;"></a>
+                                        <a class="fa fa-star" id="dstar4" onclick="setRating(4,'d');" style="text-decoration:none;color:black;"></a>
+                                        <a class="fa fa-star" id="dstar5" onclick="setRating(5,'d');" style="text-decoration:none;color:black;"></a>
+                            </div>
+                        </div>
+                        
+                        <!-- GRAB REVIEW STAR AMOUNT FROM HERE -->
+                        <div id="hiddenStarReview" style="display:none;">
+                            <i id="deliveryReview">x</i>
+                        </div>
+                        
+                        <!-- Comment Box -->
+                        <div class="form-group">
+                            <label for="deliveryComment">Comments:</label>
+                            <textarea class="form-control" rows="5" id="deliveryComment"></textarea>
+                        </div>
+                        
+                    </div>
+                    
+                    <br><input style="font-size:1.5vw;" class="btn btn-primary btn-lock btn-block" type="submit" name="submit" value="Confirm">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    
+        function setRating(star,reviewType){
+        
+            if(reviewType == 'r'){
+            
+                switch(star) {
+                    case 5:
+                        document.getElementById('rstar5').style.color = 'yellow';
+                        document.getElementById('rstar4').style.color = 'yellow';
+                        document.getElementById('rstar3').style.color = 'yellow';
+                        document.getElementById('rstar2').style.color = 'yellow';
+                        document.getElementById('rstar1').style.color = 'yellow';
+                        break;
+                    case 4:
+                        document.getElementById('rstar5').style.color = 'black';
+                        document.getElementById('rstar4').style.color = 'yellow';
+                        document.getElementById('rstar3').style.color = 'yellow';
+                        document.getElementById('rstar2').style.color = 'yellow';
+                        document.getElementById('rstar1').style.color = 'yellow';
+                        break;
+                    case 3:
+                        document.getElementById('rstar5').style.color = 'black';
+                        document.getElementById('rstar4').style.color = 'black';
+                        document.getElementById('rstar3').style.color = 'yellow';
+                        document.getElementById('rstar2').style.color = 'yellow';
+                        document.getElementById('rstar1').style.color = 'yellow';
+                        break;
+                    case 2:
+                        document.getElementById('rstar5').style.color = 'black';
+                        document.getElementById('rstar4').style.color = 'black';
+                        document.getElementById('rstar3').style.color = 'black';
+                        document.getElementById('rstar2').style.color = 'yellow';
+                        document.getElementById('rstar1').style.color = 'yellow';
+                        break;
+                    case 1:
+                        document.getElementById('rstar5').style.color = 'black';
+                        document.getElementById('rstar4').style.color = 'black';
+                        document.getElementById('rstar3').style.color = 'black';
+                        document.getElementById('rstar2').style.color = 'black';
+                        document.getElementById('rstar1').style.color = 'yellow';
+                        break;
+                    default:
+                }
+                
+                document.getElementById("restaurantReview").innerHTML = star;
+                
+            }else{
+            
+                switch(star) {
+                    case 5:
+                        document.getElementById('dstar5').style.color = 'yellow';
+                        document.getElementById('dstar4').style.color = 'yellow';
+                        document.getElementById('dstar3').style.color = 'yellow';
+                        document.getElementById('dstar2').style.color = 'yellow';
+                        document.getElementById('dstar1').style.color = 'yellow';
+                        break;
+                    case 4:
+                        document.getElementById('dstar5').style.color = 'black';
+                        document.getElementById('dstar4').style.color = 'yellow';
+                        document.getElementById('dstar3').style.color = 'yellow';
+                        document.getElementById('dstar2').style.color = 'yellow';
+                        document.getElementById('dstar1').style.color = 'yellow';
+                        break;
+                    case 3:
+                        document.getElementById('dstar5').style.color = 'black';
+                        document.getElementById('dstar4').style.color = 'black';
+                        document.getElementById('dstar3').style.color = 'yellow';
+                        document.getElementById('dstar2').style.color = 'yellow';
+                        document.getElementById('dstar1').style.color = 'yellow';
+                        break;
+                    case 2:
+                        document.getElementById('dstar5').style.color = 'black';
+                        document.getElementById('dstar4').style.color = 'black';
+                        document.getElementById('dstar3').style.color = 'black';
+                        document.getElementById('dstar2').style.color = 'yellow';
+                        document.getElementById('dstar1').style.color = 'yellow';
+                        break;
+                    case 1:
+                        document.getElementById('dstar5').style.color = 'black';
+                        document.getElementById('dstar4').style.color = 'black';
+                        document.getElementById('dstar3').style.color = 'black';
+                        document.getElementById('dstar2').style.color = 'black';
+                        document.getElementById('dstar1').style.color = 'yellow';
+                        break;
+                    default:
+                }
+                
+                document.getElementById("deliveryReview").innerHTML = star;
+            }
+            return;
+        }
+    
+    </script>
+</body>
+{% endblock %}
