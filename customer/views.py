@@ -127,6 +127,7 @@ def loadProfile(request):
         context = get_userinfo(request)
         context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
         context.update(lastOrder(request))
+        print(context)
         return render(request, 'profile.html',context)
     else:
         return render(request,'login.html')

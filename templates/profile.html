@@ -65,8 +65,10 @@
 
 
                                                     <h1 style="color:#0094FF; font-size:2.0vw;"> Hello, <p style="margin:0 0 0 0;display: inline-block;" >{{user.FirstName}}</p>!</h1>
-                                                    Last order on:<br>
-                                                    Delivered to 'Home'
+                                                    Last order on: {{orderDate}} at {{orderTime}} from {% for restaurant in recent_restaurants %} {% if recent_restaurants|length > 1 %}{% if restaurant == recent_restaurants|last %} and {% endif %}{% endif %}{{restaurant}}{% if recent_restaurants|length > 2 %}{% if restaurant != recent_restaurants|last %},{% endif %}{% endif %}{% endfor %}<br>
+                                                        {% for address in delivery_address %}
+                                                          Delivered to {{address.StreetAddress}} {{address.AptNum}}, {{address.City}}, {{address.StateAbbv}} {{address.Zip}}
+                                                        {% endfor %}
 
                                                     <input style="font-size:1.5vw;" type="submit" name="submit" value="View Orders" class="btn btn-primary btn-lock btn-block">
                                                     <input style="font-size:1.5vw;" type="submit" name="submit" value="New Order" class="btn btn-primary btn-lock btn-block">
