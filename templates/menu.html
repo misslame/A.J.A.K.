@@ -72,127 +72,30 @@
                         <h3>Review Tab</h3>
 
                         <!-- BEGIN REVIEW VIEW EDITS -->
-                        
                         <br>
 
                         <div class="card">
                             <div class="reviews scrollbar-cyan">
-                                <!-- EXAMPLE REVIEW 1-->
+                                <!-- For reviews in restaurantReviews -->
                                 <div class="card" style="border-style: solid; border-color: rgb(199, 199, 199);">
                                     <div style="background-color: rgb(209, 233, 241); text-align: center;">-</div>
-                                    <br>
-                                    <div class="row blockquote review-item">
-                                        <div class="col-md-3 text-center">
-                                            <!--Placeholder profile image for reviewer-->
-                                            <img class="rounded-circle reviewer" src="http://standaloneinstaller.com/upload/avatar.png">
-                                            <!--Name of reviewer-->
-                                            <div class="caption">
-                                                <small>by <a href="">Stoned Koala</a></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div>
-                                                <!--Review Title and Star Rating-->
-                                                <h4>I love this place man</h4>
-                                                <!-- data-rating controls the star-rating (0-5 stars) -->
-                                                <div class="ratebox text-center" data-id="0" data-rating="5"></div>
-                                            </div>
-                                            <br>
-                                            <!--Review Body-->
-                                            <p class="review-text" style="font-family: sans-seriff;">The eucalyptus leaves here are booooommbbb dude.</p>
-                                            <!--Review Date-->
-                                            <small class="review-date" style="font-size: small;">April 20, 2020</small>    
-                                        </div>                          
+                                    <div style="padding: 10px;">
+                                        <!--Name of reviewer-->
+                                        <h3>by <a href="">{{ restaurant.reviewAuthor }}</a></h3>
+                                        <br>
+                                        <!--Review Title and Star Rating-->
+                                        <h4>{{ restaurant.reviewTitle }}</h4>
+                                        <!-- RESTAURANT.REVIEWRATING SHOULD DETERMINE VALUE FOR DATA-RATING="#" -->
+                                        <div class="ratebox text-center" data-id="0" data-rating="5"></div>
+                                        <br>
+                                        <!--Review Body-->
+                                        <p class="review-text" style="font-family: sans-seriff;">{{ restaurant.review }}</p>
+                                        <!--Review Date-->
+                                        <small class="review-date" style="font-size: small;">{{ restaurant.reviewDate }}</small>    
                                     </div>
                                 </div>
                                 <br>
-                                <!-- EXAMPLE REVIEW 2-->
-                                <div class="card" style="border-style: solid; border-color: rgb(199, 199, 199);">
-                                    <div style="background-color: rgb(209, 233, 241); text-align: center;">-</div>
-                                    <br>
-                                    <div class="row blockquote review-item">
-                                        <div class="col-md-3 text-center">
-                                            <!--Placeholder profile image for reviewer-->
-                                            <img class="rounded-circle reviewer" src="http://standaloneinstaller.com/upload/avatar.png">
-                                            <!--Name of reviewer-->
-                                            <div class="caption">
-                                                <small>by <a href="">Random Person 1</a></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div>
-                                                <!--Review Title and Star Rating-->
-                                                <h4>I Love Bearbites</h4>
-                                                <!-- data-rating controls the star-rating (0-5 stars) -->
-                                                <div class="ratebox text-center" data-id="0" data-rating="2"></div>
-                                            </div>
-                                            <br>
-                                            <!--Review Body-->
-                                            <p class="review-text" style="font-family: sans-seriff;">My dog passed away today...</p>
-                                            <!--Review Date-->
-                                            <small class="review-date" style="font-size: small;">April 28, 2020</small>    
-                                        </div>                          
-                                    </div>
-                                </div> 
-                                <br>
-                                <!-- EXAMPLE REVIEW 3-->
-                                <div class="card" style="border-style: solid; border-color: rgb(199, 199, 199);">
-                                    <div style="background-color: rgb(209, 233, 241); text-align: center;">-</div>
-                                    <br>
-                                    <div class="row blockquote review-item">
-                                        <div class="col-md-3 text-center">
-                                            <!--Placeholder profile image for reviewer-->
-                                            <img class="rounded-circle reviewer" src="http://standaloneinstaller.com/upload/avatar.png">
-                                            <!--Name of reviewer-->
-                                            <div class="caption">
-                                                <small>by <a href="">NotAPaidReviewer</a></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div>
-                                                <!--Review Title and Star Rating-->
-                                                <h4>OMG This place is the best!</h4>
-                                                <!-- data-rating controls the star-rating (0-5 stars) -->
-                                                <div class="ratebox text-center" data-id="0" data-rating="5"></div>
-                                            </div>
-                                            <br>
-                                            <!--Review Body-->
-                                            <p class="review-text" style="font-family: sans-seriff;">Everything here is good and no i'm not paid to write this review!</p>
-                                            <!--Review Date-->
-                                            <small class="review-date" style="font-size: small;">March 24, 2019</small>    
-                                        </div>                          
-                                    </div>
-                                </div>
-                                <br>
-                                <!-- EXAMPLE REVIEW 4-->
-                                <div class="card" style="border-style: solid; border-color: rgb(199, 199, 199);">
-                                    <div style="background-color: rgb(209, 233, 241); text-align: center;">-</div>
-                                    <br>
-                                    <div class="row blockquote review-item">
-                                        <div class="col-md-3 text-center">
-                                            <!--Placeholder profile image for reviewer-->
-                                            <img class="rounded-circle reviewer" src="http://standaloneinstaller.com/upload/avatar.png">
-                                            <!--Name of reviewer-->
-                                            <div class="caption">
-                                                <small>by <a href="">Phil</a></small>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div>
-                                                <!--Review Title and Star Rating-->
-                                                <h4>Meh</h4>
-                                                <!-- data-rating controls the star-rating (0-5 stars) -->
-                                                <div class="ratebox text-center" data-id="0" data-rating="3"></div>
-                                            </div>
-                                            <br>
-                                            <!--Review Body-->
-                                            <p class="review-text" style="font-family: sans-seriff;">Eh, I guess the place isn't terrible, though it ain't the best either.</p>
-                                            <!--Review Date-->
-                                            <small class="review-date" style="font-size: small;">February 1, 2019</small>    
-                                        </div>                          
-                                    </div>
-                                </div>  
-                                <br>  
+                                <!-- End For reviews in restaurantReviews -->
                             </div>
                         </div>
                         <!-- END REVIEW VIEW EDITS -->
