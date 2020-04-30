@@ -1,71 +1,109 @@
 {% load static %}
-<div class =  "modal-dialog modal-lg" role="document" >
-    <div class = "modal-content">
-        <input type="hidden" id="restaurantID" name="restaurantID" value ="{{restaurant}}"></input>
+<div class = "container">
+    <input type="hidden" id="restaurantID" name="restaurantID" value ="{{restaurant}}"></input>
+    
     {% if alert_flag %}
-    <script>alert("{{response}}")</script>  
+        <script>alert("{{response}}")</script>  
     {% endif %}  
-        {% for restaurant in restaurantInfo %}
-        <!-- HEADER -->
-         <!--Restaurant Banner-->
-         <div style="background-image: url({{restaurant.LogoUrl}}); background-size: cover;background-position: center center;background-attachment: fixed; height:20vh;">
-                      
-        <h2 style="color: #0094FF; border: 3px solid black; padding:1rem; background:white;">{{restaurant.RestaurantName}}</h2> {{restaurant.address}}
+    
+    {% for restaurant in restaurantInfo %}
+        <!--Restaurant Banner-->
+        <div style="background-image: url({{restaurant.LogoUrl}}); background-size: cover;background-position: center center;background-attachment: fixed; height:20vh;">         
+            <h2 style="color: #0094FF; border: 3px solid black; padding:1rem; background:white;">{{restaurant.RestaurantName}}</h2> {{restaurant.address}}
         </div>
-        {% endfor %}
+    {% endfor %}
+    <br><br>
+                
+    <!-- Tab: Menu/About/Reviews -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#menu">Menu</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#about">About</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#reviews">Reviews</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="menu" class="container tab-pane active"><br>
+            <h3>Menu Tab</h3>
+            
+            <!-- For typesOfItems in restaurantItemTypes-->
+                <h4>Item Type</h4> 
+                
+                <div class="row row-cols-2">
+                    <!-- For item in typeOfItems -->
+                    {% for item in menuitems %}
+                        <div class ="col">
+
+                            <a class="card mb-4" data-toggle="modal" data-target="#addToCart" data-item-id="{{item.ItemID}}" data-item-url="{{item.ItemURL}}" data-item-name="{{item.ItemName}}" data-item-price="{{item.Price}}" data-item-desc="{{item.ItemDesc}}"href="" style="text-decoration:none; color:black;">
+                                <br>
+                               
+                                <div class="card-body">
+                                    <div style="width:150px; height:100px; overflow: hidden;">
+                                        <img src="{{item.ItemURL}}" style="width:inherit; height:inherit">
+                                    </div> 
+                                    <span class="float-right font-weight-bold" style="font-family:Mono;">{{ item.Price }}</span>
+
+                                    <h5 class="card-title"> {{ item.ItemName }}</h5>
+                                    <p class="card-text" style="font-family:Mono;">{{ item.ItemDesc }}</p>
+                                    
+                                </div>
+                            </a>
+                               
+                        </div>
+                    {% endfor %}
+                    <!-- End For item in typeOfItems-->
+                        
+                </div>
+            <!-- End For typesOfItems in restaurantItemTypes-->
+            
+        </div>
+        
+        <div id="about" class="container tab-pane fade"><br>
+            <h3>About Tab</h3>
+            
+        </div>
+        
+        <div id="reviews" class="container tab-pane fade"><br>
+            <h3>Review Tab</h3>
+            
+        </div>
+    </div> <!-- End tab content -->
+        
+    <!-- RETURN BACK TO SEARCH RESULTS -->
+    <div style=" width:80vw;">
+        <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='/locations/'">Go Back</button>
+        <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='/order'">Check Out <img src="{% static 'brand/basket.png' %}" style="max-height: 20px;"></button>
         <br><br>
+    </div>
+    
+    <!-- Modal popup to confirm if user wants to add item selected to cart -->
+    <div class="modal fade" role="dialog" tabindex="99999" id="addToCart">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <input type="hidden" id="selectedItemID" ></input>
+                <!-- Item name with banner -->
+                <div class="modal-header"  >
+                    <h4 class="modal-title">Add ItemName to cart?</h4>
+                </div>
+                
+                <div class="modal-body" style="font-size:1.4vw;">
+                    <div style="width:150px; height:100px; overflow: hidden;">
+                        <img id="selectedItemURL"  style="width:inherit; height:inherit">
+                    </div> 
+                    $<span class="float-right font-weight-bold" id="selectedItemPrice"style="font-family:Mono;"></span>
+                    <h5 id="selectedItemName"> Item Name </h5>
+                    <p style="font-family:Mono;" id="selectedItemDesc">Item Description</p>
                     
-                    <!-- Tab: Menu/About/Reviews -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#menu">Menu</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#about">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#reviews">Reviews</a>
-                        </li>
-                    </ul>
-
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <div id="menu" class="container tab-pane active"><br>
-                        <h3>Menu Tab</h3>
-                        <!-- For typesOfItems in restaurantItemTypes-->
-                        <h4>Items</h4> 
-                        <div class="row row-cols-2">
-                                <!-- For item in typeOfItems -->
-                                 {% for item in menuitems %}
-                                    <div class ="col">
-
-                                        <a class="card mb-4" data-toggle="modal" data-target="#addToCart" data-item-id="{{item.ItemID}}" data-item-url="{{item.ItemURL}}" data-item-name="{{item.ItemName}}" data-item-price="{{item.Price}}" data-item-desc="{{item.ItemDesc}}"href="" style="text-decoration:none; color:black;">
-                                            <br>
-                                           
-                                            <div class="card-body">
-                                                <div style="width:150px; height:100px; overflow: hidden;">
-                                                    <img src="{{item.ItemURL}}" style="width:inherit; height:inherit">
-                                                </div> 
-                                                <span class="float-right font-weight-bold" style="font-family:Mono;">{{ item.Price }}</span>
-   
-                                                <h5 class="card-title"> {{ item.ItemName }}</h5>
-                                                <p class="card-text" style="font-family:Mono;">{{ item.ItemDesc }}</p>
-                                                
-                                            </div>
-                                        </a>
-                                           
-                                        </div>
-                                        {% endfor %}
-                                <!-- End For item in typeOfItems-->
-                                
-                            </div>
-                        <!-- End For typesOfItems in restaurantItemTypes-->
-                        
-                    </div>
-                    
-                    <div id="about" class="container tab-pane fade"><br>
-                        <h3>About Tab</h3>
-                        
+                    <!-- Special Instructions Text box -->
+                    <div class="form-group" style="max-width:50%;">
+                        <h6> Special Instructions:</h6>
+                        <textarea class="form-control" rows="5" name="specialInstructions" id="itemInstruct" style="font-family:Mono;"></textarea>
                     </div>
                     
                     <div id="reviews" class="container tab-pane fade"><br>
@@ -206,78 +244,50 @@
                     <button type = "button" class="btn btn-primary btn-lg" onclick="$('#restaurantPage').modal('hide');">Go Back</button>
                     <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='/order">Check Out <img src="{% static 'brand/basket.png' %}" style="max-height: 20px;"></button>
                     <br><br>
-                </div>
-                
-                <!-- Modal popup to confirm if user wants to add item selected to cart -->
-                <div class="modal fade" role="dialog" tabindex="99999" id="addToCart">
-                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <input type="hidden" id="selectedItemID" ></input>
-                            <!-- Item name with banner -->
-                            <div class="modal-header"  >
-                                <h4 class="modal-title">Add ItemName to cart?</h4>
-                            </div>
-                            
-                            <div class="modal-body" style="font-size:1.4vw;">
-                                <div style="width:150px; height:100px; overflow: hidden;">
-                                    <img id="selectedItemURL"  style="width:inherit; height:inherit">
-                                </div> 
-                                $<span class="float-right font-weight-bold" id="selectedItemPrice"style="font-family:Mono;"></span>
-                                <h5 id="selectedItemName"> Item Name </h5>
-                                <p style="font-family:Mono;" id="selectedItemDesc">Item Description</p>
-                                
-                                <!-- Special Instructions Text box -->
-                                <div class="form-group" style="max-width:50%;">
-                                    <h6> Special Instructions:</h6>
-                                    <textarea class="form-control" rows="5" name="specialInstructions" id="itemInstruct" style="font-family:Mono;"></textarea>
-                                </div>
-                                
-                                <!-- Counter input for quantity of items. -->
-                                <div class="float-right" style="width:10vw; font-family:Mono;">
-                                    <div class="input-group number-spinner">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus" aria-hidden="true"></i></button>
-                                        </span>
-                                        <input id="itemQuantity"type="text" class="form-control text-center" value="1">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" data-dir="up"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="modal-footer float-right">
-                                <button type = "button" class="btn btn-primary btn-lg" data-dismiss="modal">Cancel</button>
-                                <button type = "button" class="btn btn-primary btn-lg" onclick="getItemInfo()">Confirm</button>
-                            </div>
+                    <!-- Counter input for quantity of items. -->
+                    <div class="float-right" style="width:10vw; font-family:Mono;">
+                        <div class="input-group number-spinner">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                            </span>
+                            <input id="itemQuantity"type="text" class="form-control text-center" value="1">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" data-dir="up"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            </span>
                         </div>
                     </div>
-                </div> <!-- End Modal popup for confirmation -->
+
+                </div>
+
+                <div class="modal-footer float-right">
+                    <button type = "button" class="btn btn-primary btn-lg" data-dismiss="modal">Cancel</button>
+                    <button type = "button" class="btn btn-primary btn-lg" onclick="getItemInfo()">Confirm</button>
+                </div>
             </div>
         </div>
-    </div>
-        </div>
-
+    </div> 
+</div>
 <script>
-var orgurl = window.location.protocol + "/" + window.location.host +"/locations"
-window.history.pushState({path:orgurl},'',"/locations/");
-$('#addToCart').on('show.bs.modal', function(e) {
+    var orgurl = window.location.protocol + "/" + window.location.host +"/locations"
+    window.history.pushState({path:orgurl},'',"/locations/");
+    
+    $('#addToCart').on('show.bs.modal', function(e) {
+        //get data-item attributes of the clicked element
+        var itemId = $(e.relatedTarget).data('item-id');
+        var itemUrl = $(e.relatedTarget).data('item-url');
+        var itemName = $(e.relatedTarget).data('item-name');
+        var itemPrice = $(e.relatedTarget).data('item-price');
+        var itemDesc = $(e.relatedTarget).data('item-desc');
 
-//get data-item attributes of the clicked element
-var itemId = $(e.relatedTarget).data('item-id');
-var itemUrl = $(e.relatedTarget).data('item-url');
-var itemName = $(e.relatedTarget).data('item-name');
-var itemPrice = $(e.relatedTarget).data('item-price');
-var itemDesc = $(e.relatedTarget).data('item-desc');
-
-//populate the item popup
-$("#selectedItemID").val(itemId);
-$("#selectedItemURL").attr('src',itemUrl);
-$("#selectedItemName").html(itemName);
-$("#selectedItemPrice").html(itemPrice);
-$("#selectedItemDesc").html(itemDesc);
-
-});
+        //populate the item popup
+        $("#selectedItemID").val(itemId);
+        $("#selectedItemURL").attr('src',itemUrl);
+        $("#selectedItemName").html(itemName);
+        $("#selectedItemPrice").html(itemPrice);
+        $("#selectedItemDesc").html(itemDesc);
+    });
+    
 </script>
     </div>
 

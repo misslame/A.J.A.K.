@@ -86,8 +86,7 @@
                                                         <p class="card-text" style="text-align:center; font-size:1vw; color:black; font-family:Mono;">{{restaurant.address}}</p>
                                                     </div>
                                                     <div>
-
-                                                        <a   style="font-family:Mono;" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#restaurantPage" onclick='showrestaurantmenu({{ restaurant.RestaurantID }})';>Order From</a>
+                                                        <a style="font-family:Mono;" class="btn btn-primary btn-sm"  onclick="showRestaurantMenu({{ restaurant.RestaurantID }}, 'restaurantPage','defaultPage')">Order From</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -102,115 +101,25 @@
                     End Main Page with search bar
                 *******************************************-->
             </div>
-
-
+            
             <!-- Show's only if restaurant clicked -->
-             <!-- The Modal -->
-    <div class="modal" id="restaurantPage" style="z-index: 500000;" >
-    <div class="modal-dialog">
-      <div class="modal-content">
-
-
-
-
-
-
-
-
-                                <!-- Supposed popup box that shows up when you click on resturant order button-->
-                            </a>
-                            <div class="card-footer" style="align-content: bottom;">
-                {% for restaurant in restaurantInfo%}
-                                <a data-toggle="modal" class="nav-link btn btn-primary" data-target="#restaurantPop" onclick='UpdatePKFunction({{ restaurant.RestaurantID }})'; >Order Now!</a>
-                            </div>
-                        </div>
-                {% endfor %}
+            <!-- The Modal -->
+            <div id="restaurantPage" style="display:none;">
+                
             </div>
-
-            <div class="modal fade" role="dialog" tabindex="-1" id="restaurantPop">
-                <div class =  "modal-dialog modal-lg" role="document" >
-                    <div class = "modal-content">
-
-                        <!-- HEADER -->
-                        <div class = "modal-header" style="background-image: url({% static 'images/banner.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
-                            <h2 style="color: #0094FF; border: 0.5rem solid black; padding:1rem; background:white;">Restaurant Name</h2> <i class="fa fa-times-circle fa-2x" aria-hidden="true" data-dismiss="modal"></i>
-                        </div>
-
-                        <div class = "modal-body" style="font-size:2.4rem;">
-                            <div class="container">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#menu">Menu</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#about">About</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#reviews">Reviews</a>
-                                    </li>
-                                </ul>
-
-                                <!-- Tab panes -->
-                                <div class="tab-content">
-                                    <div id="menu" class="container tab-pane active"><br>
-                                        <h3>Menu Tab</h3>
-
-                                        <!-- For typesOfItems in restaurantItemTypes-->
-                                            <h4>Item Type (example:Entree)</h4>
-
-                                            <div class="row">
-                                                <!-- For item in typeOfItems -->
-                                                    <div class ="col-sm-6">
-                                                        <div class="card">
-                                                            <br>
-                                                            <div class="card-body">
-                                                                <h5>Item Name</h5>
-                                                                <h6>Item Price</h6>
-                                                                <p> Item Description Here</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                <!-- End For item in typeOfItems-->
-                                            </div>
-                                        <!-- End For typesOfItems in restaurantItemTypes-->
-
-                                    </div>
-
-                                    <div id="about" class="container tab-pane fade"><br>
-                                        <h3>About Tab</h3>
-                                        <div style="height: 15rem;">
-                                                <img src="{{restaurant.LogoUrl}}" style="width:100%;">
-                                        </div>
-
-                                    </div>
-
-                                    <div id="reviews" class="container tab-pane fade"><br>
-                                        <h3>Review Tab</h3>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- FOOTER -->
-                        <div class = "modal-footer">
-                            <a class="nav-link btn btn-primary" href="/order/">Order Now!</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+            
+            
         </div>
     </div>
-    </div>
+
     <script>
         var orgurl = window.location.protocol + "/" + window.location.host +"/locations"
         window.history.pushState({path:orgurl},'',"/locations/");
 
-        function showrestaurantmenu(pk) {
+        function showRestaurantMenu(pk, shown, hidden) {
             pk = pk
+            document.getElementById(shown).style.display='block';
+            document.getElementById(hidden).style.display='none';
 
             $.ajax({
                 url: '/searchRestaurant',
@@ -219,7 +128,7 @@
                 },
                 success: function(pk) {
 
-                $('#restaurantPage').html(pk);
+                    $('#restaurantPage').html(pk);
 
                 }
             });
@@ -236,12 +145,7 @@
             }
         );
 
-        // Function for switching between pages
-        function show(shown,hidden){
-            document.getElementById(shown).style.display='block';
-            document.getElementById(hidden).style.display='none';
-            return false;
-        }
+        
 
 
         // Quantity input box for modal pop up dialog.
