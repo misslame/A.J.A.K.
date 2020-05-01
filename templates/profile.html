@@ -62,7 +62,9 @@
                                                     <img style="width:14vw;" src="{% static 'images/profileholder.png' %}" alt="Bearstomer" class="img-rounded img-responsive" />
                                                 </div>
                                                 <div class="col-sm-7">
-
+                                                    {% if alert_flag %}
+                                                    <script>window.alert("{{response}}")</script>  
+                                                    {% endif %}
 
                                                     <h1 style="color:#0094FF; font-size:2.0vw;"> Hello, <p style="margin:0 0 0 0;display: inline-block;" >{{user.FirstName}}</p>!</h1>
                                                     Last order on: {{orderDate}} at {{orderTime}} from {% for restaurant in recent_restaurants %} {% if recent_restaurants|length > 1 %}{% if restaurant == recent_restaurants|last %} and {% endif %}{% endif %}{{restaurant}}{% if recent_restaurants|length > 2 %}{% if restaurant != recent_restaurants|last %},{% endif %}{% endif %}{% endfor %}<br>
@@ -170,7 +172,7 @@
 
                                     {% for address in addresses %}
                                         <div style = "border: 5px solid black; padding: 25px; font-size: 1vw; font-family: Mono;">
-                                            <h4><u>Address Type</u></h4>
+                                            <h4><u>{{address.AddressType}}</u></h4>
                                             {{address.zip}} {{address.apt}} {{address.street}} <br>
                                             {{address.city}} {{address.state}}
                                             <br><br>
@@ -203,33 +205,31 @@
                                             <option value="new">New Address</option>
                                             </select>
                                         </div>
-                                        <div id="AddressName" style="display: none">
-                                        <label style="font-family: sans-seriff; font-weight: bold;">Save Address As:</label>
-                                        <input style="font-family: sans-seriff;" class="form-control" id="addName" name="addName" value ="" placeholder="Home, Parent House">
-                                        </div>
+                                        
                                         {% for address in addresses %}
+                                        
                                         <div class="AddressOptions" id="{{address.AddressType}}" style="display: none"> 
-                                            <div id="AddressName" >
-                                                <label style="font-family: sans-seriff; font-weight: bold;">Save Address As:</label>
-                                                <input style="font-family: sans-seriff;" class="form-control" id="addName" name="addName new" value ="" placeholder="Home, Parent House">
-                                            </div>
+                                          <div id="row" >
+                                            <label style="color: black; font-family: Bearskin">Save Address As:</label>
+                                            <input style="font-family: sans-seriff;" class="form-control" id="addName {{address.AddressType}}" name="addName {{address.AddressType}}" value ="" placeholder="Home, Parent House">
+                                        </div>  
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">Street: </label>
-                                            <input type="text" name="street {{address.AddressType}}" value ="{{address.street}}"></input>
+                                            <input type="text" class="form-control" name="street {{address.AddressType}}" value ="{{address.street}}"></input>
                                         </div>
 
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">Aprt Number: </label>
-                                            <input type="text" name="apt {{address.AddressType}}" value="{{address.apt}}"></input>
+                                            <input type="text" class="form-control" name="apt {{address.AddressType}}" value="{{address.apt}}"></input>
                                         </div>
 
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">City: </label>
-                                            <input type="text" name="city {{address.AddressType}}" value="{{address.city}}"></input>
+                                            <input type="text" class="form-control" name="city {{address.AddressType}}" value="{{address.city}}"></input>
                                         </div>
 
                                         <!-- STATE DROPDOWN -->
-                                        <div class="row">
+                                        <div class="row" style="width: fit-content">
                                             <label style="color: black; font-family: Bearskin">State: </label>
                                             <select class="form-control" id="stateselect {{address.AddressType}}" value="{{address.state}}"  name="state"  style="font-family: sans-seriff;" value="{{address.state}}">
                                                 <option value="AL">Alabama</option>
@@ -288,32 +288,32 @@
 
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">Zip Code: </label>
-                                            <input type="text" name="zip {{address.AddressType}}" value="{{address.zip}}"></input>
+                                            <input type="text" class="form-control" name="zip {{address.AddressType}}" value="{{address.zip}}"></input>
                                         </div>
                                      </div>
                                         {% endfor %}
                                         <div class="NewAddress" id="NewAddress" style="display: none"> 
-                                            <div id="AddressName" >
+                                            <div id="row" >
                                                 <label style="font-family: sans-seriff; font-weight: bold;">Save Address As:</label>
-                                                <input style="font-family: sans-seriff;" class="form-control" id="addName" name="addName new" value ="" placeholder="Home, Parent House">
+                                                <input style="font-family: sans-seriff;" class="form-control" id="addName new" name="addName new" value ="" placeholder="Home, Parent House">
                                             </div>
                                         <div class="row"> 
                                             <label style="color: black; font-family: Bearskin">Street: </label>
-                                            <input type="text" name="street new" ></input>
+                                            <input type="text" class="form-control" name="street new" ></input>
                                         </div>
 
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">Aprt Number: </label>
-                                            <input type="text" name="apt new" ></input>
+                                            <input type="text" class="form-control" name="apt new" ></input>
                                         </div>
 
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">City: </label>
-                                            <input type="text" name="city new" ></input>
+                                            <input type="text" class="form-control" name="city new" ></input>
                                         </div>
 
                                         <!-- STATE DROPDOWN -->
-                                        <div class="row">
+                                        <div class="row" style="width: fit-content">
                                             <label style="color: black; font-family: Bearskin">State: </label>
                                             <select class="form-control" id="stateselect new" value="{{address.state}}"  name="state"  style="font-family: sans-seriff;" value="{{address.state}}">
                                                 <option value="AL">Alabama</option>
@@ -372,7 +372,7 @@
 
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">Zip Code: </label>
-                                            <input type="text" name="zip new" ></input>
+                                            <input type="text" class="form-control" name="zip new" ></input>
                                         </div>
                             
                                          </div> 
@@ -485,13 +485,13 @@
                                                     <div class = "row">
                                                         <div class="col" style="border: 2px solid black;  min-width:11vw;">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Paleo" id="Paleo" name="example1" {{p_check_list.6}}>
-                                                                <label class="custom-control-label" for="Paleo" style="color:black;font-family:Mono;">Paleolithic</label>
+                                                                <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Paleo Diet" id="Paleo Diet" name="example1" {{p_check_list.6}}>
+                                                                <label class="custom-control-label" for="Paleo Diet" style="color:black;font-family:Mono;">Paleolithic</label>
                                                             </div>
                                                         </div>
                                                         <div class="col" style="border: 2px solid black;">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Keto" id="Keto" name="example1" {{p_check_list.8}}>
+                                                                <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Keto Diet" id="Keto Diet" name="example1" {{p_check_list.8}}>
                                                                 <label class="custom-control-label" for="Keto" style="color:black;font-family:Mono;">Keto</label>
                                                             </div>
                                                         </div>
@@ -500,8 +500,8 @@
                                                     <div class = "row">
                                                         <div class="col" style="border: 2px solid black;  min-width:11vw;">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Mediterraniean" id="Mediterraniean" name="example1" {{p_check_list.7}}>
-                                                                <label class="custom-control-label" for="Mediterraniean" style="color:black;font-family:Mono;">Mediterranean</label>
+                                                                <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Mediterranean" id="Mediterranean" name="example1" {{p_check_list.7}}>
+                                                                <label class="custom-control-label" for="Mediterranean" style="color:black;font-family:Mono;">Mediterranean</label>
                                                             </div>
 
                                                         </div>
@@ -657,25 +657,25 @@
                                             <div class = "row">
                                                 <div class="col" style="border: 2px solid black;">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Dairy" id="Dairy" name="example1" {{check_list.0}}>
+                                                        <input type="checkbox" class="custom-control-input" name="a_checks[]" value="Dairy" id="Dairy" name="example1" {{check_list.0}}>
                                                         <label class="custom-control-label" for="Dairy" style="color:black;font-family:Mono;">Dairy</label>
                                                     </div>
                                                 </div>
                                                 <div class="col" style="border: 2px solid black;">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Tree Nuts" id="Tree Nuts" name="example1" {{check_list.2}}>
+                                                        <input type="checkbox" class="custom-control-input" name="a_checks[]" value="Tree Nuts" id="Tree Nuts" name="example1" {{check_list.2}}>
                                                         <label class="custom-control-label" for="Tree Nuts" style="color:black;font-family:Mono;">Tree Nuts</label>
                                                     </div>
                                                 </div>
                                                 <div class="col" style="border: 2px solid black;">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Eggs" id="Eggs" name="example1" {{check_list.1}}>
+                                                        <input type="checkbox" class="custom-control-input" name="a_checks[]" value="Eggs" id="Eggs" name="example1" {{check_list.1}}>
                                                         <label class="custom-control-label" for="Eggs" style="color:black;font-family:Mono;">Eggs</label>
                                                     </div>
                                                 </div>
                                                 <div class="col" style="border: 2px solid black;">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Wheat" id="Wheat" name="example1" {{check_list.3}}>
+                                                        <input type="checkbox" class="custom-control-input" name="a_checks[]" value="Wheat" id="Wheat" name="example1" {{check_list.3}}>
                                                         <label class="custom-control-label" for="Wheat" style="color:black;font-family:Mono;">Wheat</label>
                                                     </div>
                                                 </div>
@@ -684,25 +684,25 @@
                                             <div class = "row">
                                                 <div class="col" style="border: 2px solid black;">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Peanuts" id="Peanuts" name="example1" {{check_list.4}}>
+                                                        <input type="checkbox" class="custom-control-input" name="a_checks[]" value="Peanuts" id="Peanuts" name="example1" {{check_list.4}}>
                                                         <label class="custom-control-label" for="Peanuts" style="color:black;font-family:Mono;">Peanuts</label>
                                                     </div>
                                                 </div>
                                                 <div class="col" style="border: 2px solid black;">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Soy" id="Soy" name="example1" {{check_list.5}}>
+                                                        <input type="checkbox" class="custom-control-input" name="a_checks[]" value="Soy" id="Soy" name="example1" {{check_list.5}}>
                                                         <label class="custom-control-label" for="Soy" style="color:black;font-family:Mono;">Soy</label>
                                                     </div>
                                                 </div>
                                                 <div class="col" style="border: 2px solid black;">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Fish" id="Fish" name="example1" {{check_list.6}}>
+                                                        <input type="checkbox" class="custom-control-input" name="a_checks[]" value="Fish" id="Fish" name="example1" {{check_list.6}}>
                                                         <label class="custom-control-label" for="Fish" style="color:black;font-family:Mono;">Fish</label>
                                                     </div>
                                                 </div>
                                                 <div class="col" style="border: 2px solid black;">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" name="p_checks[]" value="Shellfish" id="Shellfish" name="example1" {{check_list.7}}>
+                                                        <input type="checkbox" class="custom-control-input" name="a_checks[]" value="Shellfish" id="Shellfish" name="example1" {{check_list.7}}>
                                                         <label class="custom-control-label" for="Shellfish" style="color:black;font-family:Mono;">Shellfish</label>
                                                     </div>
                                                 </div>
@@ -782,7 +782,7 @@
                                                             <div class="card-body">
                                                                 <div class = "row">
                                                                     <div class="col">
-                                                                        <h4 class="card-title">Order Num: <b style="font-family:Mono;">{{order.orderID}}</b></h4>
+                                                                        <h4 class="card-title">Order Num: <b style="font-family:Mono;" id="{{order.orderID}}" data-order-id="{{order.orderID}}"  >{{order.orderID}}</b></h4>
                                                                         <p class="card-text" style="font-family:Mono;font-size:1.3vw;">
                                                                             Date: {{order.orderdate}}
                                                                             Total Spent: {{order.orderTotal}}
@@ -792,9 +792,8 @@
                                                                     <div class="col float-right">
                                                                         <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary"  value="Order Again">
                                                                         <form action = "../review">
-                                                                        <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary"  value="Review" onclick="window.location.href='../review/'"> <!-- onclick="reviewOrder()"-->
-                                                                        <input type = "hidden" value = {{order.restaurants}} name = "Restaurants" id = "Restaurants">
-                                                                        <input type="hidden" name="OrderNumber" value={{order.orderID}} id="OrderNumber">
+                                                                        <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary"  value="Review" onclick="createReview({{order.orderID}});"> <!-- onclick="reviewOrder()"-->
+                                                                       
                                                                         </form>
                                                                     </div>
                                                                 </div>
@@ -802,6 +801,7 @@
                                                         </div>
                                                     </div>
                                                     {% endfor %}
+                                                    <input type="hidden" name="OrderNumber" id="OrderNumber">
                                                     <!-- End order history-->
 
                                                 </div>
@@ -826,16 +826,29 @@
                                                 <div class="col-12 mt-3">
 
                                                    <!-- For Review History -->
+                                                   {% for review in reviews %}
                                                     <div class="card">
-                                                        <div class="card-horizontal">
+                                                        <div class="card-horizontal" onload="setRating({{review.ReviewRating}})">
 
                                                             <div class="card-body">
                                                                 <div class = "row">
                                                                     <div class="col">
-                                                                        <h4 class="card-title">Restaurant Name: </h4>
+                                                                        <h4 class="card-title">Restaurant Name: {{review.restaurant}}</h4>
                                                                         <p class="card-text" style="font-family:Mono;font-size:1.3vw;">
-                                                                            Order Num: #####
-                                                                            Date:
+                                                                            Order Num: {{review.DeliveryID}}
+                                                                            <div class="row" style="padding-left:10px;">
+                                                                                
+                                                                                <div id="reviewStars" style="background-color:#D8D8D8; padding-left:10px; padding-right:10px;">
+                                                                                            <a class="fa fa-star" id="rstar1"  style="text-decoration:none;color:black;"></a>
+                                                                                            <a class="fa fa-star" id="rstar2"  style="text-decoration:none;color:black;"></a>
+                                                                                            <a class="fa fa-star" id="rstar3"  style="text-decoration:none;color:black;"></a>
+                                                                                            <a class="fa fa-star" id="rstar4" style="text-decoration:none;color:black;"></a>
+                                                                                            <a class="fa fa-star" id="rstar5" style="text-decoration:none;color:black;"></a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div id="hiddenStarReview" style="display:none;">
+                                                                                <input type="hidden" id="Review" name = "Review" value="{{review.ReviewRating}}">x</i>
+                                                                            </div>
                                                                         </p>
                                                                     </div>
 
@@ -849,13 +862,14 @@
                                                                     <div style="white-space:nowrap; width:1vw; overflow:hidden; text-overflow:ellipsis; display:inline-block;">"</div>
                                                                     <div id="reviewQuote" style="white-space:nowrap; width:25vw; overflow:hidden; text-overflow:ellipsis; display:inline-block;">
                                                                         <!-- PLACE REVIEW COMMENT HERE -->
-                                                                        <!-- Ex: -->I have this really itchy rash problem on my lower quarters. The food here is amazing, so much so it cured me of my awful rash. Thank you so much for this wonderful life that i am given."
+                                                                        <!-- Ex: --> {{review.ReviewComment}}
                                                                     </div>
                                                                     <div style="white-space:nowrap; width:1vw; overflow:hidden; text-overflow:ellipsis; display:inline-block;">"</div>
                                                                 </i>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    {% endfor %}
                                                     <!-- End review history-->
 
                                                 </div>
@@ -871,7 +885,16 @@
 
                     tabcontent = document.getElementsByClassName("tabcontent");
                     $(tabcontent).hide();
-
+                    
+                    
+                    function createReview(orderid){
+                        $("#OrderNumber").val(orderid);
+                        // Set selected order as the selected order
+                        var selectedOrder = orderid;
+                        
+                        Cookies.set('order',selectedOrder); // Add order cookie
+                        window.location.href='../review/';
+                    }
 
                     /* TAB CONTENT */
                     function openPage(pageName,element) {
@@ -937,32 +960,56 @@
                                     
                         }
 
+                        function setRating(star){
+                                switch(star) {
+                                    case 5:
+                                        document.getElementById('rstar5').style.color = 'yellow';
+                                        document.getElementById('rstar4').style.color = 'yellow';
+                                        document.getElementById('rstar3').style.color = 'yellow';
+                                        document.getElementById('rstar2').style.color = 'yellow';
+                                        document.getElementById('rstar1').style.color = 'yellow';
+                                        break;
+                                    case 4:
+                                        document.getElementById('rstar5').style.color = 'black';
+                                        document.getElementById('rstar4').style.color = 'yellow';
+                                        document.getElementById('rstar3').style.color = 'yellow';
+                                        document.getElementById('rstar2').style.color = 'yellow';
+                                        document.getElementById('rstar1').style.color = 'yellow';
+                                        break;
+                                    case 3:
+                                        document.getElementById('rstar5').style.color = 'black';
+                                        document.getElementById('rstar4').style.color = 'black';
+                                        document.getElementById('rstar3').style.color = 'yellow';
+                                        document.getElementById('rstar2').style.color = 'yellow';
+                                        document.getElementById('rstar1').style.color = 'yellow';
+                                        break;
+                                    case 2:
+                                        document.getElementById('rstar5').style.color = 'black';
+                                        document.getElementById('rstar4').style.color = 'black';
+                                        document.getElementById('rstar3').style.color = 'black';
+                                        document.getElementById('rstar2').style.color = 'yellow';
+                                        document.getElementById('rstar1').style.color = 'yellow';
+                                        break;
+                                    case 1:
+                                        document.getElementById('rstar5').style.color = 'black';
+                                        document.getElementById('rstar4').style.color = 'black';
+                                        document.getElementById('rstar3').style.color = 'black';
+                                        document.getElementById('rstar2').style.color = 'black';
+                                        document.getElementById('rstar1').style.color = 'yellow';
+                                        break;
+                                    default:
+                                }
+
+                                
+                            
+                            
+                            }
+                            
+
                     // Get the element with id="defaultOpen" and click on it
                     document.getElementById("defaultOpen").click();
-
                 </script>
-                <!-- <script>
-                  function reviewOrder(){
-                  orderID = document.getElementById('OrderNumber').value;
-                  restaurants = document.getElementById('Restaurants').data;
-                  window.location.href="../review/";
-                }
-                </script> -->
-
-                <!-- <script>
-                    // var orgurl = window.location.protocol + "/" + window.location.host +"../review"
-                    // window.history.pushState({path:orgurl},'',"../review/");
-                    $('#leaveReview').on('show.bs.modal', function(e) {
-                        //get data-item attributes the clicked element
-                        var deliveryID = $(e.relatedTarget).data('delivery-id');
-                        var restaurants = $(e.relatedTarget).data('restaurants');
-
-                        //populate the item popup
-                        $("#selectedDelivery").val(deliveryID);
-                        $("#selectedRestaurants").val(restaurants);
-                    });
-
-                </script> -->
+                
 
             </main>
         </div>

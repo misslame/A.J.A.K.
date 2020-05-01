@@ -19,7 +19,7 @@ def CreateOrder(request):
         cartitems = request.COOKIES['cart']#get cart items
         decode = unquote(str(cartitems)) #decode the url
         cart = ast.literal_eval(decode)#read the string as a dict
-        print ('printing sorted cart')
+        
         sorted_cart = []
         sorted_cart = sorted(cart, key = lambda i: i['restaurantID']) #sort cart items by restaurant
 
@@ -29,6 +29,7 @@ def CreateOrder(request):
         if len(apt) == 0:
             apt = " "
         order.set_aptnum(apt)
+        print(selectedAdd)
         street = request.POST.get('street '+selectedAdd)
         order.set_street(street)
         city = request.POST.get('city '+selectedAdd)
@@ -59,7 +60,7 @@ def CreateOrder(request):
             order.set_addressName(" ")
             order.set_accountID(1)
             order.addAddress()
-
+        order.set_accountID(acct)
         addressID = int(order.get_AddressID())
         order.set_accountID(int(acct))
         

@@ -132,6 +132,7 @@ class Restaurant():
     def searchStreetAddressAndZip(self,zip,value):
         cnxn = getConnection()
         cursor = cnxn.cursor()
+        
         if zip in value:
             sqlcommand = 'EXEC ViewRestaurantByStreetOrName @Zip={}, @Value ="%{}%";'.format(int(zip),value)
         else:

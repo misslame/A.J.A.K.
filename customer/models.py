@@ -145,3 +145,8 @@ class Customer(Account):
         cursor.execute('EXEC LookUpUserAddress @User = {};'.format(self.accountID))
         return dictfetchall(cursor) #return query result into dict 
 
+    def view_UserReviews(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        cursor.execute('EXEC CustomerReviews  @Customer={}'.format(int(self.customerID)))
+        return dictfetchall(cursor) #return query result into dict

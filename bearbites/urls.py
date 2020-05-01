@@ -24,6 +24,8 @@ urlpatterns = [
     path('profile/EditAddresses/',account_views.editAddress,name="profile"),
     path('profile/Addresses/',account_views.loadProfile,name="profile"),
     path('profile/review/',review_views.addReview, name="profile"),
+    path('profile/ReviewHistory/',account_views.loadCustomerReviews, name="profile"),
+    
     # Browse locations Page
     path('locations/', restaurant_views.browseLocationView,name="locations"),
 

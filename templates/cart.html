@@ -190,7 +190,7 @@
 
                 <!-- don't remember if address will be associated with country and phone # according to our database-->
                 <label style="font-family: sans-seriff; font-weight: bold;">Zip Code:</label>
-                <input style="font-family: sans-serif;" id="zip {{address.AddressType}}" name="zip" value="{{address.zip}}" class="form-control" placeholder="12345">
+                <input style="font-family: sans-serif;" id="zip {{address.AddressType}}" name="zip {{address.AddressType}}" value="{{address.zip}}" class="form-control" placeholder="12345">
                 <br>
                 </div> 
                 {% endfor %}
@@ -545,6 +545,7 @@
                 var Num = finaltotal*100
                  Num = Num/100.00
                 $("#totalvalue1").html(Num.toFixed(2));
+                
             }
             if (shown=='Page4'){
                 var cardOwner = $("#cardowner").val();

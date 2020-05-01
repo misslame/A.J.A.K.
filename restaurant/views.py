@@ -26,9 +26,14 @@ def browseLocationView(request):
             else:
 
                 if len(search) ==0 and len(searchName)!= 0:
-                    if len(searchName) ==5:
-                        restaurants = target.searchStreetAddressAndZip(searchName,searchName)
-                    else:
+                    try:
+                        int(searchName)
+                        if len(searchName) ==5:
+                            restaurants = target.searchStreetAddressAndZip(searchName,searchName)
+                        else:
+                            restaurants = target.searchStreetAddressOrName(searchName,00000)
+                    except ValueError:
+                        
                         restaurants = target.searchStreetAddressOrName(searchName,00000)
                 elif len(search) !=0 and len(searchName)== 0:
                     restaurants = target.searchStreetAddressAndZip(search,search)
