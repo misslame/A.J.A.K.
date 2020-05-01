@@ -202,3 +202,79 @@ html, body{
 }
 
 /* END ORDER CSS */
+
+/* START REVIEW CSS */
+.scrollbar-cyan::-webkit-scrollbar-track {
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.scrollbar-cyan::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5; 
+}
+    
+.scrollbar-cyan::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #00bcd4; 
+}
+
+.scrollbar-cyan {
+    scrollbar-color: #00bcd4 #F5F5F5;
+}
+
+.thin::-webkit-scrollbar {
+    width: 6px; 
+}
+
+.reviews {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 500px; 
+}
+
+.raterater-bg-layer {
+    color: rgba( 0, 0, 0, 0.25 );
+}
+.raterater-hover-layer {
+    color: rgba( 255, 255, 0, 0.75 );
+}
+.raterater-hover-layer.rated { 
+    color: rgba( 255, 255, 0, 1 );
+}
+.raterater-rating-layer {
+    color: rgba( 255, 155, 0, 0.75 );
+}
+.raterater-outline-layer {
+    color: rgba( 0, 0, 0, 0.25 );
+}
+
+.raterater-wrapper {
+    overflow:visible;
+}
+
+.software .raterater-wrapper {
+    margin-top: 4px;
+}
+
+.raterater-layer,
+.raterater-layer i {
+    display: block;
+    position: absolute;
+    overflow: visible;
+    top: 0px;
+    left: 0px;
+}
+
+.raterater-hover-layer {
+    display: none;
+}
+
+.raterater-hover-layer i,
+.raterater-rating-layer i {
+    width: 0px;
+    overflow: hidden;
+}
+
+/* END REVIEW CSS */

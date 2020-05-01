@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from .models import Account
-from customer.views import loadAllergies, loadPreferences, get_userinfo,lastOrder
+from customer.views import loadAllergies, loadPreferences, get_userinfo,lastOrder,loadOrderHistory
 from customer.models import Customer
 from django.template import Context, loader
 from order.views import CreateOrder
@@ -161,6 +161,9 @@ def loginView(request):
             lstOrder = lastOrder(request)
             if lstOrder !=0:
                 context.update(lstOrder)
+            hist = loadOrderHistory(request)
+            if hist !=0:
+                context.update(hist)
             context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info ,'state':state})
             return render(request,'profile.html',context)
         else:

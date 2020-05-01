@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'customer',
     'restaurant',
     'menu',
-    'order'
+    'order',
+    'review'
 ]
 CRISPY_TEMPLATE_PACK =  'bootstrap4'
 MIDDLEWARE = [
@@ -53,7 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-  
+
 ]
 
 ROOT_URLCONF = 'web_project.urls'
