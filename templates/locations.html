@@ -71,7 +71,7 @@
                         <div class="row row-cols-5">
                             {% for restaurant in restaurants %}
                                 <div class="col">
-                                    <a style="text-decoration:none;" data-toggle="modal" data-target="#restaurantPage" onclick='showrestaurantmenu({{ restaurant.RestaurantID }})'>
+                                    <a style="text-decoration:none;" data-toggle="modal" onclick="showRestaurantMenu({{ restaurant.RestaurantID }}, 'restaurantPage','defaultPage')">
                                         <div class="card mb-4 border-dark" style="text-align:center; height:35vh;background-color:#CCCCCC;" >
                                             <div style="height:20vh;">
                                                 <div class="card-img-top" style="max-height:17vh; overflow: hidden; background-color:white; border:0.5px solid white;">

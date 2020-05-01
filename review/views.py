@@ -37,7 +37,8 @@ def addReview(request):
             comments = ""
         feedback.set_reviewComment(comments)
         response = feedback.leaveReview()
-        context.update({'response':response,'alert_flag': True})
+        reviews = feedback.view_UserReviews()
+        context.update({'reviews':reviews,'response':response,'alert_flag': True})
         context.update(lastOrder(request))
         
         context.update(loadOrderHistory(request))

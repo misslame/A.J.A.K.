@@ -777,6 +777,7 @@
                                                     <div class="card">
                                                         <div class="card-horizontal">
                                                             <div class="img-square-wrapper">
+                                                                
                                                                 <!--<img class="" src=" "> -->
                                                             </div>
                                                             <div class="card-body">
@@ -828,8 +829,62 @@
                                                    <!-- For Review History -->
                                                    {% for review in reviews %}
                                                     <div class="card">
-                                                        <div class="card-horizontal" onload="setRating({{review.ReviewRating}})">
+                                                        <div class="card-horizontal" >
+                                                            <script> setRating({{review.DeliveryID}},{{review.ReviewRating}},"{{review.ReviewComment}}");
+                                                            function setRating(deliveryID,star,comment){
+                                                                            var str1 = 'rstar1'
+                                                                            var str2 = 'rstar2'
+                                                                            var str3 = 'rstar3'
+                                                                            var str4 = 'rstar4'
+                                                                            var str5 = 'rstar5'
+                                                                            var str6 = str1.concat(' ', deliveryID,' ',comment);
+                                                                            var str7 = str2.concat(' ', deliveryID,' ',comment);
+                                                                            var str8 = str3.concat(' ', deliveryID,' ',comment);
+                                                                            var str9 = str4.concat(' ', deliveryID,' ',comment);
+                                                                            var str10 = str5.concat(' ', deliveryID,' ',comment);
+                                                                            switch(star) {
+                                                                                case 5:
+                                                                                    
+                                                                                    document.getElementById(str6).style.color = 'yellow';
+                                                                                    document.getElementById(str7).style.color = 'yellow';
+                                                                                    document.getElementById(str8).style.color = 'yellow';
+                                                                                    document.getElementById(str9).style.color = 'yellow';
+                                                                                    document.getElementById(str10).style.color = 'yellow';
+                                                                                    break;
+                                                                                case 4:
+                                                                                    document.getElementById(str10).style.color = 'black';
+                                                                                    document.getElementById(str9).style.color = 'yellow';
+                                                                                    document.getElementById(str8).style.color = 'yellow';
+                                                                                    document.getElementById(str7).style.color = 'yellow';
+                                                                                    document.getElementById(str6).style.color = 'yellow';
+                                                                                    break;
+                                                                                case 3:
+                                                                                    document.getElementById(str10).style.color = 'black';
+                                                                                    document.getElementById(str9).style.color = 'black';
+                                                                                    document.getElementById(str8).style.color = 'yellow';
+                                                                                    document.getElementById(str7).style.color = 'yellow';
+                                                                                    document.getElementById(str6).style.color = 'yellow';
+                                                                                    break;
+                                                                                case 2:
+                                                                                    document.getElementById(str9).style.color = 'black';
+                                                                                    document.getElementById(str8).style.color = 'black';
+                                                                                    document.getElementById(str7).style.color = 'yellow';
+                                                                                    document.getElementById(str6).style.color = 'yellow';
+                                                                                    break;
+                                                                                case 1:
+                                                                                    document.getElementById(str9).style.color = 'black';
+                                                                                    document.getElementById(str8).style.color = 'black';
+                                                                                    document.getElementById(str7).style.color = 'black';
+                                                                                    document.getElementById(str6).style.color = 'yellow';
+                                                                                  break;
+                                                                                
+                                                                            }
 
+                                                                            
+                                                                        
+                                                                        
+                                                                        }
+                                                            </script>
                                                             <div class="card-body">
                                                                 <div class = "row">
                                                                     <div class="col">
@@ -839,11 +894,11 @@
                                                                             <div class="row" style="padding-left:10px;">
                                                                                 
                                                                                 <div id="reviewStars" style="background-color:#D8D8D8; padding-left:10px; padding-right:10px;">
-                                                                                            <a class="fa fa-star" id="rstar1"  style="text-decoration:none;color:black;"></a>
-                                                                                            <a class="fa fa-star" id="rstar2"  style="text-decoration:none;color:black;"></a>
-                                                                                            <a class="fa fa-star" id="rstar3"  style="text-decoration:none;color:black;"></a>
-                                                                                            <a class="fa fa-star" id="rstar4" style="text-decoration:none;color:black;"></a>
-                                                                                            <a class="fa fa-star" id="rstar5" style="text-decoration:none;color:black;"></a>
+                                                                                            <a class="fa fa-star" id="rstar1 {{review.DeliveryID}} {{review.ReviewComment}}"  style="text-decoration:none;color:black;"></a>
+                                                                                            <a class="fa fa-star" id="rstar2 {{review.DeliveryID}} {{review.ReviewComment}}"  style="text-decoration:none;color:black;"></a>
+                                                                                            <a class="fa fa-star" id="rstar3 {{review.DeliveryID}} {{review.ReviewComment}}"  style="text-decoration:none;color:black;"></a>
+                                                                                            <a class="fa fa-star" id="rstar4 {{review.DeliveryID}} {{review.ReviewComment}}" style="text-decoration:none;color:black;"></a>
+                                                                                            <a class="fa fa-star" id="rstar5 {{review.DeliveryID}} {{review.ReviewComment}}" style="text-decoration:none;color:black;"></a>
                                                                                 </div>
                                                                             </div>
                                                                             <div id="hiddenStarReview" style="display:none;">
@@ -960,54 +1015,11 @@
                                     
                         }
 
-                        function setRating(star){
-                                switch(star) {
-                                    case 5:
-                                        document.getElementById('rstar5').style.color = 'yellow';
-                                        document.getElementById('rstar4').style.color = 'yellow';
-                                        document.getElementById('rstar3').style.color = 'yellow';
-                                        document.getElementById('rstar2').style.color = 'yellow';
-                                        document.getElementById('rstar1').style.color = 'yellow';
-                                        break;
-                                    case 4:
-                                        document.getElementById('rstar5').style.color = 'black';
-                                        document.getElementById('rstar4').style.color = 'yellow';
-                                        document.getElementById('rstar3').style.color = 'yellow';
-                                        document.getElementById('rstar2').style.color = 'yellow';
-                                        document.getElementById('rstar1').style.color = 'yellow';
-                                        break;
-                                    case 3:
-                                        document.getElementById('rstar5').style.color = 'black';
-                                        document.getElementById('rstar4').style.color = 'black';
-                                        document.getElementById('rstar3').style.color = 'yellow';
-                                        document.getElementById('rstar2').style.color = 'yellow';
-                                        document.getElementById('rstar1').style.color = 'yellow';
-                                        break;
-                                    case 2:
-                                        document.getElementById('rstar5').style.color = 'black';
-                                        document.getElementById('rstar4').style.color = 'black';
-                                        document.getElementById('rstar3').style.color = 'black';
-                                        document.getElementById('rstar2').style.color = 'yellow';
-                                        document.getElementById('rstar1').style.color = 'yellow';
-                                        break;
-                                    case 1:
-                                        document.getElementById('rstar5').style.color = 'black';
-                                        document.getElementById('rstar4').style.color = 'black';
-                                        document.getElementById('rstar3').style.color = 'black';
-                                        document.getElementById('rstar2').style.color = 'black';
-                                        document.getElementById('rstar1').style.color = 'yellow';
-                                        break;
-                                    default:
-                                }
-
-                                
-                            
-                            
-                            }
-                            
+                        
+                            document.getElementById("defaultOpen").click();
 
                     // Get the element with id="defaultOpen" and click on it
-                    document.getElementById("defaultOpen").click();
+                   
                 </script>
                 
 
