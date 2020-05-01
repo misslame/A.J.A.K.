@@ -17,17 +17,25 @@ def addReview(request):
         delivID = int(lastDelivery.getLastOrder()) # Would Rather Get This from the Request if I can
         feedback.set_deliveryID(delivID)
         feedback.set_customerID(customerID)
+
+## Review For Restaurant
         feedback.set_reviewType('Restaurant')
-        rating = request.POST.get('restaurantReview') # Need to Somehow Get This From the HTML, Currently Returns None
-        rating = 4
+        rating = request.POST.get('restaurantReview')
         feedback.set_reviewRating(rating)
         comments = request.POST.get('restaurantComment')
         if comments is None or len(comments) == 0:
             comments = ""
         feedback.set_reviewComment(comments)
+        feedback.leaveReview()
+
+## Review for Delivery Driver
+        feedback.set_reviewType('Delivery')
+        rating=request.POST.get('deliveryReview')
+        comments = request.POST.get('deliveryComment')
+        if comments is None or len(comments) == 0:
+            comments = ""
+        feedback.set_reviewComment(comments)
         response = feedback.leaveReview()
-        # feedback.set_reviewType('Delivery')
-        print(response)
         context.update({'response':response})
         context.update(lastOrder(request))
         return render(request,'profile.html',context)
