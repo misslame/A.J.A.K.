@@ -691,7 +691,11 @@
                                                                     </div>
                                                                     <div class="col float-right">
                                                                         <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary"  value="Order Again">
-                                                                        <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary"  value="Review">
+                                                                        <form action = "../review">
+                                                                        <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary"  value="Review" onclick="window.location.href='../review'">
+                                                                        <input type = "hidden" value = {{order.restaurants}} name = "Restaurants">
+                                                                        <input type="hidden" name="OrderNumber" value={{order.orderID}}>
+                                                                        </form>
                                                                     </div>
                                                                 </div>
                                                             </div>
