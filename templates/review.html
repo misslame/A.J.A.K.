@@ -7,6 +7,7 @@
     <script>alert("{{response}}")</script>
     {% endif %}
     <div class="review-content">
+      <!-- <a class="card mb-4" data-toggle="modal" data-target="#leaveReview" data-order-id="{{order.orderID}}" data-restaurants="{{order.restaurants}}"> -->
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
@@ -35,7 +36,7 @@
 
                         <!-- GRAB REVIEW STAR AMOUNT FROM HERE -->
                         <div id="hiddenStarReview" style="display:none;">
-                            <i id="restaurantReview" name = "restaurantReview">x</i>
+                            <input type="hidden" id="restaurantReview" name = "restaurantReview">x</i>
                         </div>
 
                         <!-- Comment Box -->
@@ -59,13 +60,13 @@
 
                         <!-- GRAB REVIEW STAR AMOUNT FROM HERE -->
                         <div id="hiddenStarReview" style="display:none;">
-                            <i id="deliveryReview">x</i>
+                            <input type="hidden" name="deliveryReview" id="deliveryReview">x</i>
                         </div>
 
                         <!-- Comment Box -->
                         <div class="form-group">
                             <label for="deliveryComment">Comments:</label>
-                            <textarea class="form-control" rows="5" id="deliveryComment"></textarea>
+                            <textarea class="form-control" rows="5" name="deliveryComment" id="deliveryComment"></textarea>
                         </div>
 
                     </div>
@@ -121,7 +122,7 @@
                     default:
                 }
 
-                document.getElementById("restaurantReview").innerHTML = star;
+                $("#restaurantReview").val(""+star);
 
             }else{
 
@@ -164,7 +165,7 @@
                     default:
                 }
 
-                document.getElementById("deliveryReview").innerHTML = star;
+                $("#deliveryReview").val(""+star);
             }
             return;
         }

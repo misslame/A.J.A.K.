@@ -692,9 +692,9 @@
                                                                     <div class="col float-right">
                                                                         <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary"  value="Order Again">
                                                                         <form action = "../review">
-                                                                        <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary"  value="Review" onclick="window.location.href='../review'">
-                                                                        <input type = "hidden" value = {{order.restaurants}} name = "Restaurants">
-                                                                        <input type="hidden" name="OrderNumber" value={{order.orderID}}>
+                                                                        <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary"  value="Review" onclick="window.location.href='../review/'"> <!-- onclick="reviewOrder()"-->
+                                                                        <input type = "hidden" value = {{order.restaurants}} name = "Restaurants" id = "Restaurants">
+                                                                        <input type="hidden" name="OrderNumber" value={{order.orderID}} id="OrderNumber">
                                                                         </form>
                                                                     </div>
                                                                 </div>
@@ -802,6 +802,28 @@
                     document.getElementById("defaultOpen").click();
 
                 </script>
+                <!-- <script>
+                  function reviewOrder(){
+                  orderID = document.getElementById('OrderNumber').value;
+                  restaurants = document.getElementById('Restaurants').data;
+                  window.location.href="../review/";
+                }
+                </script> -->
+
+                <!-- <script>
+                    // var orgurl = window.location.protocol + "/" + window.location.host +"../review"
+                    // window.history.pushState({path:orgurl},'',"../review/");
+                    $('#leaveReview').on('show.bs.modal', function(e) {
+                        //get data-item attributes the clicked element
+                        var deliveryID = $(e.relatedTarget).data('delivery-id');
+                        var restaurants = $(e.relatedTarget).data('restaurants');
+
+                        //populate the item popup
+                        $("#selectedDelivery").val(deliveryID);
+                        $("#selectedRestaurants").val(restaurants);
+                    });
+
+                </script> -->
 
             </main>
         </div>
