@@ -121,7 +121,7 @@ def loadProfile(request):
         obj.set_accountID(int(request.session['account']))
         obj.set_customerID(int(request.session['customer']))
         user_info = obj.getUserAccount()
-        address_info = obj.getUserAddress()
+        address_info = obj.view_userAddresses()
         print(user_info)
         print(obj.get_accountID())
         context = get_userinfo(request)
@@ -156,7 +156,7 @@ def editProfile(request):
             acnt.set_phone(int(request.POST.get('phonenumber')))
             acnt.updateUserAccount()
             user_info = acnt.getUserAccount()
-            address_info = acnt.getUserAddress()
+            address_info = acnt.view_userAddresses()
             user = acnt.authenticateCustomer()
             name = user[2]
             request.session["name"] = name
@@ -165,7 +165,7 @@ def editProfile(request):
             return render(request, 'profile.html',context )
         else:
 
-            address_info = acnt.getUserAddress()
+            address_info = acnt.view_userAddresses()
             context.update({'check_list': allergies,'p_check_list': preferences ,'addresses': address_info })
             return render(request, 'profile.html', context)
     else:
@@ -187,16 +187,28 @@ def editAddress(request):
         acnt.set_customerID(int(request.session['customer']))
         context = get_userinfo(request)
         if request.method == 'POST':
-            acnt.set_addressName("Main")
-            acnt.set_aptnum(request.POST.get('aptNum'))
-            acnt.set_street(request.POST.get('street'))
-            acnt.set_city(request.POST.get('city'))
-            acnt.set_state(request.POST.get('state'))
-            acnt.set_zipcode(int(request.POST.get('zip')))
-            acnt.updateUserAddress("Main")
-            address_info = acnt.getUserAddress()
+            selectedAdd = request.POST.get('selectaddress')
+            apt = request.POST.get('apt '+selectedAdd)
+            if len(apt) == 0:
+                apt = " "
+            acnt.set_addressName(selectedAdd)
+            acnt.set_aptnum(apt)
+            acnt.set_street(request.POST.get('street '+selectedAdd))
+            acnt.set_city(request.POST.get('city '+selectedAdd))
+            acnt.set_state(request.POST.get('state '+selectedAdd))
+            acnt.set_zipcode(int(request.POST.get('zip '+selectedAdd)))
+            addressName = request.POST.get('addName '+selectedAdd)
+            acnt.set_addressName(selectedAdd)
+            
+            if 'new' in selectedAdd :
+                acnt.set_addressName(selectedAdd)
+                acnt.updateUserAddress(selectedAdd)
+            else:
+                acnt.set_addressName(addressName)
+                acnt.addAddress()
+            address_info = acnt.view_userAddresses()
         else:
-            address_info = acnt.getUserAddress()
+            address_info = acnt.view_userAddresses()
         context.update({'check_list': allergies,'p_check_list': preferences ,'addresses': address_info })
         return render(request, 'profile.html', context)
     else:
@@ -238,7 +250,7 @@ def customerAllergy(request):
                     obj.set_allergy(user_a)
                     obj.removeAllergy()
             user_info = obj.getUserAccount()
-            address_info = obj.getUserAddress()
+            address_info = obj.view_userAddresses()
             response = "Allergies are up-to-date"
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
@@ -247,7 +259,7 @@ def customerAllergy(request):
         else:
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
-            address_info = obj.getUserAddress()
+            address_info = obj.view_userAddresses()
             context.update({'check_list': allergies, 'p_check_list': preferences, 'users': user_info,'addresses': address_info })
             return render(request, 'profile.html', context) # Redirect
     else:
@@ -288,7 +300,7 @@ def customerPreference(request):
                     obj.set_preference(user_p)
                     obj.removePreference()
             user_info = obj.getUserAccount()
-            address_info = obj.getUserAddress()
+            address_info = obj.view_userAddresses()
             response = "Preferences are up-to-date"
             context = {'response': response}
             allergies = loadAllergies(request)
@@ -300,7 +312,7 @@ def customerPreference(request):
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
             user_info = obj.getUserAccount()
-            address_info = obj.getUserAddress()
+            address_info = obj.view_userAddresses()
             context.update({'check_list': allergies ,'p_check_list': preferences,'addresses': address_info})
             return render(request, 'profile.html', context)
     else:

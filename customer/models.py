@@ -138,3 +138,10 @@ class Customer(Account):
         for row in rows:
             list_allergy.append(str(row[0]))
         return list_allergy
+
+    def view_userAddresses(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        cursor.execute('EXEC LookUpUserAddress @User = {};'.format(self.accountID))
+        return dictfetchall(cursor) #return query result into dict 
+

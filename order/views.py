@@ -24,39 +24,45 @@ def CreateOrder(request):
         sorted_cart = sorted(cart, key = lambda i: i['restaurantID']) #sort cart items by restaurant
 
         order = OrderHistory()
-        apt = request.POST.get('apt')
+        selectedAdd = request.POST.get('selectaddress')
+        apt = request.POST.get('apt '+selectedAdd)
         if len(apt) == 0:
             apt = " "
         order.set_aptnum(apt)
-        street = request.POST.get('street')
+        street = request.POST.get('street '+selectedAdd)
         order.set_street(street)
-        city = request.POST.get('city')
+        city = request.POST.get('city '+selectedAdd)
         order.set_city(city)
-        state = request.POST.get('state')
+        state = request.POST.get('state '+selectedAdd)
         order.set_state(state)
-        zipcode = request.POST.get('zip')
+        zipcode = request.POST.get('zip '+selectedAdd)
         cardnum = str(request.POST.get('cardnum'))
         cardFormat = "".join(['#' for x in cardnum[:-4]]) + cardnum[-4:]
 
 
         cardowner = request.POST.get('cardowner')
         order.set_zipcode(int(zipcode))
-        addressName = request.POST.get('AddressName')
-        order.set_AddressName()
+        
         now = dt.now()
         order.set_deliveryTime(now.strftime("%H:%M:%S"))
         order.set_deliveryDate(now.strftime("%m/%d/%Y"))
         order.set_customerID(int(request.session['customer']))
-        order.set_accountID(int(request.session['account']))
+        acct = int(request.session['account'])
         saveAddress= request.POST.get('saveAddress')
         newAddress = request.POST.get('selectaddress')
-        if 'Yes' not in saveAddress and 'New Address' in newAddress:
-            order.saveAddress()
-        elif 'No' in saveAddress and 'New Address' in newAddress: 
+        if 'Yes' in saveAddress and 'new' in selectedAdd:
+            addressName = request.POST.get('addName')
+            order.set_addressName(addressName)
+            order.set_accountID(acct)
+            order.addAddress()
+        elif 'No' in saveAddress and 'new' in selectedAdd: 
+            order.set_addressName(" ")
             order.set_accountID(1)
-            order.saveAddress()
-        order.set_accountID(int(request.session['account']))
+            order.addAddress()
+
         addressID = int(order.get_AddressID())
+        order.set_accountID(int(acct))
+        
         order.set_deliveryAddressID(addressID)
         tip = request.POST.get('tip')
         order.set_tip(tip)
@@ -113,7 +119,7 @@ def CreateOrder(request):
     context = get_userinfo(request)
     obj = OrderHistory()
     obj.set_accountID(int(request.session['account']))
-    address_info = obj.getUserAddress()
+    address_info = obj.view_userAddresses()
     cartitems = request.COOKIES['cart']#get cart items
     decode = unquote(str(cartitems)) #decode the url
     cart= ast.literal_eval(decode)#read the string as a dict

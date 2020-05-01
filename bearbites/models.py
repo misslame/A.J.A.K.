@@ -241,12 +241,7 @@ class Account(models.Model):
         else:
             return True #return True if an account exsists with that email 
 
-    def view_userAddresses(self):
-        cnxn = getConnection()
-        cursor = cnxn.cursor()
-        cursor.execute('EXEC LookUpUserAddress @User = {};'.format(self.accountID))
-        return dictfetchall(cursor) #return query result into dict 
-
+    
     def get_AddressID(self):
         cnxn = getConnection()     
         cursor=cnxn.cursor()
