@@ -673,6 +673,7 @@
                                                 <div class="col-12 mt-3">
 
                                                    <!-- For Order History -->
+                                                   {% for order in order_history %}
                                                     <div class="card">
                                                         <div class="card-horizontal">
                                                             <div class="img-square-wrapper">
@@ -681,11 +682,11 @@
                                                             <div class="card-body">
                                                                 <div class = "row">
                                                                     <div class="col">
-                                                                        <h4 class="card-title">Order Num: <b style="font-family:Mono;">#######</b></h4>
+                                                                        <h4 class="card-title">Order Num: <b style="font-family:Mono;">{{order.orderID}}</b></h4>
                                                                         <p class="card-text" style="font-family:Mono;font-size:1.3vw;">
-                                                                            Date:
-                                                                            Total Spent:
-                                                                            Restaurants Ordered From:
+                                                                            Date: {{order.orderdate}}
+                                                                            Total Spent: {{order.orderTotal}}
+                                                                            Restaurants Ordered From: {% for restaurant in order.restaurants %} {% if order.restaurants|length > 1 %}{% if restaurant == order.restaurants|last %} and {% endif %}{% endif %}{{restaurant}}{% if order.restaurants|length > 2 %}{% if restaurant != order.restaurants|last %},{% endif %}{% endif %}{% endfor %}
                                                                         </p>
                                                                     </div>
                                                                     <div class="col float-right">
@@ -696,6 +697,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    {% endfor %}
                                                     <!-- End order history-->
 
                                                 </div>

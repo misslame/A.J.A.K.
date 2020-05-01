@@ -106,6 +106,31 @@ def lastOrder(request):
         return last_order
     return 0
 
+def loadOrderHistory(request):
+    history = OrderHistory()
+    history.set_customerID(int(request.session.get('customer')))
+    last = history.getPastOrders() # Now We Have The Delivery ID
+    hist = []
+    if len(last) != 0:
+        for delivery in last:
+            history.set_deliveryID(delivery)
+            delivery_info = history.checkDeliveryInfo()[0]
+            delivery_date = delivery_info["DeliveryDate"]
+            history.set_deliveryDate(delivery_date)
+            history.set_deliveryTime(delivery_info["DeliveryTime"])
+            history.set_deliveryAddressID(delivery_info["DeliveryAddressID"])
+            recent_restaurants = history.getOrderRestaurants()
+            total = history.getOrderTotal()
+            order_history = {
+                "orderID" : delivery,
+                "orderdate" : delivery_date,
+                "orderTotal" : total,
+                "restaurants": recent_restaurants
+            }
+            hist.append(order_history)
+        return {"order_history":hist}
+    return 0
+
 def loadProfile(request):
     obj = Customer()
     if 'auth' in request.session:
@@ -127,7 +152,7 @@ def loadProfile(request):
         context = get_userinfo(request)
         context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
         context.update(lastOrder(request))
-        print(context)
+        context.update(loadOrderHistory(request))
         return render(request, 'profile.html',context)
     else:
         return render(request,'login.html')

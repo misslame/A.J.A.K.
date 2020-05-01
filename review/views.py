@@ -32,5 +32,4 @@ def addReview(request):
         context.update(lastOrder(request))
         return render(request,'profile.html',context)
     else:
-        print(context)
         return render(request,'review.html',context)

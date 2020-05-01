@@ -9,7 +9,7 @@ from review import views as review_views
 
 urlpatterns = [
     path('', views.indexView,name = "home"),
-    path('dashboard/',views.trialDashBoardView,name="trial_dashboard"),
+    path('dashboard/',views.indexView,name="trial_dashboard"),
     path('login/',views.loginView,name="login"),
     path('logout/',views.logout,name="logout"),
     path('register/',views.registerView,name="register_url"),

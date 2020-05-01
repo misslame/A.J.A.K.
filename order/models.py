@@ -81,7 +81,6 @@ class Delivery(Customer):
             cursor = cnxn.cursor()
             sql = "EXEC AddDelivery @RestaurantID={}, @AddressID={}, @Date='{}', @Time='{}', @Instructions='{}', @Status='{}'"
             sql = sql.format(int(self.restaurant),int(self.deliveryAddressID),self.deliveryDate,self.deliveryTime, self.deliveryInstructions,"Order Placed")
-            print(sql)
             cursor.execute(sql)
             cnxn.commit()
             cursor.close()
@@ -108,7 +107,6 @@ class Delivery(Customer):
         cursor.execute(sql)
         datetime = dictfetchall(cursor)
         sql = "SELECT DeliveryID FROM Delivery WHERE DeliveryDate LIKE '{}' AND DeliveryTime LIKE '{}' AND DeliveryAddressID = {};".format(str(datetime[0]["DeliveryDate"]),str(datetime[0]["DeliveryTime"]),int(self.deliveryAddressID))
-        print(sql)
         cursor.execute(sql)
         deliveries = cursor.fetchall()
         return([id for t in deliveries for id in t]) # Return a List of Delivery IDs
@@ -258,7 +256,6 @@ class OrderHistory(CartItem,Delivery):
             cnxn = getConnection()
             cursor = cnxn.cursor()
             sql = "insert into OrderHistory VALUES( {}, {}, {});".format(int(self.customerID),int(self.deliveryID),int(self.cartItemID))
-            print(sql)
             cursor.execute(sql)
             cnxn.commit()
             cursor.close()
@@ -315,3 +312,31 @@ class OrderHistory(CartItem,Delivery):
         cursor.execute(sql)
         restaurants = cursor.fetchall()
         return ([name for t in restaurants for name in t])
+
+    def getPastOrders(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        sql = ("SELECT DeliveryID From OrderHistory WHERE CustomerID = {};").format(int(self.customerID))
+        cursor.execute(sql)
+        orders = cursor.fetchall()
+        flattened =  [id for t in orders for id in t]
+        unique = set()
+        return [x for x in flattened if x not in unique and not unique.add(x)]
+
+
+    def getOrderTotal(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        concurrent = self.findConcurrentDeliveries()
+        totalPrice = 0.0
+        for id in concurrent:
+            self.deliveryID = id
+            sql = "SELECT ItemID,Quantity FROM CartItems INNER JOIN OrderHistory on CartItems.CartItemID = OrderHistory.CartItemID WHERE OrderHistory.DeliveryID = {};".format(int(self.deliveryID))
+            cursor.execute(sql)
+            tuples = cursor.fetchall()
+            for t in tuples:
+                sql2 = "SELECT Price FROM Items WHERE ItemID = {};".format(int(t[0]))
+                cursor.execute(sql2)
+                menuPrice = cursor.fetchall()[0][0]
+                totalPrice += float(menuPrice) * float(t[1])
+        return totalPrice
