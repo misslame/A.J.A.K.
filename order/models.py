@@ -269,22 +269,22 @@ class OrderHistory(CartItem,Delivery):
             response = "Error placing order, please try again"
         return response
 
-    def getLastOrder(self):
-        cnxn = getConnection()
-        cursor = cnxn.cursor()
-        sql = "SELECT DeliveryID FROM OrderHistory WHERE CustomerID = {};".format(int(self.customerID))
-        cursor.execute(sql)
-        deliveries = cursor.fetchall()
-        recentDelivery = deliveries[-1][0]
-        return (recentDelivery) # Returns an int
+    # def getLastOrder(self):
+    #     cnxn = getConnection()
+    #     cursor = cnxn.cursor()
+    #     sql = "SELECT DeliveryID FROM OrderHistory WHERE CustomerID = {};".format(int(self.customerID))
+    #     cursor.execute(sql)
+    #     deliveries = cursor.fetchall()
+    #     recentDelivery = deliveries[-1][0]
+    #     return (recentDelivery) # Returns an int
 
-    def getCartItems(self):
-        cnxn = getConnection()
-        cursor = cnxn.cursor()
-        sql = "SELECT CartItemID FROM OrderHistory WHERE DeliveryID = {};".format(int(self.deliveryID))
-        cursor.execute(sql)
-        items = cursor.fetchall()
-        return ([item for t in items for item in t])
+    # def getCartItems(self):
+    #     cnxn = getConnection()
+    #     cursor = cnxn.cursor()
+    #     sql = "SELECT CartItemID FROM OrderHistory WHERE DeliveryID = {};".format(int(self.deliveryID))
+    #     cursor.execute(sql)
+    #     items = cursor.fetchall()
+    #     return ([item for t in items for item in t])
 
     def getLastOrder(self):
             cnxn = getConnection()
@@ -292,9 +292,9 @@ class OrderHistory(CartItem,Delivery):
             sql = "SELECT DeliveryID FROM OrderHistory WHERE CustomerID = {};".format(int(self.customerID))
             cursor.execute(sql)
             deliveries = cursor.fetchall()
-            
+
             if len(deliveries) >0:
-                
+
                 recentDelivery = deliveries[-1][0]
                 return (recentDelivery) # Returns an int
             return 0

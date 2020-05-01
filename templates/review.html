@@ -2,6 +2,10 @@
 {% load static %}
 {% block content %}
 <body style = "background-image: url({% static 'images/background1.1.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
+    {% csrf_token %}
+    {% if alert_flag %}
+    <script>alert("{{response}}")</script>
+    {% endif %}
     <div class="review-content">
         <div class="row">
             <div class="col-lg-2"></div>
@@ -12,10 +16,14 @@
                     </div>
                     <br>
                     <p style="font-family:Mono; font-size: 1.5vw;padding-top:8px;">We love hearing from you!</p>
-                    
+                    <form action = "" method = "POST">
+                      {% csrf_token %}
+                      {% if alert_flag %}
+                      <script>alert("{{response}}")</script>
+                      {% endif %}
                     <div style="border: 5px solid black; font-family: Mono; font-size: 1.5vw; padding:10px;">
                         <div class ="row" style="padding-left:10px;">
-                            <b style="padding-right: 10px;">Restaurant Name</b> 
+                            <b style="padding-right: 10px;">Restaurant Name</b>
                             <div id="reviewStars" style="background-color:#D8D8D8; padding-left:10px; padding-right:10px;">
                                 <a class="fa fa-star" id="rstar1" onclick="setRating(1,'r');" style="text-decoration:none;color:black;"></a>
                                 <a class="fa fa-star" id="rstar2" onclick="setRating(2,'r');" style="text-decoration:none;color:black;"></a>
@@ -24,19 +32,19 @@
                                 <a class="fa fa-star" id="rstar5" onclick="setRating(5,'r');" style="text-decoration:none;color:black;"></a>
                             </div>
                         </div>
-                        
+
                         <!-- GRAB REVIEW STAR AMOUNT FROM HERE -->
                         <div id="hiddenStarReview" style="display:none;">
-                            <i id="restaurantReview">x</i>
+                            <i id="restaurantReview" name = "restaurantReview">x</i>
                         </div>
-                        
+
                         <!-- Comment Box -->
                         <div class="form-group">
                             <label for="restaurantComment">Comments:</label>
-                            <textarea class="form-control" rows="5" id="restaurantComment"></textarea>
+                            <textarea class="form-control" rows="5" name = "restaurantComment" id="restaurantComment"></textarea>
                         </div>
                     </div>
-                    
+
                     <div style="border: 5px solid black; font-family: Mono; font-size: 1.5vw; padding: 10px;">
                         <div class="row" style="padding-left:10px;">
                             <b style="padding-right: 10px;">Delivery Driver</b>
@@ -48,32 +56,32 @@
                                         <a class="fa fa-star" id="dstar5" onclick="setRating(5,'d');" style="text-decoration:none;color:black;"></a>
                             </div>
                         </div>
-                        
+
                         <!-- GRAB REVIEW STAR AMOUNT FROM HERE -->
                         <div id="hiddenStarReview" style="display:none;">
                             <i id="deliveryReview">x</i>
                         </div>
-                        
+
                         <!-- Comment Box -->
                         <div class="form-group">
                             <label for="deliveryComment">Comments:</label>
                             <textarea class="form-control" rows="5" id="deliveryComment"></textarea>
                         </div>
-                        
+
                     </div>
-                    
+
                     <br><input style="font-size:1.5vw;" class="btn btn-primary btn-lock btn-block" type="submit" name="submit" value="Confirm">
-                    
+                    </form>
                 </div>
             </div>
         </div>
     </div>
     <script>
-    
+
         function setRating(star,reviewType){
-        
+
             if(reviewType == 'r'){
-            
+
                 switch(star) {
                     case 5:
                         document.getElementById('rstar5').style.color = 'yellow';
@@ -112,11 +120,11 @@
                         break;
                     default:
                 }
-                
+
                 document.getElementById("restaurantReview").innerHTML = star;
-                
+
             }else{
-            
+
                 switch(star) {
                     case 5:
                         document.getElementById('dstar5').style.color = 'yellow';
@@ -155,12 +163,12 @@
                         break;
                     default:
                 }
-                
+
                 document.getElementById("deliveryReview").innerHTML = star;
             }
             return;
         }
-    
+
     </script>
 </body>
 {% endblock %}
