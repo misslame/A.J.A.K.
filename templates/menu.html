@@ -147,6 +147,20 @@
                     <button type = "button" class="btn btn-primary btn-lg" onclick="$('#restaurantPage').modal('hide');">Go Back</button>
                     <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='/order">Check Out <img src="{% static 'brand/basket.png' %}" style="max-height: 20px;"></button>
                     <br><br>
+
+                    <!-- Counter input for quantity of items. -->
+                    <div class="float-right" style="width:10vw; font-family:Mono;">
+                        <div class="input-group number-spinner">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" data-dir="dwn"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                            </span>
+                            <input id="itemQuantity"type="text" class="form-control text-center" value="1">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" data-dir="up"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                            </span>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="modal-footer float-right">
@@ -156,26 +170,18 @@
             </div>
         </div>
     </div>
-        </div>
-
+</div>
 <script>
-var orgurl = window.location.protocol + "/" + window.location.host +"/locations"
-window.history.pushState({path:orgurl},'',"/locations/");
-$('#addToCart').on('show.bs.modal', function(e) {
+    var orgurl = window.location.protocol + "/" + window.location.host +"/locations"
+    window.history.pushState({path:orgurl},'',"/locations/");
 
-//get data-item attributes of the clicked element
-var itemId = $(e.relatedTarget).data('item-id');
-var itemUrl = $(e.relatedTarget).data('item-url');
-var itemName = $(e.relatedTarget).data('item-name');
-var itemPrice = $(e.relatedTarget).data('item-price');
-var itemDesc = $(e.relatedTarget).data('item-desc');
-
-//populate the item popup
-$("#selectedItemID").val(itemId);
-$("#selectedItemURL").attr('src',itemUrl);
-$("#selectedItemName").html(itemName);
-$("#selectedItemPrice").html(itemPrice);
-$("#selectedItemDesc").html(itemDesc);
+    $('#addToCart').on('show.bs.modal', function(e) {
+        //get data-item attributes of the clicked element
+        var itemId = $(e.relatedTarget).data('item-id');
+        var itemUrl = $(e.relatedTarget).data('item-url');
+        var itemName = $(e.relatedTarget).data('item-name');
+        var itemPrice = $(e.relatedTarget).data('item-price');
+        var itemDesc = $(e.relatedTarget).data('item-desc');
 
         //populate the item popup
         $("#selectedItemID").val(itemId);
