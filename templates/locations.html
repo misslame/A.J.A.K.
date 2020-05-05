@@ -31,7 +31,7 @@
                             {% csrf_token %}
                             <div class="input-group" style="padding-left:25px; padding-right:25px;">
                                 <input type="text"  class="form-control border border-right-0" id="zipsearch" style="max-width:35%;" name ="search" placeholder="Zipcode" aria-label="Search" value="{{searchZip}}">
-                                <input type="text" class="form-control border border-right-0" name ="searchName" placeholder="Spicy, Vegan, Sushi..." aria-label="SearchName" value="{{searchName}}">
+                                <input type="text" class="form-control border border-right-0" name ="searchName" placeholder="Restaurant Name, Restaurant Key Words..." aria-label="SearchName" value="{{searchName}}">
                                 <span class="input-group-append">
                                     <button class="btn btn-outline-secondary border border-left-0" type="submit" name="search" style="background-color:#1F95E9;">
                                         <i class="fa fa-search"></i>
@@ -45,19 +45,19 @@
                 <br>
                 <div class="row" style="padding-left:2em;">
                     <div class="favoritesContainer" style="width:30vw; text-align:right; position: relative; color: white;">
-                        <a href=""><img src="{% static 'images/placeholder.png' %}"  style="width:10vw;"></a>
+                        <a href=""><img src="{% static 'images/favorites.png' %}"  style="width:10vw;"></a>
 
                         <div class="centered" style="font-size:2.0vw; position:absolute; top:50%; left:50%; transform: translate(135%,-50%);">Favorites</div>
                     </div>
 
                     <div class="recommendedContainer" style="width:30vw; text-align:center; position: relative; color: white;">
-                        <a href=""><img src="{% static 'images/placeholder.png' %}"  style="width:10vw;"></a>
+                        <a href=""><img src="{% static 'images/recommended.png' %}"  style="width:10vw;"></a>
 
                         <div class="centered" style=" font-size:2.0vw;position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);">Recommended</div>
                     </div>
 
                     <div class="topRatedContainer" style="width:30vw; text-align:left; position: relative; color: white;">
-                        <a href=""><img src="{% static 'images/placeholder.png' %}"  style="width:10vw;" ></a>
+                        <a href=""><img src="{% static 'images/top.png' %}"  style="width:10vw;" ></a>
 
                         <div class="centered" style=" font-size:2.0vw;position:absolute; top:50%; left:50%; transform: translate(-215%,-50%);">Top Rated</div>
                     </div>
