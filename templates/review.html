@@ -3,9 +3,6 @@
 {% block content %}
 <body style = "background-image: url({% static 'images/background1.1.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
     {% csrf_token %}
-    {% if alert_flag %}
-    <script>alert("{{response}}")</script>
-    {% endif %}
     <div class="review-content">
       <!-- <a class="card mb-4" data-toggle="modal" data-target="#leaveReview" data-order-id="{{order.orderID}}" data-restaurants="{{order.restaurants}}"> -->
         <div class="row">

@@ -191,7 +191,7 @@ def editProfile(request):
             context = get_userinfo(request)
             context.update(lastOrder(request))
             context.update(loadOrderHistory(request))
-            reviews = obj.view_UserReviews()
+            reviews = acnt.view_UserReviews()
             context.update({'reviews':reviews,'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
             return render(request, 'profile.html',context )
         else:
@@ -199,7 +199,7 @@ def editProfile(request):
             address_info = acnt.view_userAddresses()
             context.update(lastOrder(request))
             context.update(loadOrderHistory(request))
-            reviews = obj.view_UserReviews()
+            reviews = acnt.view_UserReviews()
             context.update({'reviews':reviews,'check_list': allergies,'p_check_list': preferences ,'addresses': address_info })
             return render(request, 'profile.html', context)
     else:

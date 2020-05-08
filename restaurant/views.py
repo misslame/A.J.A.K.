@@ -70,7 +70,8 @@ def searchRestaurant(request):
         obj = Account()
         obj.set_accountID(int(request.session['account']))
         address_info = obj.getUserAddress()
-        context.update({'menuitems':menuItems,'restaurantInfo':restaurantInfo,'addresses':address_info,'restaurant':restaurantID})
+        reviews= menuIt.view_RestaurantReviews()
+        context.update({'menuitems':menuItems,'reviews':reviews,'restaurantInfo':restaurantInfo,'addresses':address_info,'restaurant':restaurantID})
         return render(request,'menu.html',context)
     else:
         menuIt = MenuItem()
@@ -80,5 +81,6 @@ def searchRestaurant(request):
         restaurantInfo =  menuIt.viewRestaurant()
         context = get_userinfo(request)
         response = "To order you must sign in!"
-        context.update({'menuitems':menuItems,'restaurantInfo':restaurantInfo,'restaurant':restaurantID,'response': response, 'alert_flag': True})
+        reviews= menuIt.view_RestaurantReviews()
+        context.update({'menuitems':menuItems,'reviews':reviews,'restaurantInfo':restaurantInfo,'restaurant''response': response, 'alert_flag': True})
         return render(request,'menu.html',context)

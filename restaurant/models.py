@@ -159,3 +159,9 @@ class Restaurant():
         cursor = cnxn.cursor()
         cursor.execute('EXEC ViewRestaurants;')
         return dictfetchall(cursor) #return query result into dict
+
+    def view_RestaurantReviews(self):
+        cnxn = getConnection()
+        cursor = cnxn.cursor()
+        cursor.execute('EXEC viewRestaurantReviews  @Restaurant={}'.format(int(self.restaurantID)))
+        return dictfetchall(cursor) #return query result into dict

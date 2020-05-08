@@ -160,7 +160,7 @@ def loginView(request):
             context = get_userinfo(request)
             lstOrder = lastOrder(request)
             if lstOrder !=0:
-                context.update(lstOrder)
+               context.update(lstOrder)
             hist = loadOrderHistory(request)
             if hist !=0:
                 context.update(hist)
