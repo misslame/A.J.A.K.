@@ -35,7 +35,7 @@ def CreateOrder(request):
             if len(apt) == 0:
                 apt = " "
             order.set_aptnum(apt)
-            print(selectedAdd)
+            order.set_addressName(selectedAdd)
             street = request.POST.get('street '+selectedAdd)
             order.set_street(street)
             city = request.POST.get('city '+selectedAdd)
@@ -62,13 +62,17 @@ def CreateOrder(request):
                 order.set_addressName(addressName)
                 order.set_accountID(acct)
                 order.addAddress()
+                addressID = int(order.get_AddressID())
             elif 'No' in saveAddress and 'new' in selectedAdd: 
                 order.set_addressName(" ")
                 order.set_accountID(1)
                 order.addAddress()
-            order.set_accountID(acct)
-            addressID = int(order.get_AddressID())
-            order.set_accountID(int(acct))
+                addressID = int(order.get_AddressID())
+                order.set_accountID(int(acct))
+            else:
+                order.set_accountID(int(acct))
+                addressID = int(order.get_AddressID())
+
             
             order.set_deliveryAddressID(addressID)
             tip = request.POST.get('tip')
@@ -85,7 +89,6 @@ def CreateOrder(request):
                 carti = itm
                 for key in carti.keys():
                     if key == 'id':
-                        print(str(carti[key]))
                         order.set_itemID(int(carti[key]))
                         itemPrice = order.getItemPrice()
                         Restaurantid = int(order.getItemRestaurant())
@@ -113,7 +116,6 @@ def CreateOrder(request):
                         previous = rest
             tax = subtotal * 0.05
             response = "Your order has been placed and will be there shortly!"
-            print(response)
             formatted_subtotal = "{:.2f}".format(subtotal)
             formatted_tax = "{:.2f}".format(tax)
             total = subtotal+ float(formatted_tax) + float(tip)

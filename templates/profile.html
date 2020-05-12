@@ -64,9 +64,10 @@
                                                 <div class="col-sm-7">
 
                                                     <h1 style="color:#0094FF; font-size:2.0vw;"> Hello, <p style="margin:0 0 0 0;display: inline-block;" >{{user.FirstName}}</p>!</h1>
-                                                    Last order on: {{orderDate}} at {{orderTime}} from {% for restaurant in recent_restaurants %} {% if recent_restaurants|length > 1 %}{% if restaurant == recent_restaurants|last %} and {% endif %}{% endif %}{{restaurant}}{% if recent_restaurants|length > 2 %}{% if restaurant != recent_restaurants|last %},{% endif %}{% endif %}{% endfor %}<br>
-                                                        {% for address in delivery_address %}
-                                                          Delivered to {{address.StreetAddress}} {{address.AptNum}}, {{address.City}}, {{address.StateAbbv}} {{address.Zip}}
+                                                    {% for last in lastOrder %}
+                                                    Last order on: {{last.OrderDate}} at {{last.OrderTime}} from {{last.Restaurants}}<br>
+                                                        
+                                                          Delivered to {{last.StreetAddress}} {{last.AptNum}}, {{last.City}}, {{last.StateAbbv}} {{last.Zip}}
                                                         {% endfor %}
 
                                                     <input style="font-size:1.5vw;" type="submit" name="submit" value="View Orders" class="btn btn-primary btn-lock btn-block" onclick="openPage('OrderHistory', this)">
@@ -208,7 +209,7 @@
                                         <div class="AddressOptions" id="{{address.AddressType}}" style="display: none"> 
                                           <div id="row" >
                                             <label style="color: black; font-family: Bearskin">Save Address As:</label>
-                                            <input style="font-family: sans-seriff;" class="form-control" id="addName {{address.AddressType}}" name="addName {{address.AddressType}}" value ="" placeholder="Home, Parent House">
+                                            <input style="font-family: sans-seriff;" class="form-control" id="addName {{address.AddressType}}" name="addName {{address.AddressType}}" value ="{{address.AddressType}}" placeholder="Home, Parent House">
                                         </div>  
                                         <div class="row">
                                             <label style="color: black; font-family: Bearskin">Street: </label>
@@ -228,7 +229,7 @@
                                         <!-- STATE DROPDOWN -->
                                         <div class="row" style="width: fit-content">
                                             <label style="color: black; font-family: Bearskin">State: </label>
-                                            <select class="form-control" id="stateselect {{address.AddressType}}" value="{{address.state}}"  name="state"  style="font-family: sans-seriff;" value="{{address.state}}">
+                                            <select class="form-control" id="stateselect {{address.AddressType}}" value="{{address.state}}"  name="state {{address.AddressType}}"  style="font-family: sans-seriff;" value="{{address.state}}">
                                                 <option value="AL">Alabama</option>
                                                 <option value="AK">Alaska</option>
                                                 <option value="AZ">Arizona</option>
@@ -312,7 +313,7 @@
                                         <!-- STATE DROPDOWN -->
                                         <div class="row" style="width: fit-content">
                                             <label style="color: black; font-family: Bearskin">State: </label>
-                                            <select class="form-control" id="stateselect new" value="{{address.state}}"  name="state"  style="font-family: sans-seriff;" value="{{address.state}}">
+                                            <select class="form-control" id="stateselect new" value="{{address.state}}"  name="state new"  style="font-family: sans-seriff;" value="{{address.state}}">
                                                 <option value="AL">Alabama</option>
                                                 <option value="AK">Alaska</option>
                                                 <option value="AZ">Arizona</option>
@@ -770,7 +771,7 @@
                                                 <div class="col-12 mt-3">
 
                                                    <!-- For Order History -->
-                                                   {% for order in order_history %}
+                                                   {% for order in history %}
                                                     <div class="card">
                                                         <div class="card-horizontal">
                                                             <div class="img-square-wrapper">
@@ -780,17 +781,17 @@
                                                             <div class="card-body">
                                                                 <div class = "row">
                                                                     <div class="col">
-                                                                        <h4 class="card-title">Order Num: <b style="font-family:Mono;" id="{{order.orderID}}" data-order-id="{{order.orderID}}"  >{{order.orderID}}</b></h4>
+                                                                        <h4 class="card-title">Order Num: <b style="font-family:Mono;" id="{{order.DeliveryID}}" data-order-id="{{order.DeliveryID}}"  >{{order.DeliveryID}}</b></h4>
                                                                         <p class="card-text" style="font-family:Mono;font-size:1.3vw;">
-                                                                            Date: {{order.orderdate}}
-                                                                            Total Spent: {{order.orderTotal}}
-                                                                            Restaurants Ordered From: {% for restaurant in order.restaurants %} {% if order.restaurants|length > 1 %}{% if restaurant == order.restaurants|last %} and {% endif %}{% endif %}{{restaurant}}{% if order.restaurants|length > 2 %}{% if restaurant != order.restaurants|last %},{% endif %}{% endif %}{% endfor %}
+                                                                            Date: {{order.OrderDate}}
+                                                                            Total Spent: {{order.Total}}
+                                                                            Restaurants Ordered From: {{order.Restaurants}}
                                                                         </p>
                                                                     </div>
                                                                     <div class="col float-right">
                                                                         <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary"  value="Order Again">
                                                                         <form action = "../review">
-                                                                        <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary"  value="Review" onclick="createReview({{order.orderID}});"> <!-- onclick="reviewOrder()"-->
+                                                                        <input style="font-size:1.5vw; font-family:Bearskin;" class="btn btn-primary"  value="Review" onclick="createReview({{order.DeliveryID}});"> <!-- onclick="reviewOrder()"-->
                                                                        
                                                                         </form>
                                                                     </div>
@@ -959,6 +960,7 @@
                         var pickedElem = document.getElementById(pageName);
                         $(pickedElem).show();
                         if(pageName != "EditAddresses"){
+                            check();
                             var add = document.getElementById("stateselect").getAttribute('value');
                             document.getElementById("stateselect").value = add;
                         }

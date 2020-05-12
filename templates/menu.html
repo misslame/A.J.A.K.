@@ -107,7 +107,7 @@
         <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='/order'">Check Out <img src="{% static 'brand/basket.png' %}" style="max-height: 20px;"></button>
         <br><br>
     </div>
-
+    {% if userauthenticated == True %}
    <!-- Modal popup to confirm if user wants to add item selected to cart -->
     <div class="modal fade" role="dialog" tabindex="99999" id="addToCart">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -152,7 +152,8 @@
                 </div>
             </div>
         </div>
-    </div> <!-- End Modal popup for confirmation -->
+    </div> 
+    {% endif %}<!-- End Modal popup for confirmation -->
 </div>
 <script>
     var orgurl = window.location.protocol + "/" + window.location.host +"/locations"

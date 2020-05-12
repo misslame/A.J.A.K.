@@ -213,9 +213,9 @@
                 <br>
 
                 <!-- State Dropdown-->
-                <div class="form-group">
+                <div class="form-group"> 
                     <label style="color: black; font-family: sans-seriff; font-weight: bold;">State:</label>
-                    <select class="form-control" id="stateselect new"  name="state new" style="font-family: sans-seriff;" >
+                    <select class="form-control" id="stateselect new"  name="state new" style="font-family: sans-seriff;" value="CA" >
                         <option value="AL">Alabama</option>
                         <option value="AK">Alaska</option>
                         <option value="AZ">Arizona</option>
@@ -530,7 +530,7 @@
         window.history.pushState({path:orgurl},'',"/order/");
     
         function show(shown,hidden){
-           
+            check();
             if (shown=='Page3'){
                 var tip = $("#tip").val();
                 var tax = $("#tax").html();

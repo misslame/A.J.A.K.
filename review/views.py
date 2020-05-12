@@ -28,7 +28,7 @@ def addReview(request):
         feedback.set_reviewComment(comments)
         feedback.leaveReview()
 
-## Review for Delivery Driver
+        # Review for Delivery Driver
         feedback.set_reviewType('Delivery')
         rating=request.POST.get('deliveryReview')
         feedback.set_reviewRating(rating)
@@ -37,11 +37,10 @@ def addReview(request):
             comments = ""
         feedback.set_reviewComment(comments)
         response = feedback.leaveReview()
+        lstOrder = lastOrder(request)
+        hist = loadOrderHistory(request)
         reviews = feedback.view_UserReviews()
-        context.update({'reviews':reviews,'response':response,'alert_flag': True})
-        context.update(lastOrder(request))
-        
-        context.update(loadOrderHistory(request))
+        context.update({'lastOrder':lstOrder,'history':hist,'reviews':reviews,'response':response,'alert_flag': True})
         return render(request,'profile.html',context)
     else:
         return render(request,'review.html',context)

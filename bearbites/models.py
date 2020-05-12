@@ -245,7 +245,7 @@ class Account(models.Model):
     def get_AddressID(self):
         cnxn = getConnection()     
         cursor=cnxn.cursor()
-        sql = "EXEC FindAddress @User = {}, @Street='{}', @Apt ='{}'".format(self.accountID, self.street,self.aptnum)
+        sql = "EXEC FindAddress @User = {}, @Street='{}', @Name ='{}'".format(self.accountID, self.street,self.addrressName)
         print(sql)
         cursor.execute(sql)
         list = cursor.fetchall()

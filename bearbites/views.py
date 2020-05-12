@@ -15,8 +15,7 @@ def indexView(request):
     context = get_userinfo(request)
     if 'name' in request.session:
         lstOrder = lastOrder(request)
-        if lstOrder != 0:
-            context.update(lstOrder)
+        context.update({'lastOrder':lstOrder})
     return render(request, 'index.html',context)
 
 
@@ -113,8 +112,7 @@ def registerView(request):
             obj.set_accountID(int(user))
             obj.addAddress()
             response = obj.addCustomer()
-            context = {'response': response, 'alert_flag': True}
-
+            context = {'response': response}
             return render(request,'register.html', context)
         else:
             response = "There was an error creating the account. Please see the fields below."
@@ -147,8 +145,10 @@ def loginView(request):
             request.session["auth"] = True
             request.session["account"] = int(user[0])
             request.session["customer"] = int(user[1])
-            obj.set_accountID(int(user[0]))
-            obj.set_customerID(int(user[1]))
+            cus_ID = int(user[1])
+            act_ID = int(user[0])
+            obj.set_accountID(act_ID)
+            obj.set_customerID(cus_ID)
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
             user_info = obj.getUserAccount()
@@ -159,12 +159,10 @@ def loginView(request):
             print(request.session["name"])
             context = get_userinfo(request)
             lstOrder = lastOrder(request)
-            if lstOrder !=0:
-               context.update(lstOrder)
-            hist = loadOrderHistory(request)
-            if hist !=0:
-                context.update(hist)
-            context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info ,'state':state})
+            hist = []
+            if len(lstOrder) != 0:
+                hist = loadOrderHistory(request)
+            context.update({'lastOrder':lstOrder,'history':hist,'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info ,'state':state})
             return render(request,'profile.html',context)
         else:
             response = "Invalid Credentials, please try again!"
