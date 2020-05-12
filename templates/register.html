@@ -15,7 +15,7 @@
                         
                         {% csrf_token %}
                         {% if alert_flag %}
-                        <script>window.alert("{{response}}");
+                        <script>
                             setTimeout(setAddress,6);
                             function setAddress() {
                             var add = document.getElementById("selectstate").getAttribute('value'); 

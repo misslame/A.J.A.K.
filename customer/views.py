@@ -4,10 +4,11 @@ from bearbites.models import Account
 from order.models import OrderHistory
 
 
+
 # Create your views here.
 
-checkbox_list = ['Dairy', 'Eggs', 'True Nuts', 'Wheat', 'Peanuts', 'Soy','Fish','ShellFish']
-p_checkbox_list = ['Diabetic', 'Gluten-Free', 'Vegetarian', 'Vegan', 'Pescetarian', 'Kosher','Paleo Diet','Mediterranean Diet', 'Keto Diet', 'High Protein', 'Low Carb', 'Low Fat', 'Fast Food','Street Food','Fresh Food','Raw Food', 'Seafood','Sugar-Free','Low-Sodium','Low-Cholesterol','Organic', 'Non-GMO','Asian','African','American','Latin','European','Middle Eastern','Pacific']
+checkbox_list = ['Dairy', 'Eggs', 'Tree Nuts', 'Wheat', 'Peanuts', 'Soy','Fish','Shellfish']
+p_checkbox_list = ['Diabetic', 'Gluten-Free', 'Vegetarian', 'Vegan', 'Pescetarian', 'Kosher','Paleo Diet','Mediterranean', 'Keto Diet', 'High Protein', 'Low Carb', 'Low Fat', 'Fast Food','Street Food','Fresh Food','Raw Food', 'Seafood','Sugar-Free','Low-Sodium','Low-Cholesterol','Organic', 'Non-GMO','Asian','African','American','Latin','European','Middle Eastern','Pacific']
 def loadAllergies(request):
     obj = Customer()
     customerID = int(request.session['customer'])
@@ -86,26 +87,16 @@ def get_userinfo(request):
 def lastOrder(request):
     previous = OrderHistory()
     previous.set_customerID(int(request.session.get('customer')))
-    last = previous.getLastOrder() # Returns Last Order's Delivert ID
-    if (last != 0):
-        previous.set_deliveryID(last)
-        delivery_info = previous.checkDeliveryInfo() # Returns dictfetchall of Delivery row
-        previous.set_deliveryAddressID(delivery_info[0]["DeliveryAddressID"])
-        orderDate = delivery_info[0]["DeliveryDate"]
-        orderTime = delivery_info[0]["DeliveryTime"]
-        previous.set_deliveryDate(orderDate)
-        previous.set_deliveryTime(orderTime)
-        recent_restaurants = previous.getOrderRestaurants() #Returns 1D list of Restaurant names
-        delivery_address = previous.get_AddressDetails()
-        last_order = {
-            "orderDate": orderDate,
-            "orderTime": orderTime,
-            "recent_restaurants": recent_restaurants,
-            "delivery_address": delivery_address
-        }
-        return last_order
-    return 0
+    last = previous.getLastOrder() # Returns Last Order info
+    return last
 
+
+def loadOrderHistory(request):
+    history = OrderHistory()
+    history.set_customerID(int(request.session.get('customer')))
+    Ohistory = history.getAllOrderDetail()
+    return Ohistory
+    
 def loadProfile(request):
     obj = Customer()
     if 'auth' in request.session:
@@ -121,12 +112,17 @@ def loadProfile(request):
         obj.set_accountID(int(request.session['account']))
         obj.set_customerID(int(request.session['customer']))
         user_info = obj.getUserAccount()
-        address_info = obj.getUserAddress()
+        address_info = obj.view_userAddresses()
         print(user_info)
         print(obj.get_accountID())
         context = get_userinfo(request)
-        context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
-        context.update(lastOrder(request))
+        lstOrder = lastOrder(request)
+        history=[]
+        reviews=[]
+        if len(lstOrder) != 0:
+            history = loadOrderHistory(request)
+            reviews = obj.view_UserReviews()
+        context.update({'lastOrder':lstOrder,'history':history,'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info , 'reviews':reviews})
         return render(request, 'profile.html',context)
     else:
         return render(request,'login.html')
@@ -156,17 +152,27 @@ def editProfile(request):
             acnt.set_phone(int(request.POST.get('phonenumber')))
             acnt.updateUserAccount()
             user_info = acnt.getUserAccount()
-            address_info = acnt.getUserAddress()
+            address_info = acnt.view_userAddresses()
             user = acnt.authenticateCustomer()
             name = user[2]
             request.session["name"] = name
             context = get_userinfo(request)
-            context.update({'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info })
+            lstOrder = lastOrder(request)
+            history=[]
+            reviews=[]
+            if len(lstOrder) != 0:
+                history = loadOrderHistory(request)
+                reviews = acnt.view_UserReviews()
+            context.update({'lastOrder':lstOrder,'history':history,'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info , 'reviews':reviews})
             return render(request, 'profile.html',context )
         else:
-
-            address_info = acnt.getUserAddress()
-            context.update({'check_list': allergies,'p_check_list': preferences ,'addresses': address_info })
+            lstOrder = lastOrder(request)
+            history=[]
+            reviews=[]
+            if len(lstOrder) != 0:
+                history = loadOrderHistory(request)
+                reviews = acnt.view_UserReviews()
+            context.update({'lastOrder':lstOrder,'history':history,'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info , 'reviews':reviews})
             return render(request, 'profile.html', context)
     else:
         return render(request,'login.html')
@@ -187,18 +193,44 @@ def editAddress(request):
         acnt.set_customerID(int(request.session['customer']))
         context = get_userinfo(request)
         if request.method == 'POST':
-            acnt.set_addressName("Main")
-            acnt.set_aptnum(request.POST.get('aptNum'))
-            acnt.set_street(request.POST.get('street'))
-            acnt.set_city(request.POST.get('city'))
-            acnt.set_state(request.POST.get('state'))
-            acnt.set_zipcode(int(request.POST.get('zip')))
-            acnt.updateUserAddress("Main")
-            address_info = acnt.getUserAddress()
+            selectedAdd = request.POST.get('selectaddress')
+            apt = request.POST.get('apt '+selectedAdd)
+            if len(apt) == 0:
+                apt = " "
+            acnt.set_addressName(selectedAdd)
+            acnt.set_aptnum(apt)
+            acnt.set_street(request.POST.get('street '+selectedAdd))
+            acnt.set_city(request.POST.get('city '+selectedAdd))
+            acnt.set_state(request.POST.get('state '+selectedAdd))
+            acnt.set_zipcode(int(request.POST.get('zip '+selectedAdd)))
+            addressName = request.POST.get('addName '+selectedAdd)
+            acnt.set_addressName(selectedAdd)
+            
+            if 'new' in selectedAdd :
+                acnt.set_addressName(addressName)
+                acnt.addAddress()
+            else:
+                acnt.set_addressName(selectedAdd)
+                acnt.updateUserAddress(selectedAdd)
+            address_info = acnt.view_userAddresses()
+            lstOrder = lastOrder(request)
+            history=[]
+            reviews=[]
+            if len(lstOrder) != 0:
+                history = loadOrderHistory(request)
+                reviews = acnt.view_UserReviews()
+            context.update({'lastOrder':lstOrder,'history':history,'check_list': allergies,'p_check_list': preferences ,'addresses': address_info , 'reviews':reviews})
+            return render(request, 'profile.html', context)
         else:
-            address_info = acnt.getUserAddress()
-        context.update({'check_list': allergies,'p_check_list': preferences ,'addresses': address_info })
-        return render(request, 'profile.html', context)
+            address_info = acnt.view_userAddresses()
+            lstOrder = lastOrder(request)
+            history=[]
+            reviews=[]
+            if len(lstOrder) != 0:
+                history = loadOrderHistory(request)
+                reviews = acnt.view_UserReviews()
+            context.update({'lastOrder':lstOrder,'history':history,'check_list': allergies,'p_check_list': preferences ,'addresses': address_info , 'reviews':reviews})
+            return render(request, 'profile.html', context)
     else:
         return render(request,'login.html')
 
@@ -238,17 +270,29 @@ def customerAllergy(request):
                     obj.set_allergy(user_a)
                     obj.removeAllergy()
             user_info = obj.getUserAccount()
-            address_info = obj.getUserAddress()
+            address_info = obj.view_userAddresses()
             response = "Allergies are up-to-date"
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
-            context.update({'response': response, 'check_list': allergies ,'p_check_list': preferences, 'users': user_info,'addresses': address_info, 'is_authenticated':authenticated })
+            lstOrder = lastOrder(request)
+            history=[]
+            reviews=[]
+            if len(lstOrder) != 0:
+                history = loadOrderHistory(request)
+                reviews = obj.view_UserReviews()
+            context.update({'response':response,'lastOrder':lstOrder,'history':history,'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info , 'reviews':reviews})
             return render(request, 'profile.html', context) # Redirect after POST
         else:
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
-            address_info = obj.getUserAddress()
-            context.update({'check_list': allergies, 'p_check_list': preferences, 'users': user_info,'addresses': address_info })
+            address_info = obj.view_userAddresses()
+            lstOrder = lastOrder(request)
+            history=[]
+            reviews=[]
+            if len(lstOrder) != 0:
+                history = loadOrderHistory(request)
+                reviews = obj.view_UserReviews()
+            context.update({'lastOrder':lstOrder,'history':history,'check_list': allergies,'p_check_list': preferences ,'users': user_info,'addresses': address_info , 'reviews':reviews})
             return render(request, 'profile.html', context) # Redirect
     else:
         return render(request, 'login.html')
@@ -288,20 +332,63 @@ def customerPreference(request):
                     obj.set_preference(user_p)
                     obj.removePreference()
             user_info = obj.getUserAccount()
-            address_info = obj.getUserAddress()
-            response = "Preferences are up-to-date"
-            context = {'response': response}
+            address_info = obj.view_userAddresses()
+            context = get_userinfo(request)
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
-            context.update({'response': response, 'check_list': allergies ,'p_check_list': preferences,'addresses': address_info})
+            response = "User preferences have been updated"
+            lstOrder = lastOrder(request)
+            history=[]
+            reviews=[]
+            if len(lstOrder) != 0:
+                history = loadOrderHistory(request)
+                reviews = obj.view_UserReviews()
+            
+            context.update({'reviews':reviews,'response': response, 'lastOrder':lstOrder,'history': history,'check_list': allergies ,'p_check_list': preferences,'addresses': address_info})
 
             return render(request, 'profile.html', context) # Redirect after POST
         else:
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
             user_info = obj.getUserAccount()
-            address_info = obj.getUserAddress()
-            context.update({'check_list': allergies ,'p_check_list': preferences,'addresses': address_info})
+            address_info = obj.view_userAddresses()
+            lstOrder = lastOrder(request)
+            history=[]
+            reviews=[]
+            if len(lstOrder) != 0:
+                history = loadOrderHistory(request)
+                reviews = obj.view_UserReviews()
+            context.update({'reviews':reviews,'response': response, 'lastOrder':lstOrder,'history': history,'check_list': allergies ,'p_check_list': preferences,'addresses': address_info})
             return render(request, 'profile.html', context)
     else:
         return render(request, 'login.html')
+
+def loadCustomerReviews(request):
+    obj = Customer()
+    if 'auth' in request.session:
+        authenticated = request.session['auth']
+    else:
+        authenticated = False
+
+    if authenticated == True:
+        allergies = loadAllergies(request)
+        preferences = loadPreferences(request)
+        obj.set_email(request.session['user'])
+        obj.set_password(request.session['password'])
+        obj.set_accountID(int(request.session['account']))
+        obj.set_customerID(int(request.session['customer']))
+        user_info = obj.getUserAccount()
+        address_info = obj.view_userAddresses()
+        context = get_userinfo(request)
+        lstOrder = lastOrder(request)
+        history=[]
+        reviews=[]
+        if len(lstOrder) != 0:
+            history = loadOrderHistory(request)
+            reviews = obj.view_UserReviews()
+            
+        context.update({'reviews':reviews, 'lastOrder':lstOrder,'history': history,'check_list': allergies ,'p_check_list': preferences,'addresses': address_info})
+        return render(request, 'profile.html',context)
+    else:
+        return render(request,'login.html')
+
