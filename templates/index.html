@@ -75,8 +75,10 @@
                                     <img src="{% static 'images/background1.png' %}">
                                     <div class="carousel-caption" >
                                         <h1 class="display-2">Hello, {{ authenticated_user }}!</h1>
-                                        <h3 style="font-family:Mono;">Your last order was on:  {{orderDate}} at {{orderTime}} </h3>
-                                        <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='order';">Order Again</button>
+                                        {% for last in lastOrder %}
+                                        <h3 style="font-family:Mono;">Your last order was on:  {{last.OrderDate}} at {{last.OrderTime}}</h3>
+                                        {% endfor %}
+                                        <button type = "button" class="btn btn-primary btn-lg" href=""onclick="window.location.href='order';">Order Again</button>
                                         <button type = "button" class="btn btn-primary btn-lg" onclick="window.location.href='locations';">View Others</button>
                                     </div>
                                 </div>
@@ -99,10 +101,15 @@
                                 </div>
                             </div>
                         </div>
+                        <script>
+                            var orgurl = window.location.protocol + "/" + window.location.host +"/"
+                            window.history.pushState({path:orgurl},'',"/");
+                        </script>
                     {% endif %}
                 </div>
             </div>
         </div>
     </div>
+    
 </body>
 {% endblock %}
