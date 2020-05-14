@@ -1,0 +1,281 @@
+{% load static %}
+
+@font-face {  
+    font-family:Bearskin;
+    src: url(Bearskin.otf);
+    
+}
+@font-face{
+    font-family:Mono;
+    src: url(monof.ttf);
+}
+
+html, body{
+    font-family: Bearskin;
+    height: 100%;
+    width: 100%;
+    color: #222;
+}
+
+/*  BEGIN NAVBAR CSS */ 
+.navbar{
+    padding: .8rem;
+}
+
+.navbar-nav li {
+    padding-right: 20px;
+}
+
+.dropdown-menu{
+    background:#fff !important;
+}
+
+.navbar-login{
+    width: 350px;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+/*  END NAVBAR CSS */ 
+
+/* BEGIN INDEX/HOME CSS */
+.carousel-inner img {
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-caption {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.carousel-caption h1 {
+    color: #0094FF;
+    font-size:500%;
+    text-transform:uppercase;
+    text-shadow:1px 1px 10px #000;
+}
+
+.carousel-caption h3{
+    font-size: 200%;
+    font-weight: 300px;
+    text-shadow: 1px 1px 10px #000;
+}
+/* END INDEX/HOME CSS */
+
+/* UI CONTAINER CSS USED BY-> REGISTER/LOGIN */
+#ui{
+    background-color: #333;
+    padding: 30px;
+    margin-top: 50px;
+    margin-bot: 25px;
+    border-radius:10px;
+    opacity: 0.9;
+}
+
+#ui label{
+    color: #fff;
+    font-family: sans-seriff;
+}
+
+#termsx {
+  overflow-y: scroll;
+  height: 300px;
+  width: 100%;
+  border: 1px solid #DDD;
+  padding: 10px;
+}
+/* END UI CONTAINER CSS USED BY-> REGISTER/LOGIN */
+
+/*  BEGIN PROFILE CSS */ 
+.collapse.width {
+  width: 0;
+  max-width: 0;
+  height: 100%;
+  transition: right 0.3s linear, max-width 0.3s linear;
+  position: relative;
+  top: 0;
+  right: 100%;
+  left: 0;
+  display: block;
+  overflow: hidden;
+}
+
+.vh-100 {
+    min-height: 100vh;
+}
+
+.collapsing.width {
+  transition: right 0.3s linear, max-width 0.7s linear;
+  width: 0% !important;
+  height: 100%;
+  max-width: 0% !important;
+  min-width: 0;
+  right: 0;
+  position: relative;
+  display: block;
+}
+
+.collapse .list-group-item {
+  white-space:nowrap
+}
+
+.collapse.width.show {
+  transition: right 0.3s linear, max-width 0.3s linear;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  min-width: 50px;
+  right: 0;
+  position: relative;
+  display: block;
+}
+
+.sidebar{
+    font-size: 150%;
+    background:#151719;
+}
+
+.sidebar li{
+    color: white;
+    list-style:none;
+    padding:15px 10px;
+    border-bottom: 1px solid rgba(100,100,100,0.3);
+}
+
+.sidebar li:hover{
+    color: #0094FF;
+    text-decoration:none;
+}
+
+.sidebar li.active{
+    background-color: white;
+    color: #0094FF;
+}
+
+.dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 8px;
+}
+
+.dropdown-container a{
+    color: white;
+}    
+
+.dropdown-container a:hover{
+    color: #0094FF;
+    text-decoration:none;
+}
+
+#profileui{
+    background-color:white;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 50px;
+    padding-bottom:50px;
+    width: 170%;
+    margin-top: 5%;
+    border-radius:10px;
+    opacity: 1.0;
+    font-size: 130%;
+}
+
+#profileui label{
+    color: #fff;
+    font-family: sans-seriff;
+}
+
+
+/*  END PROFILE CSS */ 
+
+/* START ORDER CSS */
+.checkbox-lg .custom-control-label::before, 
+.checkbox-lg .custom-control-label::after {
+  top: .8rem;
+  width: 1.55rem;
+  height: 1.55rem;
+}
+
+.checkbox-lg .custom-control-label {
+  padding-top: 13px;
+  padding-left: 6px;
+}
+
+/* END ORDER CSS */
+
+/* START REVIEW CSS */
+.scrollbar-cyan::-webkit-scrollbar-track {
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.scrollbar-cyan::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5; 
+}
+    
+.scrollbar-cyan::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #00bcd4; 
+}
+
+.scrollbar-cyan {
+    scrollbar-color: #00bcd4 #F5F5F5;
+}
+
+.thin::-webkit-scrollbar {
+    width: 6px; 
+}
+
+.reviews {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 500px; 
+}
+
+.raterater-bg-layer {
+    color: rgba( 0, 0, 0, 0.25 );
+}
+.raterater-hover-layer {
+    color: rgba( 255, 255, 0, 0.75 );
+}
+.raterater-hover-layer.rated { 
+    color: rgba( 255, 255, 0, 1 );
+}
+.raterater-rating-layer {
+    color: rgba( 255, 155, 0, 0.75 );
+}
+.raterater-outline-layer {
+    color: rgba( 0, 0, 0, 0.25 );
+}
+
+.raterater-wrapper {
+    overflow:visible;
+}
+
+.software .raterater-wrapper {
+    margin-top: 4px;
+}
+
+.raterater-layer,
+.raterater-layer i {
+    display: block;
+    position: absolute;
+    overflow: visible;
+    top: 0px;
+    left: 0px;
+}
+
+.raterater-hover-layer {
+    display: none;
+}
+
+.raterater-hover-layer i,
+.raterater-rating-layer i {
+    width: 0px;
+    overflow: hidden;
+}
+
+/* END REVIEW CSS */

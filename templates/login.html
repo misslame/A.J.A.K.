@@ -1,0 +1,40 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+<body style = "background-image: url({% static 'images/background1.1.jpg' %}); background-size: cover;background-position: center center;background-attachment: fixed;">
+    
+        <div class="register-content">    
+        {% csrf_token %}
+    
+        <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-3">
+                <div id="ui">
+                    <h1 class="text-center" style="color: #fff; font-family: Bearskin;">Login</h1>
+                    <form class="form-group" action="" method="POST">
+                        {% csrf_token %}
+                        <label>Email:</label>
+                        <input style="font-family: sans-seriff;" type="text" name="email" class="form-control"placeholder=" Enter your email...">
+                        </br>
+                        <label>Password:</label>
+                        <input style="font-family: sans-seriff;" type="password" name="password" class="form-control"placeholder=" Enter a password...">
+                        </br></br>
+
+                        <input style="font-size:30px;" type="submit" name="submit" value="Login" class="btn btn-primary btn-lock btn-block">
+                       
+                            
+                        </br></br>
+                        <p style="color:red; font-size:x-large;">{{response}}</p>
+                        <div class="col text-center" style="color:white;">
+                            Don't have an account? Sign up <a href="/register/" style="color:#0094FF;">here!</a>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+                        
+{% endblock %}
