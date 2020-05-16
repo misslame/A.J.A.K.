@@ -12,10 +12,12 @@ def addReview(request):
     if request.method == 'POST':
         feedback = Review()
         lastDelivery = OrderHistory()
-        order = request.COOKIES['order']#get cart items
+        order = request.COOKIES.get('order', None)#get cart items
+        #order = [{"id":"15","name":"Strawberry Swirl Cheesecake","quantity":"1","price":"3.3500","instructions":"use stevia","restaurantID":"1"},{"id":"14","name":"Loaded Breakfast Burrito","quantity":"1","price":"5.1900","instructions":"low fat","restaurantID":"1"}]
+        
         customerID = int(request.session['customer'])
         lastDelivery.set_customerID(customerID)
-        feedback.set_deliveryID(int(order))
+        feedback.set_deliveryID(1) # 1 = int(order)
         feedback.set_customerID(customerID)
         
         ## Review For Restaurant

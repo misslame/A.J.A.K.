@@ -19,20 +19,22 @@ def indexView(request):
     return render(request, 'index.html',context)
 
 
-def dashboardView(request):
-    return render(request,'index.html')
+# def dashboardView(request):
+#     return render(request,'index.html')
 
-def trialDashBoardView(request):
-    if 'name' in request.session:
-        context = get_userinfo(request)
-        context.update(lastOrder(request))
-        return render(request, 'trial_dashboard.html',context)
-    return redirect('/login')
+# def trialDashBoardView(request):
+#     if 'name' in request.session:
+#         context = get_userinfo(request)
+#         last = lastOrder(request)
+#         context.update({'lastOrder':last})
+#         return render(request, 'trial_dashboard.html',context)
+#     return redirect('/login')
+    
 
-def orderView(request):
-    if 'name' in request.session:
-        return render(request, 'order.html')
-    return redirect('/login')
+# def orderView(request):
+#     if 'name' in request.session:
+#         return render(request, 'order.html')
+#     return redirect('/login')
 
 
 
@@ -186,5 +188,5 @@ def logout(request):
     request.session.modified = True
     return redirect('/login')
 
-def profileView(request):
-    return render(request,'profile.html')
+# def profileView(request):
+#    return render(request,'profile.html')

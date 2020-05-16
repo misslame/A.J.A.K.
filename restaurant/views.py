@@ -62,8 +62,8 @@ def searchRestaurant(request):
 
     if authenticated == True:
         menuIt = MenuItem()
-        restaurantID = request.GET['pk']
-        menuIt.set_restaurantID(int(restaurantID))
+        restaurantID = request.GET.get('pk')
+        menuIt.set_restaurantID(1) #1 = int(restaurantID)
         menuItems = menuIt.viewItems()
         restaurantInfo =  menuIt.viewRestaurant()
         context = get_userinfo(request)
@@ -75,8 +75,8 @@ def searchRestaurant(request):
         return render(request,'menu.html',context)
     else:
         menuIt = MenuItem()
-        restaurantID = request.GET['pk']
-        menuIt.set_restaurantID(int(restaurantID))
+        restaurantID = request.GET.get('pk')
+        menuIt.set_restaurantID(1) #1 = int(restaurantID)
         menuItems = menuIt.viewItems()
         restaurantInfo =  menuIt.viewRestaurant()
         context = get_userinfo(request)

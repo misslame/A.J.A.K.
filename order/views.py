@@ -129,7 +129,9 @@ def CreateOrder(request):
         obj = OrderHistory()
         obj.set_accountID(int(request.session['account']))
         address_info = obj.view_userAddresses()
-        cartitems = request.COOKIES['cart']#get cart items
+        #cartitems = request.COOKIES['cart']#get cart items
+        cartitems = [{"id":"15","name":"Strawberry Swirl Cheesecake","quantity":"1","price":"3.3500","instructions":"use stevia","restaurantID":"1"},{"id":"14","name":"Loaded Breakfast Burrito","quantity":"1","price":"5.1900","instructions":"low fat","restaurantID":"1"}]
+        
         decode = unquote(str(cartitems)) #decode the url
         cart= ast.literal_eval(decode)#read the string as a dict
         total = 0.0

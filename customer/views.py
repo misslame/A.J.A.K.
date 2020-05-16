@@ -169,6 +169,8 @@ def editProfile(request):
             lstOrder = lastOrder(request)
             history=[]
             reviews=[]
+            user_info = acnt.getUserAccount()
+            address_info = acnt.view_userAddresses()
             if len(lstOrder) != 0:
                 history = loadOrderHistory(request)
                 reviews = acnt.view_UserReviews()
@@ -285,6 +287,7 @@ def customerAllergy(request):
         else:
             allergies = loadAllergies(request)
             preferences = loadPreferences(request)
+            user_info = obj.getUserAccount()
             address_info = obj.view_userAddresses()
             lstOrder = lastOrder(request)
             history=[]
@@ -355,6 +358,7 @@ def customerPreference(request):
             lstOrder = lastOrder(request)
             history=[]
             reviews=[]
+            response = "Not updated"
             if len(lstOrder) != 0:
                 history = loadOrderHistory(request)
                 reviews = obj.view_UserReviews()
